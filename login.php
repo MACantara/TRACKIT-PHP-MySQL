@@ -1,4 +1,4 @@
-<secti?php session_start(); ?>
+<?php session_start(); ?>
 
     <!DOCTYPE html>
     <html lang="en">
@@ -47,7 +47,7 @@
                 <?php
                 if (isset($_GET["error"])) {
                     if ($_GET["error"] == "wronglogin") {
-                        echo "<p>Incorrect login information!</p>";
+                        echo "<p class='error-message'>Incorrect login information!</p>";
                     }
                 }
                 ?>

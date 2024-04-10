@@ -1,4 +1,4 @@
-<main?php session_start(); ?>
+<?php session_start(); ?>
 
     <!DOCTYPE html>
     <html lang="en">
@@ -36,12 +36,12 @@
         </header>
         <main>
             <section>
-                <h1>Hello World</h1>
+                <h1>Simple Log In and Sign Up System</h1>
                 <?php
                 if (isset($_SESSION["useruid"])) {
-                    echo "<p>Hello there " . $_SESSION["useruid"] . "</p>";
+                    echo "<p>Hello there " . $_SESSION["useruid"] . "!</p>";
                 } else {
-                    echo "<p>You are not logged in</p>";
+                    echo "<p>You are not logged in.</p>";
                 }
                 ?>
             </section>

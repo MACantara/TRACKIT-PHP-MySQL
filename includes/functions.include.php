@@ -10,9 +10,9 @@ function invalidUid($username) {
     return $result;
 }
 
-function pwdMatch($pwd, $pwdRepeat) {
+function pwdMatch($pwd, $confirmPassword) {
     $result;
-    if ($pwd !== $pwdRepeat) {
+    if ($pwd !== $confirmPassword) {
         $result = true;
     } else {
         $result = false;
