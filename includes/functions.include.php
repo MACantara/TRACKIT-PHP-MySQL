@@ -1,6 +1,6 @@
 <?php
 
-function invalidUid($username) {
+function invalidUsername($username) {
     $result;
     if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
         $result = true;
@@ -20,8 +20,8 @@ function passwordMatch($password, $confirmPassword) {
     return $result;
 }
 
-function uidExists($conn, $username) {
-    $sql = "SELECT * FROM users WHERE usersUid = ?;";
+function usernameExists($conn, $username) {
+    $sql = "SELECT * FROM users WHERE usersUsername = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signup.php?error=stmtfailed");
@@ -44,7 +44,7 @@ function uidExists($conn, $username) {
 }
 
 function createUser($conn, $username, $password) {
-    $sql = "INSERT INTO users (usersUid, usersPassword) VALUES (?, ?);";
+    $sql = "INSERT INTO users (usersUsername, usersPassword) VALUES (?, ?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signup.php?error=stmtfailed");
@@ -62,14 +62,14 @@ function createUser($conn, $username, $password) {
 }
 
 function loginUser($conn, $username, $password) {
-    $uidExists = uidExists($conn, $username, $username);
+    $usernameExists = usernameExists($conn, $username, $username);
 
-    if ($uidExists === false) {
+    if ($usernameExists === false) {
         header("location: ../login.php?error=wronglogin");
         exit();
     }
 
-    $passwordHashed = $uidExists["usersPassword"];
+    $passwordHashed = $usernameExists["usersPassword"];
     $checkPassword = password_verify($password, $passwordHashed);
 
     if ($checkPassword === false) {
@@ -77,8 +77,8 @@ function loginUser($conn, $username, $password) {
         exit();
     } else if ($checkPassword === true) {
         session_start();
-        $_SESSION["userid"] = $uidExists["usersId"];
-        $_SESSION["useruid"] = $uidExists["usersUid"];
+        $_SESSION["users_id"] = $usernameExists["users_id"];
+        $_SESSION["userusername"] = $usernameExists["usersUsername"];
         header("location: ../index.php");
         exit();
     }

@@ -18,7 +18,7 @@
                         <a href="index.php">Home</a>
                     </li>
                     <?php
-                    if (isset($_SESSION['useruid'])) {
+                    if (isset($_SESSION['username'])) {
                         echo '<li>
                             <a href="includes/logout.include.php">Logout</a>
                         </li>';
@@ -38,8 +38,8 @@
             <section>
                 <h2>Sign Up</h2>
                 <form action="includes/signup.include.php" method="post">
-                    <label for="uid">Username</label>
-                    <input type="text" name="uid" id="uid" required><br>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" required><br>
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" required><br>
                     <label for="confirmPassword">Confirm Password</label>
@@ -48,7 +48,7 @@
                 </form>
                 <?php
                 if (isset($_GET["error"])) {
-                    if ($_GET["error"] == "invaliduid") {
+                    if ($_GET["error"] == "invalidusername") {
                         echo "<p class='error-message'>Choose a proper username!</p>";
                     } else if ($_GET["error"] == "passwordsdontmatch") {
                         echo "<p class='error-message'>Passwords don't match!</p>";
@@ -57,7 +57,7 @@
                     } else if ($_GET["error"] == "usernametaken") {
                         echo "<p class='error-message'>Username already taken!</p>";
                     } else if ($_GET["error"] == "none") {
-                        echo "<p class='success-message'>You have signed up!</p>";
+                        echo "<p class='success-message'>You have signed up! <a style='color: #4F8A10;' href='login.php'>Log in</a> now.</p>";
                     }
                 }
                 ?>

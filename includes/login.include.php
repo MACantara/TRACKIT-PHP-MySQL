@@ -2,7 +2,7 @@
 
 
 if (isset($_POST["submit"])) {
-    $username = $_POST["uid"];
+    $username = $_POST["username"];
     $password = $_POST["password"];
 
     require_once 'db-connection.include.php';

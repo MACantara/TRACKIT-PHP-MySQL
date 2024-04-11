@@ -1,15 +1,15 @@
 <?php
 
 if (isset($_POST['submit'])) {
-    $username = $_POST['uid'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
 
     require_once 'db-connection.include.php';
     require_once 'functions.include.php';
 
-    if (invalidUid($username) !== false) {
-        header("location: ../signup.php?error=invaliduid");
+    if (invalidUsername($username) !== false) {
+        header("location: ../signup.php?error=invalidusername");
         exit();
     }
 
@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
         exit();
     }
 
-    if (uidExists($conn, $username) !== false) {
+    if (usernameExists($conn, $username) !== false) {
         header("location: ../signup.php?error=usernametaken");
         exit();
     }
