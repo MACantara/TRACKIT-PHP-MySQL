@@ -1,63 +1,63 @@
 <?php session_start(); ?>
 
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Log In</title>
-        <link rel="stylesheet" href="static/css/style.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
 
-    <body>
-        <header>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="index.php">Home</a>
-                    </li>
-                    <?php
-                    if (isset($_SESSION['username'])) {
-                        echo '<li>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="index.php">Home</a>
+                </li>
+                <?php
+                if (isset($_SESSION['username'])) {
+                    echo '<li>
                             <a href="includes/logout.include.php">Logout</a>
                         </li>';
-                    } else {
-                        echo '<li>
+                } else {
+                    echo '<li>
                             <a href="signup.php">Sign Up</a>
                         </li>';
-                        echo '<li>
+                    echo '<li>
                             <a href="login.php">Log In</a>
                         </li>';
-                    }
-                    ?>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <section>
-                <h2>Log In</h2>
-                <form action="includes/login.include.php" method="post">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" id="username" placeholder="username" required><br>
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" required><br>
-                    <button type="submit" name="submit">Log In</button>
-                </form>
-                <?php
-                if (isset($_GET["error"])) {
-                    if ($_GET["error"] == "wronglogin") {
-                        echo "<p class='error-message'>Incorrect login information!</p>";
-                    }
                 }
                 ?>
-            </section>
-        </main>
-        <footer>
-            <p>&copy;
-                <?php echo date('Y'); ?> - All Rights Reserved
-            </p>
-        </footer>
-    </body>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Log In</h2>
+            <form action="includes/login.include.php" method="post">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="username" required><br>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required><br>
+                <button type="submit" name="submit">Log In</button>
+            </form>
+            <?php
+            if (isset($_GET["error"])) {
+                if ($_GET["error"] == "wronglogin") {
+                    echo "<p class='error-message'>Incorrect login information!</p>";
+                }
+            }
+            ?>
+        </section>
+    </main>
+    <footer>
+        <p>&copy;
+            <?php echo date('Y'); ?> - All Rights Reserved
+        </p>
+    </footer>
+</body>
 
-    </html>
+</html>

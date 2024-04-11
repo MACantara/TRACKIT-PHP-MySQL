@@ -18,7 +18,7 @@
                     <a href="index.php">Home</a>
                 </li>
                 <?php
-                if (isset($_SESSION['userusername'])) {
+                if (isset($_SESSION['users_username'])) {
                     echo '<li>
                             <a href="includes/logout.include.php">Logout</a>
                         </li>';
@@ -38,8 +38,8 @@
         <section>
             <h1>Simple Log In and Sign Up System</h1>
             <?php
-            if (isset($_SESSION["userusername"])) {
-                echo "<p>Hello there " . $_SESSION["userusername"] . "!</p>";
+            if (isset($_SESSION["users_username"])) {
+                echo "<p>Hello there " . $_SESSION["users_username"] . "!</p>";
             } else {
                 echo "<p>You are not logged in.</p>";
             }

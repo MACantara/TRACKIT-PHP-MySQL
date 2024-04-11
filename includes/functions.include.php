@@ -21,7 +21,7 @@ function passwordMatch($password, $confirmPassword) {
 }
 
 function usernameExists($conn, $username) {
-    $sql = "SELECT * FROM users WHERE usersUsername = ?;";
+    $sql = "SELECT * FROM users WHERE users_username = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signup.php?error=stmtfailed");
@@ -44,7 +44,7 @@ function usernameExists($conn, $username) {
 }
 
 function createUser($conn, $username, $password) {
-    $sql = "INSERT INTO users (usersUsername, usersPassword) VALUES (?, ?);";
+    $sql = "INSERT INTO users (users_username, users_password) VALUES (?, ?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signup.php?error=stmtfailed");
@@ -69,7 +69,7 @@ function loginUser($conn, $username, $password) {
         exit();
     }
 
-    $passwordHashed = $usernameExists["usersPassword"];
+    $passwordHashed = $usernameExists["users_password"];
     $checkPassword = password_verify($password, $passwordHashed);
 
     if ($checkPassword === false) {
@@ -78,7 +78,7 @@ function loginUser($conn, $username, $password) {
     } else if ($checkPassword === true) {
         session_start();
         $_SESSION["users_id"] = $usernameExists["users_id"];
-        $_SESSION["userusername"] = $usernameExists["usersUsername"];
+        $_SESSION["users_username"] = $usernameExists["users_username"];
         header("location: ../index.php");
         exit();
     }
