@@ -40,8 +40,8 @@
                 <form action="includes/signup.include.php" method="post">
                     <label for="uid">Username</label>
                     <input type="text" name="uid" id="uid" required><br>
-                    <label for="pwd">Password</label>
-                    <input type="password" name="pwd" id="pwd" required><br>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required><br>
                     <label for="confirmPassword">Confirm Password</label>
                     <input type="password" name="confirmPassword" id="confirmPassword" required><br>
                     <button type="submit" name="submit">Sign Up</button>

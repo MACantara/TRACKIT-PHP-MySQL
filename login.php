@@ -40,8 +40,8 @@
                 <form action="includes/login.include.php" method="post">
                     <label for="name">Name</label>
                     <input type="text" name="uid" id="name" placeholder="username" required><br>
-                    <label for="pwd">Password</label>
-                    <input type="password" name="pwd" id="pwd" required><br>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required><br>
                     <button type="submit" name="submit">Log In</button>
                 </form>
                 <?php

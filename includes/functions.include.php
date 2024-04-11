@@ -10,9 +10,9 @@ function invalidUid($username) {
     return $result;
 }
 
-function pwdMatch($pwd, $confirmPassword) {
+function passwordMatch($password, $confirmPassword) {
     $result;
-    if ($pwd !== $confirmPassword) {
+    if ($password !== $confirmPassword) {
         $result = true;
     } else {
         $result = false;
@@ -43,17 +43,17 @@ function uidExists($conn, $username) {
     mysqli_stmt_close($stmt);
 }
 
-function createUser($conn, $username, $pwd) {
-    $sql = "INSERT INTO users (usersUid, usersPwd) VALUES (?, ?);";
+function createUser($conn, $username, $password) {
+    $sql = "INSERT INTO users (usersUid, usersPassword) VALUES (?, ?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../signup.php?error=stmtfailed");
         exit();
     }
 
-    $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    mysqli_stmt_bind_param($stmt, "ss", $username, $hashedPwd);
+    mysqli_stmt_bind_param($stmt, "ss", $username, $hashedPassword);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
@@ -61,7 +61,7 @@ function createUser($conn, $username, $pwd) {
     exit();
 }
 
-function loginUser($conn, $username, $pwd) {
+function loginUser($conn, $username, $password) {
     $uidExists = uidExists($conn, $username, $username);
 
     if ($uidExists === false) {
@@ -69,13 +69,13 @@ function loginUser($conn, $username, $pwd) {
         exit();
     }
 
-    $pwdHashed = $uidExists["usersPwd"];
-    $checkPwd = password_verify($pwd, $pwdHashed);
+    $passwordHashed = $uidExists["usersPassword"];
+    $checkPassword = password_verify($password, $passwordHashed);
 
-    if ($checkPwd === false) {
+    if ($checkPassword === false) {
         header("location: ../login.php?error=wronglogin");
         exit();
-    } else if ($checkPwd === true) {
+    } else if ($checkPassword === true) {
         session_start();
         $_SESSION["userid"] = $uidExists["usersId"];
         $_SESSION["useruid"] = $uidExists["usersUid"];

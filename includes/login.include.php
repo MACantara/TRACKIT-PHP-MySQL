@@ -3,7 +3,7 @@
 
 if (isset($_POST["submit"])) {
     $username = $_POST["uid"];
-    $password = $_POST["pwd"];
+    $password = $_POST["password"];
 
     require_once 'db-connection.include.php';
     require_once 'functions.include.php';
