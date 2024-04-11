@@ -3,7 +3,7 @@
 if (isset($_POST['submit'])) {
     $username = $_POST['uid'];
     $pwd = $_POST['pwd'];
-    $pwdRepeat = $_POST['pwdrepeat'];
+    $confirmPassword = $_POST['confirmPassword'];
 
     require_once 'db-connection.include.php';
     require_once 'functions.include.php';
@@ -13,7 +13,7 @@ if (isset($_POST['submit'])) {
         exit();
     }
 
-    if (pwdMatch($pwd, $pwdRepeat) !== false) {
+    if (pwdMatch($pwd, $confirmPassword) !== false) {
         header("location: ../signup.php?error=passwordsdontmatch");
         exit();
     }

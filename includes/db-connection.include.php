@@ -1,9 +1,9 @@
 <?php
 
-$serverName = "localhost";
-$dBUserName = "root";
-$dBPassword = "";
-$dBName = "phpproject01";
+$serverName = "mysql-mysql-database.alwaysdata.net";
+$dBUserName = "355327_testuser";
+$dBPassword = "Crusher15Humble52Finicky80Footnote68Crimson4";
+$dBName = "mysql-database_test";
 
 $conn = mysqli_connect($serverName, $dBUserName, $dBPassword, $dBName);
 
