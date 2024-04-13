@@ -38,6 +38,12 @@
         <section>
             <h2>Sign Up</h2>
             <form action="includes/signup.include.php" method="post">
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstName" id="firstName" required><br>
+                <label for="lastName">Last Name</label>
+                <input type="text" name="lastName" id="lastName" required><br>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required><br>
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" required><br>
                 <label for="password">Password</label>

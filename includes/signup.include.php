@@ -1,6 +1,9 @@
 <?php
 
 if (isset($_POST['submit'])) {
+    $firstName = $_POST['firstName'];
+    $lastName = $_POST['lastName'];
+    $email = $_POST['email'];
     $username = $_POST['username'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
@@ -23,7 +26,7 @@ if (isset($_POST['submit'])) {
         exit();
     }
 
-    createUser($conn, $username, $password);
+    createUser($conn, $firstName, $lastName, $email, $username, $password);
 
 } else {
     header("location: ../signup.php");

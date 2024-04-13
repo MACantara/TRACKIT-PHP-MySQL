@@ -3,7 +3,7 @@
 $serverName = "mysql-mysql-database.alwaysdata.net";
 $dBUserName = "355327_testuser";
 $dBPassword = "Crusher15Humble52Finicky80Footnote68Crimson4";
-$dBName = "mysql-database_test";
+$dBName = "mysql-database_trackit";
 
 $conn = mysqli_connect($serverName, $dBUserName, $dBPassword, $dBName);
 
