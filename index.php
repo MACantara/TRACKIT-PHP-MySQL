@@ -39,7 +39,7 @@
             <h1>Simple Log In and Sign Up System</h1>
             <?php
             if (isset($_SESSION["users_username"])) {
-                echo "<p>Hello there " . $_SESSION["users_username"] . "!</p>";
+                echo "<p>Welcome back " . $_SESSION["users_username"] . "!</p>";
             } else {
                 echo "<p>You are not logged in.</p>";
             }
