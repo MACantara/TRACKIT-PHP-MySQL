@@ -79,6 +79,9 @@ function loginUser($conn, $username, $password) {
         session_start();
         $_SESSION["users_id"] = $usernameExists["users_id"];
         $_SESSION["users_username"] = $usernameExists["users_username"];
+        $_SESSION["users_email"] = $usernameExists["users_email"];
+        $_SESSION["users_first_name"] = $usernameExists["users_first_name"];
+        $_SESSION["users_last_name"] = $usernameExists["users_last_name"];
         header("location: ../index.php");
         exit();
     }
