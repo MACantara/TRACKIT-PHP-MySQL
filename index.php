@@ -12,28 +12,26 @@
 
 <body>
     <header>
-        <h1>TRACKIT</h1>
         <nav>
             <ul>
                 <li>
                     <a href="index.php">Home</a>
                 </li>
                 <?php
-                if (isset($_SESSION['users_username'])) {
-                    echo '<li>
-                            <a href="includes/log-out.include.php">Logout</a>
-                        </li>
-                        ';
-                    echo '<li>
-                            <a href="#">' . $_SESSION["users_email"] . '</a>
-                        </li>';
+                if (isset($_SESSION['users_id'])) {
+                ?>
+                    <li>
+                        <a href="includes/log-out.include.php">Logout</a>
+                    </li>
+                    <li>
+                        <a href="#"><?php echo $_SESSION["users_email"]; ?></a>
+                    </li>
+                <?php
                 } else {
-                    echo '<li>
-                            <a href="templates/sign-up.template.php">Sign Up</a>
-                        </li>';
-                    echo '<li>
-                            <a href="templates/log-in.template.php">Log In</a>
-                        </li>';
+                ?>
+                    <li><a href="templates/sign-up.template.php">Sign Up</a></li>
+                    <li><a href="templates/log-in.template.php">Log In</a></li>
+                <?php
                 }
                 ?>
             </ul>

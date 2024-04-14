@@ -49,6 +49,12 @@
                 if ($_GET["error"] == "wronglogin") {
                     echo "<p class='error-message'>Incorrect login information!</p>";
                 }
+                if ($_GET["error"] == "stmtfailed") {
+                    echo "<p class='error-message'>Something went wrong. Please try again!</p>";
+                }
+                if ($_GET["error"] == "usernotfound") {
+                    echo "<p class='error-message'>User not found!</p>";
+                }
             }
             ?>
         </section>

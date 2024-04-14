@@ -1,15 +1,21 @@
 <?php
 
+if (isset($_POST['log-in'])) {
+    // Grabbing the data
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-if (isset($_POST["log-in"])) {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+    // Instantiate the SignUpController class
+    include "../classes/db-connection.class.php";
+    include "../classes/log-in.class.php";
+    include "../classes/log-in-controller.class.php";
+    $logIn = new LogInController($username, $password);
 
-    require_once 'db-connection.include.php';
-    require_once 'functions.include.php';
 
-    loginUser($conn, $username, $password);
-} else {
-    header("location: ../templates/log-in.php");
-    exit();
+    // Error handling
+    $logIn->logInUser();
+
+    // Going back to front page
+    header("location: ../index.php");
+
 }
