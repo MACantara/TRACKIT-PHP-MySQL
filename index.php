@@ -21,7 +21,7 @@
                 <?php
                 if (isset($_SESSION['users_username'])) {
                     echo '<li>
-                            <a href="includes/logout.include.php">Logout</a>
+                            <a href="includes/log-out.include.php">Logout</a>
                         </li>
                         ';
                     echo '<li>
@@ -29,10 +29,10 @@
                         </li>';
                 } else {
                     echo '<li>
-                            <a href="templates/signup.template.php">Sign Up</a>
+                            <a href="templates/sign-up.template.php">Sign Up</a>
                         </li>';
                     echo '<li>
-                            <a href="templates/login.template.php">Log In</a>
+                            <a href="templates/log-in.template.php">Log In</a>
                         </li>';
                 }
                 ?>

@@ -20,14 +20,14 @@
                 <?php
                 if (isset($_SESSION['username'])) {
                     echo '<li>
-                            <a href="includes/logout.include.php">Logout</a>
+                            <a href="includes/log-out.include.php">Logout</a>
                         </li>';
                 } else {
                     echo '<li>
-                            <a href="signup.template.php">Sign Up</a>
+                            <a href="sign-up.template.php">Sign Up</a>
                         </li>';
                     echo '<li>
-                            <a href="login.template.php">Log In</a>
+                            <a href="log-in.template.php">Log In</a>
                         </li>';
                 }
                 ?>
@@ -37,7 +37,7 @@
     <main>
         <section>
             <h2>Sign Up</h2>
-            <form action="../includes/signup.include.php" method="post">
+            <form action="../includes/sign-up.include.php" method="post">
                 <label for="firstName">First Name</label>
                 <input type="text" name="firstName" id="firstName" required><br>
                 <label for="lastName">Last Name</label>
