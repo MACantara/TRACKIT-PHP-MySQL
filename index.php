@@ -12,6 +12,7 @@
 
 <body>
     <header>
+        <h1>TRACKIT</h1>
         <nav>
             <ul>
                 <li>
@@ -21,6 +22,10 @@
                 if (isset($_SESSION['users_username'])) {
                     echo '<li>
                             <a href="includes/logout.include.php">Logout</a>
+                        </li>
+                        ';
+                    echo '<li>
+                            <a href="#">' . $_SESSION["users_email"] . '</a>
                         </li>';
                 } else {
                     echo '<li>
@@ -40,6 +45,7 @@
             <?php
             if (isset($_SESSION["users_username"])) {
                 echo "<p>Welcome back " . $_SESSION["users_username"] . "!</p>";
+                echo "<p>You are currently logged in using " . $_SESSION["users_email"] . ".</p>";
             } else {
                 echo "<p>You are not logged in.</p>";
             }
