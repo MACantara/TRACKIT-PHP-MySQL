@@ -29,10 +29,10 @@
                         </li>';
                 } else {
                     echo '<li>
-                            <a href="signup.php">Sign Up</a>
+                            <a href="templates/signup.template.php">Sign Up</a>
                         </li>';
                     echo '<li>
-                            <a href="login.php">Log In</a>
+                            <a href="templates/login.template.php">Log In</a>
                         </li>';
                 }
                 ?>
