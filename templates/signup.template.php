@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
         <nav>
             <ul>
                 <li>
-                    <a href="index.php">Home</a>
+                    <a href="../index.php">Home</a>
                 </li>
                 <?php
                 if (isset($_SESSION['username'])) {
@@ -24,10 +24,10 @@
                         </li>';
                 } else {
                     echo '<li>
-                            <a href="signup.php">Sign Up</a>
+                            <a href="signup.template.php">Sign Up</a>
                         </li>';
                     echo '<li>
-                            <a href="login.php">Log In</a>
+                            <a href="login.template.php">Log In</a>
                         </li>';
                 }
                 ?>
@@ -37,7 +37,7 @@
     <main>
         <section>
             <h2>Sign Up</h2>
-            <form action="includes/signup.include.php" method="post">
+            <form action="../includes/signup.include.php" method="post">
                 <label for="firstName">First Name</label>
                 <input type="text" name="firstName" id="firstName" required><br>
                 <label for="lastName">Last Name</label>
@@ -50,7 +50,7 @@
                 <input type="password" name="password" id="password" required><br>
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword" required><br>
-                <button type="submit" name="submit">Sign Up</button>
+                <button type="submit" name="sign-up">Sign Up</button>
             </form>
             <?php
             if (isset($_GET["error"])) {

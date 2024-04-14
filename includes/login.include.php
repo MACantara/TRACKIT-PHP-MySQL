@@ -10,6 +10,6 @@ if (isset($_POST["submit"])) {
 
     loginUser($conn, $username, $password);
 } else {
-    header("location: ../login.php");
+    header("location: ../templates/login.php");
     exit();
 }
