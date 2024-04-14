@@ -1,7 +1,7 @@
 <?php
 
 
-if (isset($_POST["submit"])) {
+if (isset($_POST["log-in"])) {
     $username = $_POST["username"];
     $password = $_POST["password"];
 

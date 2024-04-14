@@ -42,7 +42,7 @@
                 <input type="text" name="username" id="username" placeholder="username" required><br>
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" required><br>
-                <button type="submit" name="submit">Log In</button>
+                <button type="submit" name="log-in">Log In</button>
             </form>
             <?php
             if (isset($_GET["error"])) {
