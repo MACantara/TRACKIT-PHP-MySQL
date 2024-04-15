@@ -13,7 +13,7 @@ if (isset($_POST['sign-up'])) {
     include "../classes/db-connection.class.php";
     include "../classes/sign-up.class.php";
     include "../classes/sign-up-controller.class.php";
-    $signUp = new SignUpController($firstName, $lastName, $email, $username, $password, $confirmPassword);
+    $signUp = new SignUpController($firstName, $lastName, $username, $email, $password, $confirmPassword);
 
 
     // Error handling
