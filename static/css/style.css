@@ -9,6 +9,14 @@ body {
     background-color: #f4f4f4;
 }
 
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Nav */
 
 nav {
@@ -37,8 +45,9 @@ main {
     place-items: center;
     width: 100%;
     max-width: 600px;
-    margin: 64px auto 0 auto;
+    margin: 0 auto;
     padding: 20px;
+    flex: 1 0 auto;
 }
 
 h1 {
@@ -128,9 +137,7 @@ button:hover {
 /* Footer */
 
 footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    flex-shrink: 0;
     width: 100%;
     background-color: #007bff;
     color: white;
