@@ -1,8 +1,10 @@
 <?php
 
-class SignUp extends DbConnection {
+class SignUp extends DbConnection
+{
 
-    protected function setUser($users_first_name, $users_last_name, $users_username, $users_email, $users_password) {
+    protected function setUser($users_first_name, $users_last_name, $users_username, $users_email, $users_password)
+    {
         $sql = "INSERT INTO users (users_first_name, users_last_name, users_username, users_email, users_password) VALUES (?, ?, ?, ?, ?);";
         $stmt = $this->connect()->prepare($sql);
 
@@ -13,11 +15,12 @@ class SignUp extends DbConnection {
             header("location: ../index.php?error=stmtfailed");
             exit();
         }
-    
+
         $stmt = null;
-    } 
-    
-    protected function checkUsername($users_username) {
+    }
+
+    protected function checkUsername($users_username)
+    {
         $sql = "SELECT users_username FROM users WHERE users_username = ?;";
         $stmt = $this->connect()->prepare($sql);
 
@@ -26,19 +29,19 @@ class SignUp extends DbConnection {
             header("location: ../index.php?error=stmtfailed");
             exit();
         }
-    
+
         $resultCheck;
         if ($stmt->rowCount() > 0) {
             $resultCheck = false;
-        }
-        else {
+        } else {
             $resultCheck = true;
         }
 
         return $resultCheck;
     }
 
-    protected function checkEmail($users_email) {
+    protected function checkEmail($users_email)
+    {
         $sql = "SELECT users_email FROM users WHERE users_email = ?;";
         $stmt = $this->connect()->prepare($sql);
 
@@ -47,12 +50,11 @@ class SignUp extends DbConnection {
             header("location: ../index.php?error=stmtfailed");
             exit();
         }
-    
+
         $resultCheck;
         if ($stmt->rowCount() > 0) {
             $resultCheck = false;
-        }
-        else {
+        } else {
             $resultCheck = true;
         }
 

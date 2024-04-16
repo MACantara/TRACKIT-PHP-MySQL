@@ -20,31 +20,31 @@ class SignUpController extends SignUp {
 
     public function signUpUser() {
         if ($this->emptyInput() == true) {
-            header("location: ../templates/sign-up.template.php?error=emptyinput");
+            header("location: ../sign-up.php?error=emptyinput");
             exit();
         }
         if ($this->invalidUsername() == true) {
-            header("location: ../templates/sign-up.template.php?error=invalidusername");
+            header("location: ../sign-up.php?error=invalidusername");
             exit();
         }
         if ($this->invalidEmail() == true) {
-            header("location: ../templates/sign-up.template.php?error=invalidemail");
+            header("location: ../sign-up.php?error=invalidemail");
             exit();
         }
         if ($this->passwordComplexity() == true) {
-            header("location: ../templates/sign-up.template.php?error=passwordcomplexity");
+            header("location: ../sign-up.php?error=passwordcomplexity");
             exit();
         }
         if ($this->passwordMatch() == true) {
-            header("location: ../templates/sign-up.template.php?error=passwordsdontmatch");
+            header("location: ../sign-up.php?error=passwordsdontmatch");
             exit();
         }
         if ($this->usernameExists() == true) {
-            header("location: ../templates/sign-up.template.php?error=usernametaken");
+            header("location: ../sign-up.php?error=usernametaken");
             exit();
         }
         if ($this->emailExists == true) {
-            header("location: ../templates/sign-up.template.php?error=emailtaken");
+            header("location: ../sign-up.php?error=emailtaken");
             exit();
         }
 

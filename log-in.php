@@ -7,37 +7,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In</title>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li>
-                    <a href="../index.php">Home</a>
-                </li>
-                <?php
-                if (isset($_SESSION['username'])) {
-                    echo '<li>
-                            <a href="includes/log-out.include.php">Logout</a>
-                        </li>';
-                } else {
-                    echo '<li>
-                            <a href="sign-up.template.php">Sign Up</a>
-                        </li>';
-                    echo '<li>
-                            <a href="log-in.template.php">Log In</a>
-                        </li>';
-                }
-                ?>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'templates/header.template.php'; ?>
     <main>
         <section>
             <h2>Log In</h2>
-            <form action="../includes/log-in.include.php" method="post">
+            <form action="includes/log-in.include.php" method="post">
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" placeholder="username" required><br>
                 <label for="password">Password</label>
@@ -59,11 +37,7 @@
             ?>
         </section>
     </main>
-    <footer>
-        <p>&copy;
-            <?php echo date('Y'); ?> - All Rights Reserved
-        </p>
-    </footer>
+    <?php include 'templates/footer.template.php'; ?>
 </body>
 
 </html>

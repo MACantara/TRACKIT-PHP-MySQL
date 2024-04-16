@@ -9,13 +9,13 @@ class LogIn extends DbConnection {
 
         if (!$stmt->execute(array($username, $username))) {
             $stmt = null;
-            header("location: ../templates/log-in.template.php?error=stmtfailed");
+            header("location: ../log-in.php?error=stmtfailed");
             exit();
         }
 
         if ($stmt->rowCount() == 0) {
             $stmt = null;
-            header("location: ../templates/log-in.template.php?error=wronglogin");
+            header("location: ../log-in.php?error=wronglogin");
             exit();
         }
 
@@ -24,7 +24,7 @@ class LogIn extends DbConnection {
 
         if ($checkPassword == false) {
             $stmt = null;
-            header("location: ../templates/log-in.template.php?error=wronglogin");
+            header("location: ../log-in.php?error=wronglogin");
             exit();
         } elseif ($checkPassword == true) {
             session_start();

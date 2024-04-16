@@ -12,7 +12,7 @@ class LogInController extends LogIn {
 
     public function logInUser() {
         if ($this->emptyInput() == true) {
-            header("location: ../templates/sign-up.template.php?error=emptyinput");
+            header("location: ../log-in.php?error=emptyinput");
             exit();
         }
 

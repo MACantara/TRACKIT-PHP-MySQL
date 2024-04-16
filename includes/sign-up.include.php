@@ -20,10 +20,10 @@ if (isset($_POST['sign-up'])) {
     $signUp->signUpUser();
 
     // Going back to front page
-    header("location: ../templates/sign-up.template.php?error=none");
+    header("location: ../sign-up.php?error=none");
 
 } else {
     // If there are no errors, redirect back to the signup page
-    header("location: ../templates/sign-up.template.php");
+    header("location: ../sign-up.php");
     exit();
 }
