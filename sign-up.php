@@ -25,7 +25,8 @@
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" required><br>
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" required><br>
+                <input type="password" name="password" id="password" required>
+                <p class="info-text">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.</p><br>
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword" required><br>
                 <button type="submit" name="sign-up">Sign Up</button>
