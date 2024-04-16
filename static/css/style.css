@@ -41,8 +41,6 @@ nav ul li a:hover {
 /* Main */
 
 main {
-    display: grid;
-    place-items: center;
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
