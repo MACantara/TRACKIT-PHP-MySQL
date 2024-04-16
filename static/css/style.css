@@ -83,8 +83,7 @@ input {
 .info-text {
     font-size: 14px;
     color: black;
-    margin-bottom: 10px;
-    padding: 5px;
+    padding: 16px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f9f9f9;
@@ -120,6 +119,10 @@ button:hover {
     padding: 10px;
     border-radius: 8px;
     margin: 10px 0;
+}
+
+.log-in-text {
+    color: #4F8A10;
 }
 
 /* Footer */
