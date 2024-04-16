@@ -19,10 +19,14 @@ session_start();
             <h1>Simple Log In and Sign Up System</h1>
             <?php
             if (isset($_SESSION["users_username"])) {
-                echo "<p>Welcome back " . $_SESSION["users_username"] . "!</p>";
-                echo "<p>You are currently logged in using " . $_SESSION["users_email"] . ".</p>";
+            ?>
+                <p>Welcome back <?php echo $_SESSION["users_username"] ?>!</p>
+                <p>You are currently logged in using <?php echo $_SESSION["users_email"] ?>.</p>
+            <?php
             } else {
-                echo "<p>You are not logged in.</p>";
+            ?>
+                <p>You are not logged in.</p>
+            <?php
             }
             ?>
         </section>
