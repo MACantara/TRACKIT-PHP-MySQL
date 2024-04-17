@@ -2,12 +2,12 @@
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Grabbing the data
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $confirmPassword = $_POST['confirmPassword'];
+    $firstName = htmlspecialchars($_POST['firstName'], ENT_QUOTES, 'UTF-8');
+    $lastName = htmlspecialchars($_POST['lastName'], ENT_QUOTES, 'UTF-8');
+    $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+    $confirmPassword = htmlspecialchars($_POST['confirmPassword'], ENT_QUOTES, 'UTF-8');
 
     // Instantiate the SignUpController class
     include "../classes/db-connection.class.php";
