@@ -8,6 +8,9 @@
             if (isset($_SESSION['users_id'])) {
                 ?>
                 <li>
+                    <a href="add-event.php">Add Event</a>
+                </li>
+                <li>
                     <a href="includes/log-out.include.php">Logout</a>
                 </li>
                 <li>
