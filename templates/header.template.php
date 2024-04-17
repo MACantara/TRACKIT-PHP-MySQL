@@ -11,7 +11,7 @@
                     <a href="includes/log-out.include.php">Logout</a>
                 </li>
                 <li>
-                    <a href="#"><?php echo $_SESSION["username"]; ?></a>
+                    <a href="#"><?php echo $_SESSION["users_username"]; ?></a>
                 <li>
                     <a href="#"><?php echo $_SESSION["users_email"]; ?></a>
                 </li>
