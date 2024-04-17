@@ -16,6 +16,6 @@ if (isset($_POST['log-in'])) {
     $logIn->logInUser();
 
     // Going back to front page
-    header("location: index.php");
+    header("location: ../index.php");
 
 }
