@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_POST['sign-up'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Grabbing the data
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];

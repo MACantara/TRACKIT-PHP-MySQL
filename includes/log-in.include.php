@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_POST['log-in'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Grabbing the data
     $username = $_POST['username'];
     $password = $_POST['password'];
