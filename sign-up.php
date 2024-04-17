@@ -51,7 +51,7 @@
                 } else if ($_GET["error"] == "stmtfailed") {
                     echo "<p class='error-message'>Something went wrong, try again!</p>";
                 } else if ($_GET["error"] == "none") {
-                    echo "<p class='success-message'>You have signed up! <a style='color: #4F8A10;' href='log-in.template.php'>Log in</a> now.</p>";
+                    echo "<p class='success-message'>You have signed up! <a style='color: #4F8A10;' href='log-in.php'>Log in</a> now.</p>";
                 } else if ($_GET["error"] == "stmtfailed") {
                     echo "<p class='error-message'>Something went wrong, try again!</p>";
                 }
