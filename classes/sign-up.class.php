@@ -3,6 +3,17 @@
 class SignUp extends DbConnection
 {
 
+    /**
+     * Sets a new user in the database with the given information.
+     *
+     * @param string $users_first_name The first name of the user.
+     * @param string $users_last_name The last name of the user.
+     * @param string $users_username The username of the user.
+     * @param string $users_email The email of the user.
+     * @param string $users_password The password of the user.
+     * @throws Exception If the database query fails.
+     * @return void
+     */
     protected function setUser($users_first_name, $users_last_name, $users_username, $users_email, $users_password)
     {
         $sql = "INSERT INTO users (users_first_name, users_last_name, users_username, users_email, users_password) VALUES (?, ?, ?, ?, ?);";
@@ -19,6 +30,13 @@ class SignUp extends DbConnection
         $stmt = null;
     }
 
+    /**
+     * Checks if the provided username exists in the database.
+     *
+     * @param string $users_username The username to be checked.
+     * @throws None
+     * @return bool Returns true if the username does not exist, false otherwise.
+     */
     protected function checkUsername($users_username)
     {
         $sql = "SELECT users_username FROM users WHERE users_username = ?;";
@@ -40,6 +58,13 @@ class SignUp extends DbConnection
         return $resultCheck;
     }
 
+    /**
+     * Checks if the given email is already registered in the database.
+     *
+     * @param string $users_email The email to be checked.
+     * @throws None
+     * @return bool Returns true if the email is not registered, false otherwise.
+     */
     protected function checkEmail($users_email)
     {
         $sql = "SELECT users_email FROM users WHERE users_email = ?;";

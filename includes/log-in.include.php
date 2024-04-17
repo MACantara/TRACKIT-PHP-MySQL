@@ -5,7 +5,7 @@ if (isset($_POST['log-in'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Instantiate the SignUpController class
+    // Instantiate the LogInController class
     include "../classes/db-connection.class.php";
     include "../classes/log-in.class.php";
     include "../classes/log-in-controller.class.php";

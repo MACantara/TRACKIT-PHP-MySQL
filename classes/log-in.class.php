@@ -2,6 +2,14 @@
 
 class LogIn extends DbConnection {
 
+    /**
+     * Retrieves user information from the database based on the provided username and password.
+     *
+     * @param string $username The username or email of the user for authentication
+     * @param string $password The password for user authentication
+     * @throws None
+     * @return void
+     */
     protected function getUser($username, $password) {
         $sql = "SELECT * FROM users WHERE users_username = ? OR users_email = ?;";
         

@@ -1,6 +1,12 @@
 <?php
 
 class DbConnection {
+    /**
+     * Connects to the database using the provided credentials.
+     *
+     * @throws PDOException if there is an error connecting to the database
+     * @return PDO the database connection object
+     */
     protected function connect() {
         try {
             $dBUserName = "355327_testuser";
