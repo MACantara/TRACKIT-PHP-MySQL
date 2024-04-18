@@ -2,6 +2,12 @@
     <nav>
         <ul>
             <li>
+                <a href="index.php">
+                    <i class="bi bi-wallet2"></i>
+                    TRACKIT
+                </a>
+            </li>
+            <li>
                 <a href="index.php">Home</a>
             </li>
             <?php
