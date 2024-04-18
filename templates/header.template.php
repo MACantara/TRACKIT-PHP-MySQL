@@ -1,12 +1,10 @@
 <header>
     <nav>
+        <a class="logo" href="index.php">
+            <i class="bi bi-wallet2"></i>
+            TRACKIT
+        </a>
         <ul>
-            <li>
-                <a href="index.php">
-                    <i class="bi bi-wallet2"></i>
-                    TRACKIT
-                </a>
-            </li>
             <li>
                 <a href="index.php">Home</a>
             </li>
@@ -17,12 +15,10 @@
                     <a href="add-event.php">Add Event</a>
                 </li>
                 <li>
-                    <a href="includes/log-out.include.php">Logout</a>
+                    <a href="#"><?php echo $_SESSION["users_username"]; ?></a>
                 </li>
                 <li>
-                    <a href="#"><?php echo $_SESSION["users_username"]; ?></a>
-                <li>
-                    <a href="#"><?php echo $_SESSION["users_email"]; ?></a>
+                    <a href="includes/log-out.include.php">Logout</a>
                 </li>
                 <?php
             } else {
