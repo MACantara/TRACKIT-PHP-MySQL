@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $profileTitle = htmlspecialchars($_POST['profileTitle'], ENT_QUOTES, 'UTF-8');
     $profileText = htmlspecialchars($_POST['profileText'], ENT_QUOTES, 'UTF-8');
 
-    include "../classes/db-connection.class.php";
+    include "../classes/DbConnection.class.php";
     include "../classes/profileinfo.classes.php";
     include "../classes/profile-information-controller.class.php";
     $profileInfo = new ProfileInformationController($users_id, $users_username);

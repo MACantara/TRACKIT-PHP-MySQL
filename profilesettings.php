@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include "classes/db-connection.class.php";
+    include "classes/DbConnection.class.php";
     include "classes/profileinfo.classes.php";
     include "classes/profileinfo-view.classes.php";
     $profileInfo = new ProfileInfoView();

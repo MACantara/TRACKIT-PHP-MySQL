@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $confirmPassword = htmlspecialchars($_POST['confirmPassword'], ENT_QUOTES, 'UTF-8');
 
     // Instantiate the SignUpController class
-    include "../classes/db-connection.class.php";
+    include "../classes/DbConnection.class.php";
     include "../classes/sign-up.class.php";
     include "../classes/sign-up-controller.class.php";
     $signUp = new SignUpController($firstName, $lastName, $username, $email, $password, $confirmPassword);
