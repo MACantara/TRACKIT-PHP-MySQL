@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Instantiate ProfileInfoContr class
     include "../classes/profileinfo.classes.php";
-    include "../classes/profile-information-controller.class.php";
+    include "../classes/ProfileInformationController.class.php";
     $profileInfo = new ProfileInformationController($user_id, $username);
     $profileInfo->defaultProfileInfo();
 

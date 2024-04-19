@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     include "../classes/DbConnection.class.php";
     include "../classes/profileinfo.classes.php";
-    include "../classes/profile-information-controller.class.php";
+    include "../classes/ProfileInformationController.class.php";
     $profileInfo = new ProfileInformationController($users_id, $users_username);
 
     $profileInfo->updateProfileInfo($profileAbout, $profileTitle, $profileText);
