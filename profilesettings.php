@@ -2,8 +2,8 @@
     session_start();
     include "classes/DbConnection.class.php";
     include "classes/profileinfo.classes.php";
-    include "classes/profileinfo-view.classes.php";
-    $profileInfo = new ProfileInfoView();
+    include "classes/ProfileInformationView.class.php";
+    $profileInfo = new ProfileInformationView();
 ?>
 
 <!DOCTYPE html>
