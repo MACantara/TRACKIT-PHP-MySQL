@@ -1,6 +1,6 @@
 <?php
 
-class ProfileINfoContr extends ProfileInfo {
+class ProfileInformationController extends ProfileInfo {
     private $users_id;
     private $users_username;
 
