@@ -16,20 +16,20 @@ class ProfileINfoContr extends ProfileInfo {
         $this->setProfileInfo($profileAbout, $profileTitle, $profileText, $this->users_id);
     }
     public function updateProfileInfo($profileAbout, $profileTitle, $profileText) {
-        // if ($this->emptyInputCheck($profileAbout, $profileTitle, $profileText) == true) {
-        //     header("location: ../profilesettings.php?error=emptyinput");
-        //     exit();
-        // }
+        if ($this->emptyInputCheck($profileAbout, $profileTitle, $profileText) == true) {
+            header("location: ../profilesettings.php?error=emptyinput");
+            exit();
+        }
 
         $this->setNewProfileInfo($profileAbout, $profileTitle, $profileText, $this->users_id);
     }
 
-    private function emptyInputCheck($profileAbout, $profileTitle, $profileText) {
+    public function emptyInputCheck($profileAbout, $profileTitle, $profileText) {
         $result;
         if (empty($profileAbout) || empty($profileTitle) || empty($profileText)) {
-            $result = false;
-        } else {
             $result = true;
+        } else {
+            $result = false;
         }
         return $result;
     }

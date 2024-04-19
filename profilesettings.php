@@ -22,12 +22,12 @@
         <section>
             <h1>Profile Settings</h1>
             <form action="includes/profileinfo.include.php" method="post">
-                <label for="about">About</label>
-                <textarea type="text" name="profileAbout" rows="5" cols="20" id="about"><?php echo $profileInfo->fetchAbout($_SESSION["users_id"])?></textarea><br>
-                <label for="title">Title</label>
-                <input type="text" name="profileTitle" id="title" value='<?php echo $profileInfo->fetchTitle($_SESSION["users_id"])?>'><br>
-                <label for="text">Text</label>
-                <textarea type="text" name="profileText" rows="5" cols="20"  id="text"><?php echo $profileInfo->fetchText($_SESSION["users_id"])?></textarea><br>
+                <label for="profileAbout">About</label>
+                <textarea type="text" name="profileAbout" rows="5" cols="20" id="profileAbout"><?php echo $profileInfo->fetchAbout($_SESSION["users_id"])?></textarea><br>
+                <label for="profileTitle">Title</label>
+                <input type="text" name="profileTitle" id="profileTitle" value='<?php echo $profileInfo->fetchTitle($_SESSION["users_id"])?>'><br>
+                <label for="profileText">Text</label>
+                <textarea type="text" name="profileText" rows="5" cols="20"  id="profileText"><?php echo $profileInfo->fetchText($_SESSION["users_id"])?></textarea><br>
                 <button type="submit" name="profile-settings">Save</button>
                 <a href="profile.php"><button type="button">Back</button></a>
             </form>
