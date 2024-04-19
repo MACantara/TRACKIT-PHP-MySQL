@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Instantiate the LogInController class
     include "../classes/DbConnection.class.php";
-    include "../classes/log-in.class.php";
+    include "../classes/LogIn.class.php";
     include "../classes/LogInController.class.php";
     $logIn = new LogInController($username, $password);
 
