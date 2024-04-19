@@ -12,11 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $profileText = htmlspecialchars($_POST['profileText'], ENT_QUOTES, 'UTF-8');
 
     include "../classes/DbConnection.class.php";
-    include "../classes/profileinfo.classes.php";
+    include "../classes/ProfileInformation.class.php";
     include "../classes/ProfileInformationController.class.php";
-    $profileInfo = new ProfileInformationController($users_id, $users_username);
+    $profileInformation = new ProfileInformationController($users_id, $users_username);
 
-    $profileInfo->updateProfileInfo($profileAbout, $profileTitle, $profileText);
+    $profileInformation->updateProfileInformation($profileAbout, $profileTitle, $profileText);
 
     header("location: ../profile.php?error=none");
 }

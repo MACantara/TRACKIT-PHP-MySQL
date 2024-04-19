@@ -1,9 +1,9 @@
 <?php
     session_start();
     include "classes/DbConnection.class.php";
-    include "classes/profileinfo.classes.php";
+    include "classes/ProfileInformation.class.php";
     include "classes/ProfileInformationView.class.php";
-    $profileInfo = new ProfileInformationView();
+    $profileInformation = new ProfileInformationView();
 ?>
 
 <!DOCTYPE html>
@@ -23,11 +23,11 @@
             <h1>Profile Settings</h1>
             <form action="includes/profileinfo.include.php" method="post">
                 <label for="profileAbout">About</label>
-                <textarea type="text" name="profileAbout" rows="5" cols="20" id="profileAbout"><?php echo $profileInfo->fetchAbout($_SESSION["users_id"])?></textarea><br>
+                <textarea type="text" name="profileAbout" rows="5" cols="20" id="profileAbout"><?php echo $profileInformation->fetchAbout($_SESSION["users_id"])?></textarea><br>
                 <label for="profileTitle">Title</label>
-                <input type="text" name="profileTitle" id="profileTitle" value='<?php echo $profileInfo->fetchTitle($_SESSION["users_id"])?>'><br>
+                <input type="text" name="profileTitle" id="profileTitle" value='<?php echo $profileInformation->fetchTitle($_SESSION["users_id"])?>'><br>
                 <label for="profileText">Text</label>
-                <textarea type="text" name="profileText" rows="5" cols="20"  id="profileText"><?php echo $profileInfo->fetchText($_SESSION["users_id"])?></textarea><br>
+                <textarea type="text" name="profileText" rows="5" cols="20"  id="profileText"><?php echo $profileInformation->fetchText($_SESSION["users_id"])?></textarea><br>
                 <button type="submit" name="profile-settings">Save</button>
                 <a href="profile.php"><button type="button">Back</button></a>
             </form>

@@ -21,11 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $user_id = $signUp->fetchUserId($username);
 
-    // Instantiate ProfileInfoContr class
-    include "../classes/profileinfo.classes.php";
+    // Instantiate ProfileInformationController class
+    include "../classes/ProfileInformation.class.php";
     include "../classes/ProfileInformationController.class.php";
-    $profileInfo = new ProfileInformationController($user_id, $username);
-    $profileInfo->defaultProfileInfo();
+    $profileInformation = new ProfileInformationController($user_id, $username);
+    $profileInformation->defaultProfileInformation();
 
     // Going back to front page
     header("location: ../sign-up.php?error=none");

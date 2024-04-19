@@ -1,6 +1,6 @@
 <?php
 
-class ProfileInformationController extends ProfileInfo {
+class ProfileInformationController extends ProfileInformation {
     private $users_id;
     private $users_username;
 
@@ -9,19 +9,19 @@ class ProfileInformationController extends ProfileInfo {
         $this->users_username = $users_username;
     }
 
-    public function defaultProfileInfo() {
+    public function defaultProfileInformation() {
         $profileAbout = "This is a default profile about section.";
         $profileTitle = "Hi! I am " . $this->users_username . ".";
         $profileText = "This is a default profile text.";
-        $this->setProfileInfo($profileAbout, $profileTitle, $profileText, $this->users_id);
+        $this->setProfileInformation($profileAbout, $profileTitle, $profileText, $this->users_id);
     }
-    public function updateProfileInfo($profileAbout, $profileTitle, $profileText) {
+    public function updateProfileInformation($profileAbout, $profileTitle, $profileText) {
         if ($this->emptyInputCheck($profileAbout, $profileTitle, $profileText) == true) {
             header("location: ../profilesettings.php?error=emptyinput");
             exit();
         }
 
-        $this->setNewProfileInfo($profileAbout, $profileTitle, $profileText, $this->users_id);
+        $this->setNewProfileInformation($profileAbout, $profileTitle, $profileText, $this->users_id);
     }
 
     public function emptyInputCheck($profileAbout, $profileTitle, $profileText) {

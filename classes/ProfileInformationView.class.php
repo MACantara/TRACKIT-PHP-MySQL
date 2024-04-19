@@ -1,22 +1,22 @@
 <?php
 
-class ProfileInformationView extends ProfileInfo {
+class ProfileInformationView extends ProfileInformation {
 
     public function fetchAbout($users_id) {
-        $profileInfo = $this->getProfileInfo($users_id);
+        $profileInformation = $this->getProfileInformation($users_id);
 
-        echo $profileInfo[0]["profiles_about"];
+        echo $profileInformation[0]["profiles_about"];
     }
 
     public function fetchTitle($users_id) {
-        $profileInfo = $this->getProfileInfo($users_id);
+        $profileInformation = $this->getProfileInformation($users_id);
 
-        echo $profileInfo[0]["profiles_introduction_title"];
+        echo $profileInformation[0]["profiles_introduction_title"];
     }
 
     public function fetchText($users_id) {
-        $profileInfo = $this->getProfileInfo($users_id);
+        $profileInformation = $this->getProfileInformation($users_id);
 
-        echo $profileInfo[0]["profiles_introduction_text"];
+        echo $profileInformation[0]["profiles_introduction_text"];
     }
 }

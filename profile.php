@@ -1,9 +1,9 @@
 <?php
     session_start();
     include "classes/DbConnection.class.php";
-    include "classes/profileinfo.classes.php";
+    include "classes/ProfileInformation.class.php";
     include "classes/ProfileInformationView.class.php";
-    $profileInfo = new ProfileInformationView();
+    $profileInformation = new ProfileInformationView();
 ?>
 
 <!DOCTYPE html>
@@ -23,15 +23,15 @@
             <h1><?php echo $_SESSION["users_username"] ?>'s Profile</h1>
             <a href="profilesettings.php">Edit Profile</a>
             <h2>About</h2>
-            <p><?php echo $profileInfo->fetchAbout($_SESSION["users_id"])?></p>
+            <p><?php echo $profileInformation->fetchAbout($_SESSION["users_id"])?></p>
         </section>
         <section>
             <h2>Title</h2>
-            <p><?php echo $profileInfo->fetchTitle($_SESSION["users_id"])?></p>
+            <p><?php echo $profileInformation->fetchTitle($_SESSION["users_id"])?></p>
         </section>
         <section>
             <h2>Text</h2>
-            <p><?php echo $profileInfo->fetchText($_SESSION["users_id"])?></p>
+            <p><?php echo $profileInformation->fetchText($_SESSION["users_id"])?></p>
         </section>
     </main>
     <?php include 'templates/footer.template.php'; ?>

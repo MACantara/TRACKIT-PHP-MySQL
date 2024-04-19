@@ -1,8 +1,8 @@
 <?php
 
-class ProfileInfo extends DbConnection {
+class ProfileInformation extends DbConnection {
 
-    protected function getProfileInfo($users_id) {
+    protected function getProfileInformation($users_id) {
         $sql = "SELECT * FROM profiles WHERE users_id = ?";
         $stmt = $this->connect()->prepare($sql);
         if (!$stmt->execute([$users_id])) {
@@ -20,7 +20,7 @@ class ProfileInfo extends DbConnection {
         return $profileData;
     }
 
-    protected function setNewProfileInfo($profileAbout, $profileTitle, $profileText, $users_id) {
+    protected function setNewProfileInformation($profileAbout, $profileTitle, $profileText, $users_id) {
         $sql = "UPDATE profiles SET profiles_about = ?, profiles_introduction_title = ?, profiles_introduction_text = ? WHERE users_id = ?";
         $stmt = $this->connect()->prepare($sql);
         if (!$stmt->execute(array($profileAbout, $profileTitle, $profileText, $users_id))) {
@@ -31,7 +31,7 @@ class ProfileInfo extends DbConnection {
         $stmt = null;
     }
 
-    protected function setProfileInfo($profileAbout, $profileTitle, $profileText, $users_id) {
+    protected function setProfileInformation($profileAbout, $profileTitle, $profileText, $users_id) {
         $sql = "INSERT INTO profiles (profiles_about, profiles_introduction_title, profiles_introduction_text, users_id) VALUES (?, ?, ?, ?)";
         $stmt = $this->connect()->prepare($sql);
         if (!$stmt->execute(array($profileAbout, $profileTitle, $profileText, $users_id))) {
