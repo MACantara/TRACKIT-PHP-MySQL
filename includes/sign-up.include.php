@@ -19,6 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Error handling
     $signUp->signUpUser();
 
+    $user_id = $signUp->fetchUserId($username);
+
+    // Instantiate ProfileInfoContr class
+    include "../classes/profileinfo.classes.php";
+    include "../classes/profileinfo-contr.classes.php";
+    $profileInfo = new ProfileInfoContr($user_id, $username);
+    $profileInfo->defaultProfileInfo();
+
     // Going back to front page
     header("location: ../sign-up.php?error=none");
 

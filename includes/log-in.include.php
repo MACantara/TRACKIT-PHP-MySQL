@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include "../classes/log-in-controller.class.php";
     $logIn = new LogInController($username, $password);
 
-
     // Error handling
     $logIn->logInUser();
 

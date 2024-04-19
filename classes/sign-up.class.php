@@ -85,4 +85,21 @@ class SignUp extends DbConnection
 
         return $resultCheck;
     }
+
+    protected function getUserId($users_username) {
+        $sql = "SELECT users_id FROM users WHERE users_username = ?;";
+        $stmt = $this->connect()->prepare($sql);
+        if (!$stmt->execute(array($users_username))) {
+            $stmt = null;
+            header("location: ../profile.php?error=stmtfailed");
+            exit();
+        }
+        if ($stmt->rowCount() == 0) {
+            $stmt = null;
+            header("location: ../profile.php?error=profilenotfound");
+            exit();
+        }
+        $profileData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $profileData;
+    }
 }

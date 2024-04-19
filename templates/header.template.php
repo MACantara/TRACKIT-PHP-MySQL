@@ -15,7 +15,7 @@
                     <a href="add-event.php">Add Event</a>
                 </li>
                 <li>
-                    <a href="#"><?php echo $_SESSION["users_username"]; ?></a>
+                    <a href="profile.php"><?php echo $_SESSION["users_username"]; ?></a>
                 </li>
                 <li>
                     <a href="includes/log-out.include.php">Logout</a>

@@ -36,11 +36,16 @@ class LogIn extends DbConnection {
             exit();
         } elseif ($checkPassword == true) {
             session_start();
-            $_SESSION["users_id"] = $user["users_id"];
-            $_SESSION["users_first_name"] = $user["users_first_name"];
-            $_SESSION["users_last_name"] = $user["users_last_name"];
-            $_SESSION["users_username"] = $user["users_username"];
-            $_SESSION["users_email"] = $user["users_email"];
+            $keys = ["users_id", "users_first_name", "users_last_name", "users_username", "users_email"];
+
+            foreach ($keys as $key) {
+                if (isset($user[0][$key])) {
+                    $_SESSION[$key] = $user[0][$key];
+                }
+                if (isset($user[$key])) {
+                    $_SESSION[$key] = $user[$key];
+                }
+            }
             header("location: ../index.php?error=none");
 
             $stmt = null;
