@@ -15,7 +15,7 @@
     <main>
         <section>
             <h2>Sign Up</h2>
-            <form action="includes/sign-up.include.php" method="post">
+            <form action="includes/sign-up.inc.php" method="post">
                 <label for="firstName">First Name</label>
                 <input type="text" name="firstName" id="firstName" required><br>
                 <label for="lastName">Last Name</label>
