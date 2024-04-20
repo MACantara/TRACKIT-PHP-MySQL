@@ -17,7 +17,7 @@ class ProfileInformationController extends ProfileInformation {
     }
     public function updateProfileInformation($profileAbout, $profileTitle, $profileText) {
         if ($this->emptyInputCheck($profileAbout, $profileTitle, $profileText) == true) {
-            header("location: ../profilesettings.php?error=emptyinput");
+            header("location: ../profile-information-settings.php?error=emptyinput");
             exit();
         }
 
