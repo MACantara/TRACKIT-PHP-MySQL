@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Instantiate the SignUpController class
     include "../classes/DbConnection.class.php";
-    include "../classes/sign-up.class.php";
+    include "../classes/SignUp.class.php";
     include "../classes/SignUpController.class.php";
     $signUp = new SignUpController($firstName, $lastName, $username, $email, $password, $confirmPassword);
 
