@@ -18,5 +18,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $profileInformation->updateProfileInformation($profileAbout, $profileTitle, $profileText);
 
-    header("location: ../profile.php?error=none");
+    header("location: ../profile-information.php?error=none");
 }

@@ -7,13 +7,13 @@ class ProfileInformation extends DbConnection {
         $stmt = $this->connect()->prepare($sql);
         if (!$stmt->execute([$users_id])) {
             $stmt = null;
-            header("location: ../profile.php?error=stmtfailed");
+            header("location: ../profile-information.php?error=stmtfailed");
             exit();
         }
 
         if (!$stmt->rowCount() > 0) {
             $stmt = null;
-            header("location: ../profile.php?error=profilenotfound");
+            header("location: ../profile-information.php?error=profilenotfound");
             exit();
         }
         $profileData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -25,7 +25,7 @@ class ProfileInformation extends DbConnection {
         $stmt = $this->connect()->prepare($sql);
         if (!$stmt->execute(array($profileAbout, $profileTitle, $profileText, $users_id))) {
             $stmt = null;
-            header("location: ../profile.php?error=stmtfailed");
+            header("location: ../profile-information.php?error=stmtfailed");
             exit();
         }
         $stmt = null;
@@ -36,7 +36,7 @@ class ProfileInformation extends DbConnection {
         $stmt = $this->connect()->prepare($sql);
         if (!$stmt->execute(array($profileAbout, $profileTitle, $profileText, $users_id))) {
             $stmt = null;
-            header("location: ../profile.php?error=stmtfailed");
+            header("location: ../profile-information.php?error=stmtfailed");
             exit();
         }
         $stmt = null;

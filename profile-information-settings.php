@@ -29,7 +29,7 @@
                 <label for="profileText">Text</label>
                 <textarea type="text" name="profileText" rows="5" cols="20"  id="profileText"><?php echo $profileInformation->fetchText($_SESSION["users_id"])?></textarea><br>
                 <button type="submit" name="profile-settings">Save</button>
-                <a href="profile.php"><button type="button">Back</button></a>
+                <a href="profile-information.php"><button type="button">Back</button></a>
             </form>
         </section>
     </main>

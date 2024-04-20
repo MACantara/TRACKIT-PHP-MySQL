@@ -21,7 +21,7 @@
     <main>
         <section>
             <h1><?php echo $_SESSION["users_username"] ?>'s Profile</h1>
-            <a href="profilesettings.php">Edit Profile</a>
+            <a href="profile-information-settings.php">Edit Profile</a>
             <h2>About</h2>
             <p><?php echo $profileInformation->fetchAbout($_SESSION["users_id"])?></p>
         </section>
