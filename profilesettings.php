@@ -21,7 +21,7 @@
     <main>
         <section>
             <h1>Profile Settings</h1>
-            <form action="includes/profileinfo.include.php" method="post">
+            <form action="includes/profile-information.inc.php" method="post">
                 <label for="profileAbout">About</label>
                 <textarea type="text" name="profileAbout" rows="5" cols="20" id="profileAbout"><?php echo $profileInformation->fetchAbout($_SESSION["users_id"])?></textarea><br>
                 <label for="profileTitle">Title</label>
