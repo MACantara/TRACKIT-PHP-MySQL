@@ -7,11 +7,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In</title>
-    <?php include "templates/external-links.template.php"; ?>
+    <?php include "templates/external-links.tpl.php"; ?>
 </head>
 
 <body>
-    <?php include 'templates/header.template.php'; ?>
+    <?php include 'templates/header.tpl.php'; ?>
     <main>
         <section>
             <h2>Log In</h2>
@@ -37,7 +37,7 @@
             ?>
         </section>
     </main>
-    <?php include 'templates/footer.template.php'; ?>
+    <?php include 'templates/footer.tpl.php'; ?>
 </body>
 
 </html>
