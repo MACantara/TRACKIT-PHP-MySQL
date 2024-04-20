@@ -18,7 +18,7 @@
                     <a href="profile.php"><?php echo $_SESSION["users_username"]; ?></a>
                 </li>
                 <li>
-                    <a href="includes/log-out.include.php">Logout</a>
+                    <a href="includes/log-out.inc.php">Logout</a>
                 </li>
                 <?php
             } else {
