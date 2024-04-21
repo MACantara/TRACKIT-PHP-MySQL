@@ -7,15 +7,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <?php include "templates/external-links.template.php"; ?>
+    <?php include "templates/external-links.tpl.php"; ?>
 </head>
 
 <body>
-    <?php include 'templates/header.template.php'; ?>
+    <?php include 'templates/header.tpl.php'; ?>
     <main>
         <section>
             <h2>Sign Up</h2>
-            <form action="includes/sign-up.include.php" method="post">
+            <form action="includes/sign-up.inc.php" method="post">
                 <label for="firstName">First Name</label>
                 <input type="text" name="firstName" id="firstName" required><br>
                 <label for="lastName">Last Name</label>
@@ -62,7 +62,7 @@
             ?>
         </section>
     </main>
-    <?php include 'templates/footer.template.php'; ?>
+    <?php include 'templates/footer.tpl.php'; ?>
 </body>
 
 </html>

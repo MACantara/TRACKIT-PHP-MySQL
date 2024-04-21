@@ -18,10 +18,10 @@
                     <a href="#"></a>
                 </li>
                 <li>
-                    <a href="#"><?php echo $_SESSION["users_username"]; ?></a>
+                    <a href="profile-information.php"><?php echo $_SESSION["users_username"]; ?></a>
                 </li>
                 <li>
-                    <a href="includes/log-out.include.php">Logout</a>
+                    <a href="includes/log-out.inc.php">Logout</a>
                 </li>
                 <?php
             } else {
@@ -31,6 +31,9 @@
                 </li>
                 <li>
                     <a href="log-in.php">Log In</a>
+                </li>
+                <li>
+                    <a href="forgot-password.php">Forgot Password</a>
                 </li>
                 <?php
             }
