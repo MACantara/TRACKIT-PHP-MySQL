@@ -33,7 +33,7 @@
                     <a href="log-in.php">Log In</a>
                 </li>
                 <li>
-                    <a href="forgot-password.php">Forgot Password</a>
+                    <a href="reset-password.php">Forgot Password</a>
                 </li>
                 <?php
             }
