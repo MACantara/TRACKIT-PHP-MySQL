@@ -12,7 +12,10 @@
             if (isset($_SESSION['users_id'])) {
                 ?>
                 <li>
-                    <a href="add-event.php">Add Event</a>
+                    <a href="#">Events Overview</a>
+                </li>
+                <li>
+                    <a href="#"></a>
                 </li>
                 <li>
                     <a href="#"><?php echo $_SESSION["users_username"]; ?></a>
