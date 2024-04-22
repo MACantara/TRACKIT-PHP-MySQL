@@ -1,5 +1,5 @@
 <?php
-require_once "DbConnection.class.php";
+include "../classes/DbConnection.class.php";
 class PasswordResetRequest extends DbConnection {
     public function deleteExistingResetRequest($userEmail) {
         $sql = "DELETE FROM passwordReset WHERE passwordResetEmail = ?";

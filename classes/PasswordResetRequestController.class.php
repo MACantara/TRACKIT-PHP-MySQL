@@ -2,7 +2,7 @@
 
 require_once 'PasswordResetRequestView.class.php';
 require_once 'PasswordResetRequest.class.php';
-class PasswordResetRequestController {
+class PasswordResetRequestController extends PasswordResetRequest {
     public function handleRequest($userEmail) {
         $passwordResetRequest = new PasswordResetRequest();
 

@@ -1,7 +1,9 @@
 <?php
-require_once "../classes/PasswordResetRequestController.class.php";
+
 if (isset($_POST['reset-request-submit'])) {
     $userEmail = $_POST["email"];
+
+    include "../classes/PasswordResetRequestController.class.php";
 
     $passwordResetRequestController = new PasswordResetRequestController();
     $passwordResetRequestController->handleRequest($userEmail);
