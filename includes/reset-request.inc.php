@@ -42,7 +42,19 @@ if (isset($_POST['reset-request-submit'])) {
     $mail->Password = "faix wvbv fauy qodg";
     $mail->SetFrom("no-reply@trackit.com");
     $mail->Subject = "Reset your password";
-    $mail->Body = "Click here to reset your password: <a href='" . $url . "'>Reset</a>";
+    $mail->Body = "
+    <html>
+    <head>
+        <title>Password Reset Request</title>
+    </head>
+    <body>
+        <h1>Hi there, </h1>
+        <p>We received a request to reset your password. If you made this request, please click the button below:</p>
+        <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Reset Password</a>
+        <p>If you didn't request a password reset, you can safely ignore this email. Your password will not change.</p>
+        <p>Thanks,<br>Your Team</p>
+    </body>
+    </html>";
     $mail->AddAddress($userEmail);
 
     $mail->Send();

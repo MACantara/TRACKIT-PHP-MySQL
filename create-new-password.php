@@ -36,6 +36,13 @@ session_start();
                             <button type="submit" name="reset-password-submit">Reset Password</button>
                         </form>
                         <?php
+                            if (isset($_GET["error"])) {
+                                if ($_GET["error"] == "resubmit") {
+                                    echo "<p class='error-message'>The reset link has expired!</p>";
+                                }
+                            }
+                        ?>
+                        <?php
                     }
                 }
             ?>
