@@ -141,7 +141,7 @@ button:hover {
     background-color: #DFF2BF;
     padding: 10px;
     border-radius: 8px;
-    margin: 10px 0;
+    margin-top: 16px;
 }
 
 .log-in-text {
