@@ -34,6 +34,11 @@
                     echo "<p class='error-message'>User not found!</p>";
                 }
             }
+            if (isset($_GET["newpwd"])) {
+                if ($_GET["newpwd"] == "success") {
+                    echo "<p class='success-message'>Your password has been updated!</p>";
+                }
+            }
             ?>
         </section>
     </main>
