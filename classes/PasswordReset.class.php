@@ -10,7 +10,7 @@ class PasswordReset extends DbConnection {
 
         $currentDate = date("U");
 
-        $sql = "SELECT * FROM passwordReset WHERE passwordResetSelector = ? AND passwordResetExpires >= ?";
+        $sql = "SELECT * FROM password_reset WHERE password_reset_selector = ? AND password_reset_expires >= ?";
         $stmt = $this->connect()->prepare($sql);
         $stmt->execute([$selector, $currentDate]);
 
@@ -19,12 +19,12 @@ class PasswordReset extends DbConnection {
             return ['status' => 'error', 'message' => 'resubmit'];
         } else {
             $tokenBin = hex2bin($validator);
-            $tokenCheck = password_verify($tokenBin, $result["passwordResetToken"]);
+            $tokenCheck = password_verify($tokenBin, $result["password_reset_token"]);
 
             if ($tokenCheck === false) {
                 return ['status' => 'error', 'message' => 'resubmit'];
             } else if ($tokenCheck === true) {
-                $tokenEmail = $result["passwordResetEmail"];
+                $tokenEmail = $result["password_reset_email"];
 
                 $sql = "SELECT * FROM users WHERE users_email = ?";
                 $stmt = $this->connect()->prepare($sql);
@@ -39,7 +39,7 @@ class PasswordReset extends DbConnection {
                     $newPwdHash = password_hash($password, PASSWORD_DEFAULT);
                     $stmt->execute([$newPwdHash, $tokenEmail]);
 
-                    $sql = "DELETE FROM passwordReset WHERE passwordResetEmail = ?";
+                    $sql = "DELETE FROM password_reset WHERE password_reset_email = ?";
                     $stmt = $this->connect()->prepare($sql);
                     $stmt->execute([$tokenEmail]);
 

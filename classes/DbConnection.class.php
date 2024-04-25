@@ -9,10 +9,10 @@ class DbConnection {
      */
     protected function connect() {
         try {
-            $dBUserName = "355327_testuser";
-            $dBPassword = "Crusher15Humble52Finicky80Footnote68Crimson4";
+            $dBUserName = "root";
+            $dBPassword = "Rockslide43Silent95Poncho11Sabotage82Catalog5";
 
-            $conn = new PDO("mysql:host=mysql-mysql-database.alwaysdata.net;dbname=mysql-database_trackit", $dBUserName, $dBPassword);
+            $conn = new PDO("mysql:host=localhost;dbname=trackit", $dBUserName, $dBPassword);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conn;
         } catch (PDOException $e) {

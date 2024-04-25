@@ -25,12 +25,12 @@ class PasswordResetController {
             return ['status' => 'error', 'message' => 'resubmit'];
         } else {
             $tokenBin = hex2bin($validator);
-            $tokenCheck = password_verify($tokenBin, $passwordReset["passwordResetToken"]);
+            $tokenCheck = password_verify($tokenBin, $passwordReset["password_reset_token"]);
 
             if ($tokenCheck === false) {
                 return ['status' => 'error', 'message' => 'resubmit'];
             } else if ($tokenCheck === true) {
-                $tokenEmail = $passwordReset["passwordResetEmail"];
+                $tokenEmail = $passwordReset["password_reset_email"];
 
                 $user = $this->userModel->getUserByEmail($tokenEmail);
                 if (!$user) {
