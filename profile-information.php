@@ -20,7 +20,11 @@
     <main>
         <section>
             <h1><?php echo $_SESSION["users_username"] ?>'s Profile</h1>
-            <a href="profile-information-settings.php">Edit Profile</a>
+            <div class="button-container">
+                <a class="button" href="profile-information-settings.php">Edit Profile</a>
+            </div>
+        </section>
+        <section>
             <h2>About</h2>
             <p><?php echo $profileData['profiles_about']; ?></p>
         </section>
