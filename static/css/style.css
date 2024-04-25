@@ -66,14 +66,55 @@ main {
 
 h1 {
     color: #333;
-    margin-bottom: 20px;
     text-align: center;
+    font-size: 2.5em;
 }
 
 h2 {
+    font-size: 1.2em;
     color: #333;
-    margin-bottom: 20px;
     text-align: center;
+    font-weight: lighter;
+    margin: 12px 0;
+}
+
+h2 a {
+    text-decoration: none;
+}
+
+.button, .secondary-outline-button {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button {
+    color: #fff;
+    background-color: #007BFF;
+    border: 1px solid #007BFF;
+    margin-top: 12px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    cursor: pointer;
+}
+
+.secondary-outline-button {
+    color: #007BFF;
+    background-color: transparent;
+    border: 1px solid #007BFF;
+    margin-top: 12px;
+}
+
+.secondary-outline-button:hover {
+    color: #fff;
+    background-color: #007BFF;
 }
 
 p.logged-out {
@@ -85,22 +126,41 @@ section {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    margin: 16px 0;
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 10px;
+    place-items: center;
+    max-width: 50%;
+    margin: 0 auto;
 }
 
 form {
     display: grid;
+    gap: 0;
 }
 
-label {
-    margin-bottom: 5px;
+.password-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 16px;
 }
 
-input {
-    margin-bottom: 10px;
+input,
+select,
+textarea {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 16px;
+}
+
+label {
+    margin: 8px 0;
 }
 
 .info-text {
@@ -110,20 +170,7 @@ input {
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f9f9f9;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #0056b3;
+    margin-top: 8px;
 }
 
 /* Event Dashboard */
