@@ -20,8 +20,8 @@ session_start();
             <p>Enter your email address and we will send you a link to reset your password.</p>
             <form action="includes/reset-request.inc.php" method="post">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" required><br>
-                <button type="submit" name="reset-request-submit">Reset Password</button>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required><br>
+                <button class="button" type="submit" name="reset-request-submit">Reset Password</button>
             </form>
             <?php
             if (isset($_GET["reset"])) {
