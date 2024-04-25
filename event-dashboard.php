@@ -24,11 +24,11 @@ $transactions = getTransactions($conn, $eventId);
     <?php include "templates/header.tpl.php"; ?>
 
     <main>
-        <a href="events-overview.php">Back to Events Overview</a>
-        <a href="add-transaction.php?events_id=<?php echo $eventId; ?>">Add Transaction</a>
+        <a class="secondary-outline-button" href="events-overview.php">Back to Events Overview</a>
+        <a class="button" href="add-transaction.php?events_id=<?php echo $eventId; ?>">Add Transaction</a>
         <form action="includes/report-generation.inc.php?events_id=<?php echo $eventId; ?>" method="post">
                 <input type="hidden" name="event_id" value="<?php echo $eventId; ?>">
-                <button type="submit" name="generate-report">Generate Report</button>
+                <button class="button" type="submit" name="generate-report">Generate Report</button>
             </form>
         <section>
             <h2><?php echo $row['events_name']; ?></h2>
@@ -36,7 +36,6 @@ $transactions = getTransactions($conn, $eventId);
         </section>
         <section class="one-column-grid-container">
             <h2>Transaction History</h2>
-
             <table>
                 <tr>
                     <th>Date</th>
