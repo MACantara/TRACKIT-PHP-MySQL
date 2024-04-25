@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $profileInformation->defaultProfileInformation();
 
     // Going back to front page
-    header("location: ../sign-up.php?error=none");
+    header("location: ../log-in.php?error=none");
 
 } else {
     // If there are no errors, redirect back to the signup page
