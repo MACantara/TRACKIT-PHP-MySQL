@@ -15,32 +15,17 @@
     <main>
         <section>
             <h2>Log In</h2>
-            <form action="includes/log-in.inc.php" method="post">
-                <label for="username">Username/Email</label>
-                <input type="text" name="username" id="username" required><br>
+            <form action="includes/login.inc.php" method="post">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="username" required><br>
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" required><br>
-                <label for="forgot-password"><a href="forgot-password.php">Forgot Password?</a></label>
-                <button type="submit" name="log-in">Log In</button>
+                <button type="submit" name="submit">Log In</button>
             </form>
             <?php
             if (isset($_GET["error"])) {
                 if ($_GET["error"] == "wronglogin") {
                     echo "<p class='error-message'>Incorrect login information!</p>";
-                }
-                if ($_GET["error"] == "stmtfailed") {
-                    echo "<p class='error-message'>Something went wrong. Please try again!</p>";
-                }
-                if ($_GET["error"] == "usernotfound") {
-                    echo "<p class='error-message'>User not found!</p>";
-                }
-                if ($_GET["error"] == "none") {
-                    echo "<p class='success-message'>You have successfully signed up! Log in now.</p>";
-                }
-            }
-            if (isset($_GET["newpwd"])) {
-                if ($_GET["newpwd"] == "success") {
-                    echo "<p class='success-message'>Your password has been updated!</p>";
                 }
             }
             ?>

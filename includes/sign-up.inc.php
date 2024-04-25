@@ -1,7 +1,6 @@
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Grabbing the data
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = htmlspecialchars($_POST['firstName'], ENT_QUOTES, 'UTF-8');
     $lastName = htmlspecialchars($_POST['lastName'], ENT_QUOTES, 'UTF-8');
     $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
@@ -9,29 +8,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
     $confirmPassword = htmlspecialchars($_POST['confirmPassword'], ENT_QUOTES, 'UTF-8');
 
-    // Instantiate the SignUpController class
-    include "../classes/DbConnection.class.php";
-    include "../classes/SignUp.class.php";
-    include "../classes/SignUpController.class.php";
-    $signUp = new SignUpController($firstName, $lastName, $username, $email, $password, $confirmPassword);
+    require_once 'db-connection.inc.php';
+    require_once 'functions.inc.php';
 
+    if (signUpEmptyInput($firstName, $lastName, $username, $email, $password, $confirmPassword) !== false) {
+        header("location: ../sign-up.php?error=emptyinput");
+        exit();
+    }
 
-    // Error handling
-    $signUp->signUpUser();
+    if (invalidEmail($email) !== false) {
+        header("location: ../sign-up.php?error=invalidemail");
+        exit();
+    }
 
-    $user_id = $signUp->fetchUserId($username);
+    if (passwordMatch($password, $confirmPassword) !== false) {
+        header("location: ../sign-up.php?error=passwordsdontmatch");
+        exit();
+    }
 
-    // Instantiate ProfileInformationController class
-    include "../classes/ProfileInformation.class.php";
-    include "../classes/ProfileInformationController.class.php";
-    $profileInformation = new ProfileInformationController($user_id, $username);
-    $profileInformation->defaultProfileInformation();
-
-    // Going back to front page
-    header("location: ../log-in.php?error=none");
+    createUser($conn, $firstName, $lastName, $username, $email, $password);
 
 } else {
-    // If there are no errors, redirect back to the signup page
-    header("location: ../sign-up.php");
+    header("location: ../index.php");
     exit();
 }
