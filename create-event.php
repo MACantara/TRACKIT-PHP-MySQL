@@ -12,7 +12,7 @@ handleCreateEvent($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Create New Event</title>
     <?php include "templates/external-links.tpl.php"; ?>
 </head>
 
