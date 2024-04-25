@@ -10,14 +10,23 @@ if (isset($_POST["reset-password-submit"])) {
     $selector = $_POST["selector"];
     $validator = $_POST["validator"];
     $password = $_POST["password"];
-    $passwordRepeat = $_POST["password-repeat"];
-    if (empty($password) || empty($passwordRepeat)) {
-        header("Location: ../create-new-password.php?selector=" . $selector . "&validator=" . $validator . "&error=emptyfields");
+    $confirmPassword = $_POST["confirmPassword"];
+
+    if (passwordResetEmptyInput($password, $confirmPassword) !== false) {
+        header("Location: ../create-new-password.php?selector=" . $selector . "&validator=" . $validator . "&error=emptyinput");
         exit();
-    } else if ($password != $passwordRepeat) {
+    }
+
+    if (passwordDoNotMatch($password, $confirmPassword)) {
         header("Location: ../create-new-password.php?selector=" . $selector . "&validator=" . $validator . "&error=passwordsdontmatch");
         exit();
     }
+
+    if (invalidPassword($password) !== false) {
+        header("Location: ../create-new-password.php?selector=" . $selector . "&validator=" . $validator . "&error=invalidpassword");
+        exit();
+    }
+
     $currentDate = date("U");
     $sql = "SELECT * FROM password_reset WHERE password_reset_selector = ? AND password_reset_expires >= ?";
     $stmt = mysqli_prepare($conn, $sql);
