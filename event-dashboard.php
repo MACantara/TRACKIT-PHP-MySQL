@@ -18,31 +18,18 @@ $transactions = getTransactions($conn, $eventId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Information</title>
     <?php include "templates/external-links.tpl.php"; ?>
-    <style>
-        .three-column-grid-container {
-            display: grid;
-            grid-template-columns: auto auto auto;
-            gap: 10px;
-        }
-
-        .one-column-grid-container {
-            display: grid;
-            grid-template-columns: auto;
-        }
-
-        .grid-item {
-            border: 1px solid rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-    </style>
 </head>
 
 <body>
     <?php include "templates/header.tpl.php"; ?>
-    <?php include "templates/event-sidebar-navigation.tpl.php"; ?>
+
     <main>
+        <a href="events-overview.php">Back to Events Overview</a>
         <a href="add-transaction.php?events_id=<?php echo $eventId; ?>">Add Transaction</a>
+        <form action="includes/report-generation.inc.php?events_id=<?php echo $eventId; ?>" method="post">
+                <input type="hidden" name="event_id" value="<?php echo $eventId; ?>">
+                <button type="submit" name="generate-report">Generate Report</button>
+            </form>
         <section>
             <h2><?php echo $row['events_name']; ?></h2>
             <p>Budget: <?php echo $row['events_budget']; ?></p>
