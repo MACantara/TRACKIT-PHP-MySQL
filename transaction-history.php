@@ -3,17 +3,15 @@ session_start();
 require_once 'includes/db-connection.inc.php';
 
 $eventId = $_GET['events_id'];
-$sql = "SELECT * FROM transaction_history WHERE events_id = ?";
+
+// Fetch transactions
+$sql = "SELECT * FROM transaction_history WHERE events_id = ? ORDER BY transaction_date DESC";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $eventId);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $transactions = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-// Sort transactions by date in descending order
-usort($transactions, function($a, $b) {
-    return strtotime($b['transaction_date']) - strtotime($a['transaction_date']);
-});
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +29,10 @@ usort($transactions, function($a, $b) {
     <?php include "templates/event-sidebar-navigation.tpl.php"; ?>
     <main>
         <section>
+            <form action="includes/report-generation.inc.php?events_id=<?php echo $eventId; ?>" method="post">
+                <input type="hidden" name="event_id" value="<?php echo $eventId; ?>">
+                <button type="submit" name="generate-report">Generate Report</button>
+            </form>
             <h2>Transaction History</h2>
 
             <table>
