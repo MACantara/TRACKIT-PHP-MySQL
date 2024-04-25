@@ -1,10 +1,12 @@
 <?php
 session_start();
 require_once 'includes/db-connection.inc.php';
+require_once "includes/event-functions.inc.php";
 
 $eventId = isset($_GET['events_id']) ? $_GET['events_id'] : null;
 $userId = $_SESSION['users_id'];
 
+$categories = getCategories($conn);
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +36,15 @@ $userId = $_SESSION['users_id'];
                 <label for="transaction_price">Price:</label><br>
                 <input type="number" id="transaction_price" name="transaction_price" min="0"><br>
                 <label for="transaction_category">Category:</label><br>
-                <input type="text" id="transaction_category" name="transaction_category"><br>
+                <select id="transaction_category" name="transaction_category">
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php echo $category['transaction_category']; ?>">
+                            <?php echo $category['transaction_category']; ?></option>
+                    <?php endforeach; ?>
+                    <option value="other">Other...</option>
+                </select><br>
+                <input type="text" id="new_transaction_category" name="new_transaction_category"
+                    placeholder="Enter new category" style="display: none;"><br>
                 <label for="transaction_type">Type:</label><br>
                 <select id="transaction_type" name="transaction_type">
                     <option value="expense">Expense</option>
@@ -47,6 +57,7 @@ $userId = $_SESSION['users_id'];
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
+    <script src="js/add-transaction.js"></script>
 </body>
 
 </html>
