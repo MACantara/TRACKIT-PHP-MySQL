@@ -20,7 +20,7 @@ if (isset($_POST["submit"])) {
         exit();
     }
     
-    header("location: ../index.php?error=none");
+    header("location: ../events-overview.php?error=none");
     exit();
 } else {
     header("location: ../login.php");
