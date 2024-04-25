@@ -34,7 +34,7 @@ handleCreateEvent($conn);
                 <label for="event_budget">Event Budget:</label>
                 <input type="number" id="event_budget" name="event_budget" required>
 
-                <input type="submit" value="Create Event">
+                <button class="button" type="submit">Create Event</button>
             </form>
         </section>
     </main>
