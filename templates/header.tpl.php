@@ -32,9 +32,6 @@
                 <li>
                     <a href="log-in.php">Log In</a>
                 </li>
-                <li>
-                    <a href="reset-password.php">Forgot Password</a>
-                </li>
                 <?php
             }
             ?>
