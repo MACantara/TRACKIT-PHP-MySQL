@@ -31,14 +31,20 @@ session_start();
                             <input type="hidden" name="validator" value="<?php echo $validator; ?>">
                             <label for="password">Enter a new password</label>
                             <input type="password" name="password" id="password" required>
-                            <label for="password-repeat">Repeat new password</label>
-                            <input type="password" name="password-repeat" id="password-repeat" required>
-                            <button type="submit" name="reset-password-submit">Reset Password</button>
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" name="confirmPassword" id="confirmPassword" required>
+                            <button class="button" type="submit" name="reset-password-submit">Reset Password</button>
                         </form>
                         <?php
                             if (isset($_GET["error"])) {
                                 if ($_GET["error"] == "resubmit") {
                                     echo "<p class='error-message'>The reset link has expired!</p>";
+                                } else if ($_GET["error"] == "emptyinput") {
+                                    echo "<p class='error-message'>Please fill in all fields!</p>";
+                                } else if ($_GET["error"] == "passwordsdontmatch") {
+                                    echo "<p class='error-message'>Passwords don't match!</p>";
+                                } else if ($_GET["error"] == "invalidpassword") {
+                                    echo "<p class='error-message'>Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.</p>";
                                 }
                             }
                         ?>
