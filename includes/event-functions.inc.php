@@ -33,3 +33,18 @@ function getTransactions($conn, $eventId) {
     $result = mysqli_stmt_get_result($stmt);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
+
+function getUserEvents($conn, $userId) {
+    $sql = "SELECT events.events_id, events.events_name, events.events_description, events.events_date, events.events_budget FROM events JOIN event_users ON events.events_id = event_users.events_id WHERE event_users.users_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $userId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+function getCategories($conn) {
+    $sql = "SELECT transaction_category FROM transaction_history GROUP BY transaction_category";
+    $result = mysqli_query($conn, $sql);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
