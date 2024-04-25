@@ -12,7 +12,7 @@
             if (isset($_SESSION['users_id'])) {
                 ?>
                 <li>
-                    <a href="#">Events Overview</a>
+                    <a href="events-overview.php">Events Overview</a>
                 </li>
                 <li>
                     <a href="#"></a>
