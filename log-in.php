@@ -17,11 +17,13 @@
             <h2>Log In</h2>
             <form action="includes/log-in.inc.php" method="post">
                 <label for="username">Username/Email</label>
-                <input type="text" name="username" id="username" placeholder="username" required><br>
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" required><br>
-                <a href="forgot-password.php">Forgot Password?</a>
-                <button type="submit" name="submit">Log In</button>
+                <input type="text" name="username" id="username" placeholder="Username/Email" required><br>
+                <div class="password-container">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password" required><br>
+                    <a href="forgot-password.php">Forgot Password?</a>
+                </div>
+                <button class="button" type="submit" name="submit">Log In</button>
             </form>
             <?php
             if (isset($_GET["error"])) {
