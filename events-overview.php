@@ -22,8 +22,13 @@ $events = getUserEvents($conn, $userId);
     <main>
         <section>
             <h1>Events Overview</h1>
-            <a href="create-event.php">Create Event</a>
-            <?php foreach ($events as $event): ?>
+            <div class="button-container">
+                <a class="button" href="create-event.php">Create New Event</a>
+            </div>
+        </section>
+        <?php foreach ($events as $event): ?>
+            <section>
+
                 <div>
                     <h2><a
                             href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><?php echo $event['events_name']; ?></a>
@@ -32,8 +37,8 @@ $events = getUserEvents($conn, $userId);
                     <p>Date: <?php echo $event['events_date']; ?></p>
                     <p>Budget: <?php echo $event['events_budget']; ?></p>
                 </div>
-            <?php endforeach; ?>
-        </section>
+            </section>
+        <?php endforeach; ?>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
 </body>
