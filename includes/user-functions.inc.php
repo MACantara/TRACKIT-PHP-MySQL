@@ -47,7 +47,7 @@ function loginUser($conn, $username, $password) {
                 $_SESSION[$key] = $userExists[$key];
             }
         }
-        header("location: ../index.php");
+        header("location: ../events-overview.php");
         exit();
     }
 }
