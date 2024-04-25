@@ -1,17 +1,25 @@
 <?php
 session_start();
-require_once "classes/EventController.php";
+?>
 
-$eventController = new EventController();
-$events = $eventController->getEventsByUserId($userId); // replace $userId with the actual user ID
+<!DOCTYPE html>
+<html lang="en">
 
-echo '<div class="grid-container">';
-foreach ($events as $event) {
-    echo '<div class="grid-item">';
-    echo '<h2>' . $event['event_name'] . '</h2>';
-    echo '<p>' . $event['event_description'] . '</p>';
-    echo '<p>Date: ' . $event['event_date'] . '</p>';
-    echo '<p>Budget: ' . $event['event_budget'] . '</p>';
-    echo '</div>';
-}
-echo '</div>';
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Overview</title>
+    <?php include "templates/external-links.tpl.php"; ?>
+</head>
+
+<body>
+    <?php include 'templates/header.tpl.php'; ?>
+    <main>
+        <section>
+            <h1>Events Overview</h1>
+        </section>
+    </main>
+    <?php include 'templates/footer.tpl.php'; ?>
+</body>
+
+</html>

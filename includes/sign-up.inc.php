@@ -16,11 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    if (invalidEmail($email) !== false) {
-        header("location: ../sign-up.php?error=invalidemail");
-        exit();
-    }
-
     if (passwordMatch($password, $confirmPassword) !== false) {
         header("location: ../sign-up.php?error=passwordsdontmatch");
         exit();
