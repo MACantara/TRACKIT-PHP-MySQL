@@ -1,34 +1,44 @@
 <?php
 session_start();
-require_once "EventController.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $eventController = new EventController();
-    $userId = $_SESSION["users_id"]; // assuming the user ID is stored in the session
-    $eventName = $_POST["event_name"];
-    $eventDescription = $_POST["event_description"];
-    $eventDate = $_POST["event_date"];
-    $eventBudget = $_POST["event_budget"];
+require_once 'includes/event-functions.inc.php';
 
-    $eventController->createEvent($userId, $eventName, $eventDescription, $eventDate, $eventBudget);
-
-    header("Location: events_overview.php");
-    exit();
-}
+handleCreateEvent($conn);
 ?>
 
-<form method="post" action="create-event.php">
-    <label for="event_name">Event Name:</label>
-    <input type="text" id="event_name" name="event_name" required>
+<!DOCTYPE html>
+<html lang="en">
 
-    <label for="event_description">Event Description:</label>
-    <textarea id="event_description" name="event_description" required></textarea>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <?php include "templates/external-links.tpl.php"; ?>
+</head>
 
-    <label for="event_date">Event Date:</label>
-    <input type="date" id="event_date" name="event_date" required>
+<body>
+    <?php include 'templates/header.tpl.php'; ?>
+    <main>
+        <section>
+            <h1>Create a New Event</h1>
+            <form method="post" action="create-event.php">
+                <label for="event_name">Event Name:</label>
+                <input type="text" id="event_name" name="event_name" required>
 
-    <label for="event_budget">Event Budget:</label>
-    <input type="number" id="event_budget" name="event_budget" required>
+                <label for="event_description">Event Description:</label>
+                <textarea id="event_description" name="event_description" required></textarea>
 
-    <input type="submit" value="Create Event">
-</form>
+                <label for="event_date">Event Date:</label>
+                <input type="date" id="event_date" name="event_date" required>
+
+                <label for="event_budget">Event Budget:</label>
+                <input type="number" id="event_budget" name="event_budget" required>
+
+                <input type="submit" value="Create Event">
+            </form>
+        </section>
+    </main>
+    <?php include 'templates/footer.tpl.php'; ?>
+</body>
+
+</html>
