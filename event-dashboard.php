@@ -1,23 +1,13 @@
 <?php
 session_start();
 require_once 'includes/db-connection.inc.php';
+require_once 'includes/event-functions.inc.php';
 
 $eventId = $_GET['events_id'];
 $userId = $_SESSION["users_id"];
-$sql = "SELECT * FROM events WHERE events_id = ?";
-$stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "i", $eventId);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$row = mysqli_fetch_assoc($result);
 
-// Fetch transactions
-$sql = "SELECT * FROM transaction_history WHERE events_id = ? ORDER BY transaction_date DESC";
-$stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "i", $eventId);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$transactions = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$row = getEvent($conn, $eventId);
+$transactions = getTransactions($conn, $eventId);
 ?>
 
 <!DOCTYPE html>
