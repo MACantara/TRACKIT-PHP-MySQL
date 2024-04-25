@@ -6,7 +6,7 @@ require_once "includes/event-functions.inc.php";
 $eventId = isset($_GET['events_id']) ? $_GET['events_id'] : null;
 $userId = $_SESSION['users_id'];
 
-$categories = getCategories($conn);
+$categories = getCategories($conn, $eventId);
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +37,7 @@ $categories = getCategories($conn);
                 <input type="number" id="transaction_price" name="transaction_price" min="0"><br>
                 <label for="transaction_category">Category:</label><br>
                 <select id="transaction_category" name="transaction_category">
+                    <option value="" selected disabled>Select a category</option>
                     <?php foreach ($categories as $category): ?>
                         <option value="<?php echo $category['transaction_category']; ?>">
                             <?php echo $category['transaction_category']; ?></option>
@@ -52,12 +53,12 @@ $categories = getCategories($conn);
                 </select><br>
                 <input type="hidden" id="events_id" name="events_id" value="<?php echo $eventId; ?>">
                 <input type="hidden" id="users_id" name="users_id" value="<?php echo $userId; ?>">
-                <input type="submit" value="Add Transaction">
+                <button type="submit" class="button">Add Transaction</button>
             </form>
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
-    <script src="js/add-transaction.js"></script>
+    <script src="static/js/add-transaction.js"></script>
 </body>
 
 </html>
