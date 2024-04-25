@@ -22,6 +22,16 @@ function logInEmptyInput($username, $password) {
     return $result;
 }
 
+function passwordResetEmptyInput($password, $confirmPassword) {
+    $result;
+    if (empty($password) || empty($confirmPassword)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
 function invalidUsername($username) {
     $result;
     if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
