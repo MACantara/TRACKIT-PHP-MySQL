@@ -17,6 +17,7 @@ $eventId = $_GET['events_id'];
 
 <body>
     <?php include 'templates/header.tpl.php'; ?>
+    <?php include "templates/event-sidebar-navigation.tpl.php"; ?>
     <main>
         <section>
             <h2>Generate Report</h2>

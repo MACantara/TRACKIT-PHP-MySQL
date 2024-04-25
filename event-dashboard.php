@@ -3,17 +3,21 @@ session_start();
 require_once 'includes/db-connection.inc.php';
 
 $eventId = $_GET['events_id'];
-$sql = "SELECT * FROM transaction_history WHERE events_id = ?";
+$userId = $_SESSION["users_id"];
+$sql = "SELECT * FROM events WHERE events_id = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $eventId);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$row = mysqli_fetch_assoc($result);
+
+// Fetch transactions
+$sql = "SELECT * FROM transaction_history WHERE events_id = ? ORDER BY transaction_date DESC";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $eventId);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $transactions = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-// Sort transactions by date in descending order
-usort($transactions, function($a, $b) {
-    return strtotime($b['transaction_date']) - strtotime($a['transaction_date']);
-});
 ?>
 
 <!DOCTYPE html>
@@ -22,15 +26,38 @@ usort($transactions, function($a, $b) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Event Information</title>
     <?php include "templates/external-links.tpl.php"; ?>
+    <style>
+        .three-column-grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            gap: 10px;
+        }
+
+        .one-column-grid-container {
+            display: grid;
+            grid-template-columns: auto;
+        }
+
+        .grid-item {
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
 </head>
 
 <body>
-    <?php include 'templates/header.tpl.php'; ?>
+    <?php include "templates/header.tpl.php"; ?>
     <?php include "templates/event-sidebar-navigation.tpl.php"; ?>
     <main>
+        <a href="add-transaction.php?events_id=<?php echo $eventId; ?>">Add Transaction</a>
         <section>
+            <h2><?php echo $row['events_name']; ?></h2>
+            <p>Budget: <?php echo $row['events_budget']; ?></p>
+        </section>
+        <section class="one-column-grid-container">
             <h2>Transaction History</h2>
 
             <table>

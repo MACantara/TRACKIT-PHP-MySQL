@@ -28,7 +28,7 @@ $result = mysqli_stmt_get_result($stmt);
             <a href="create-event.php">Create Event</a>
             <?php while ($row = mysqli_fetch_assoc($result)): ?>
                 <div>
-                    <h2><a href="event-info.php?events_id=<?php echo $row['events_id']; ?>"><?php echo $row['events_name']; ?></a></h2>
+                    <h2><a href="event-dashboard.php?events_id=<?php echo $row['events_id']; ?>"><?php echo $row['events_name']; ?></a></h2>
                     <p><?php echo $row['events_description']; ?></p>
                     <p>Date: <?php echo $row['events_date']; ?></p>
                     <p>Budget: <?php echo $row['events_budget']; ?></p>
