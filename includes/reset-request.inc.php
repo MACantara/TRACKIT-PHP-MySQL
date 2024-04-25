@@ -8,9 +8,8 @@ if (isset($_POST['reset-request-submit'])) {
     $passwordResetRequestController = new PasswordResetRequestController();
     $passwordResetRequestController->handleRequest($userEmail);
 
-    header("location: ../reset-password.php?reset=success");
+    header("location: ../forgot-password.php?reset=success");
 } else {
     header("Location: ../index.php");
     exit();
 }
-?>
