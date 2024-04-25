@@ -16,7 +16,7 @@
         <section>
             <h2>Log In</h2>
             <form action="includes/log-in.inc.php" method="post">
-                <label for="username">Username</label>
+                <label for="username">Username/Email</label>
                 <input type="text" name="username" id="username" placeholder="username" required><br>
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" required><br>
