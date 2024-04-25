@@ -1,5 +1,6 @@
 <?php
 require_once "../config.php";
+require_once "error-handling-functions.inc.php";
 
 if (isset($_POST['reset-request-submit'])) {
     $userEmail = $_POST["email"];

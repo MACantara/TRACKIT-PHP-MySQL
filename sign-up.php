@@ -26,7 +26,8 @@
                 <input type="email" name="email" id="email" required><br>
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" required>
-                <p class="info-text">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.</p><br>
+                <p class="info-text">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one
+                    number, and one special character.</p><br>
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword" required><br>
                 <button type="submit" name="sign-up">Sign Up</button>
@@ -35,12 +36,22 @@
             if (isset($_GET["error"])) {
                 if ($_GET["error"] == "emptyinput") {
                     echo "<p class='error-message'>Fill in all fields!</p>";
+                } else if ($_GET["error"] == "invalidusername") {
+                    echo "<p class='error-message'>Choose a proper username!</p>";
+                } else if ($_GET["error"] == "usernametaken") {
+                    echo "<p class='error-message'>Username already taken!</p>";
                 } else if ($_GET["error"] == "invalidemail") {
-                    echo "<p class='error-message'>Invalid email!</p>";
+                    echo "<p class='error-message'>Choose a proper email!</p>";
+                } else if ($_GET["error"] == "emailtaken") {
+                    echo "<p class='error-message'>Email already taken!</p>";
+                } else if ($_GET["error"] == "invalidpassword") {
+                    echo "<p class='error-message'>Choose a proper password!</p>";
                 } else if ($_GET["error"] == "passwordsdontmatch") {
                     echo "<p class='error-message'>Passwords don't match!</p>";
-                }else if ($_GET["error"] == "none") {
-                    echo "<p class='success-message'>You have signed up! <a style='color: #4F8A10;' href='log-in.php'>Log in</a> now.</p>";
+                } else if ($_GET["error"] == "stmtfailed") {
+                    echo "<p class='error-message'>Something went wrong, try again!</p>";
+                } else if ($_GET["error"] == "none") {
+                    echo "<p class='success-message'>You have signed up!</p>";
                 }
             }
             ?>

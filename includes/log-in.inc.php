@@ -5,7 +5,8 @@ if (isset($_POST["submit"])) {
     $password = $_POST["password"];
 
     require_once 'db-connection.inc.php';
-    require_once 'functions.inc.php';
+    require_once "error-handling-functions.inc.php";
+    require_once "user-functions.inc.php";
 
     if (logInEmptyInput($username, $password) !== false) {
         header("location: ../login.php?error=emptyinput");
