@@ -17,12 +17,16 @@ session_start();
     <main>
         <section>
             <h1>TRACKIT</h1>
-            <p>Tracking Real-time Accounts,<br> Costs, and Keeping It Tidy</p>
+            <h2>Tracking Real-time Accounts, Costs, and Keeping It Tidy</h2>
             <?php if (isset($_SESSION['users_id'])): ?>
-                <a href="events-overview.php">Go to Events Overview</a>
+                <div class="button-container">
+                    <a class="button" href="events-overview.php">Go to Events Overview</a>
+                </div>
             <?php else: ?>
-                <a href="log-in.php">Log In</a>
-                <a href="sign-up.php">Sign Up</a>
+                <div class="button-container">
+                    <a href="log-in.php" class="button">Log In</a>
+                    <a href="sign-up.php" class="secondary-outline-button">Sign Up</a>
+                </div>
             <?php endif; ?>
         </section>
     </main>
