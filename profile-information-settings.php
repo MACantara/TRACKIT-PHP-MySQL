@@ -27,8 +27,8 @@
                 <input type="text" name="profileTitle" id="profileTitle" value='<?php echo $profileData['profiles_introduction_title']; ?>'><br>
                 <label for="profileText">Text</label>
                 <textarea type="text" name="profileText" rows="5" cols="20"  id="profileText"><?php echo $profileData['profiles_introduction_text']; ?></textarea><br>
-                <button type="submit" name="profile-settings">Save</button>
-                <a href="profile-information.php"><button type="button">Back</button></a>
+                <button class="button" type="submit" name="profile-settings">Save</button>
+                <a href="profile-information.php"><button class="button" type="button">Back</button></a>
             </form>
         </section>
     </main>
