@@ -43,8 +43,16 @@ function getUserEvents($conn, $userId) {
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
-function getCategories($conn) {
-    $sql = "SELECT transaction_category FROM transaction_history GROUP BY transaction_category";
-    $result = mysqli_query($conn, $sql);
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+function getCategories($conn, $eventId) {
+    $sql = "SELECT transaction_category FROM transaction_history WHERE events_id = ? GROUP BY transaction_category;"; // adjust the table and column names as needed
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("Location: ../index.php?error=sqlerror");
+        exit();
+    } else {
+        mysqli_stmt_bind_param($stmt, "i", $eventId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
 }
