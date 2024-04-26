@@ -8,6 +8,68 @@ $userId = $_SESSION["users_id"];
 
 $row = getEvent($conn, $eventId);
 $transactions = getTransactions($conn, $eventId);
+$expenses = getEventExpenses($conn, $eventId);
+$incomes = getEventIncomes($conn, $eventId);
+$totalExpenses = getTotalEventExpenses($conn, $eventId);
+$totalIncome = getTotalEventIncome($conn, $eventId);
+$remainingBudget = getEventRemainingBudget($conn, $eventId);
+
+$colors = [
+    "#FF6384",
+    "#36A2EB",
+    "#FFCE56",
+    "#4BC0C0",
+    "#9966FF",
+    "#FF9F40",
+    "#FFCD56",
+    "#4BFFC0",
+    "#9966AA",
+    "#FF9F80",
+    "#FF5656",
+    "#4B5060",
+    "#99FFAA",
+    "#FF1F40",
+    "#FF5656",
+    "#4BC080",
+    "#99FF00",
+    "#FF1F80",
+    "#FFAA56",
+    "#4BC0A0",
+    "#9900FF"
+];
+
+// Group transactions by category and calculate total amount    
+function groupTransactionsByCategory($transactions)
+{
+    $groupedTransactions = [];
+    if (is_array($transactions)) {
+        foreach ($transactions as $transaction) {
+            if (!isset($groupedTransactions[$transaction['transaction_category']])) {
+                $groupedTransactions[$transaction['transaction_category']] = 0;
+            }
+            $groupedTransactions[$transaction['transaction_category']] += $transaction['transaction_total'];
+        }
+    }
+    return $groupedTransactions;
+}
+
+$groupedExpenseTransactions = groupTransactionsByCategory($expenses);
+$groupedIncomeTransactions = groupTransactionsByCategory($incomes);
+
+// Sort by total amount in descending order and take top 15
+arsort($groupedExpenseTransactions);
+arsort($groupedIncomeTransactions);
+
+$topExpenseCategories = array_slice($groupedExpenseTransactions, 0, 15, true);
+$topIncomeCategories = array_slice($groupedIncomeTransactions, 0, 15, true);
+
+// Add "Other" category
+if (count($groupedExpenseTransactions) > 15) {
+    $topExpenseCategories['Other'] = array_sum(array_slice($groupedExpenseTransactions, 20));
+}
+if (count($groupedIncomeTransactions) > 15) {
+    $topIncomeCategories['Other'] = array_sum(array_slice($groupedIncomeTransactions, 15));
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,25 +90,26 @@ $transactions = getTransactions($conn, $eventId);
         <div class="event-dashboard-buttons-container">
             <a class="secondary-outline-button" href="events-overview.php">Back to Events Overview</a>
             <a class="button" href="add-transaction.php?events_id=<?php echo $eventId; ?>">Add Transaction</a>
+            <a class="button" href="invite-user.php?events_id=<?php echo $eventId; ?>">Invite User</a>
             <form action="includes/report-generation.inc.php?events_id=<?php echo $eventId; ?>" method="post">
                 <input type="hidden" name="event_id" value="<?php echo $eventId; ?>">
                 <button class="button" type="submit" name="generate-report">Generate Report</button>
             </form>
         </div>
-        <section>
-            <h2><?php echo $row['events_name']; ?></h2>
-            <p>Budget: <?php echo $row['events_budget']; ?></p>
-        </section>
+        <h1><?php echo $row['events_name']; ?></h1>
         <section class="chart-container">
             <section class="one-column-grid-container">
+                <h2>Expenses</h2>
                 <canvas id="pieChart1"></canvas>
-                <p>Total Expenses: PHP <?php echo number_format(getEventExpenses($conn, $eventId), 2); ?></p>
+                <p>Total Expenses: PHP <?php echo number_format(getTotalEventExpenses($conn, $eventId), 2); ?></p>
             </section>
             <section class="one-column-grid-container">
+                <h2>Incomes</h2>
                 <canvas id="pieChart2"></canvas>
-                <p>Total income: PHP <?php echo number_format(getEventIncome($conn, $eventId), 2); ?></p>
+                <p>Total income: PHP <?php echo number_format(getTotalEventIncome($conn, $eventId), 2); ?></p>
             </section>
             <section class="one-column-grid-container">
+                <h2>Remaining Budget</h2>
                 <canvas id="barChart"></canvas>
                 <p>Remaining budget: PHP <?php echo number_format(getEventRemainingBudget($conn, $eventId), 2); ?></p>
             </section>
@@ -80,6 +143,66 @@ $transactions = getTransactions($conn, $eventId);
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
+    <script>
+        // Pie chart - Expenses
+        const pieChartCtx1 = document.getElementById("pieChart1").getContext("2d");
+        new Chart(pieChartCtx1, {
+            type: "pie",
+            data: {
+                labels: <?php echo json_encode(array_keys($topExpenseCategories)); ?>,
+                datasets: [
+                    {
+                        data: <?php echo json_encode(array_values($topExpenseCategories)); ?>,
+                        backgroundColor: <?php echo json_encode($colors); ?>,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+            },
+        });
+        // Pie chart - Incomes
+        const pieChartCtx2 = document.getElementById("pieChart2").getContext("2d");
+        new Chart(pieChartCtx2, {
+            type: "pie",
+            data: {
+                labels: <?php echo json_encode(array_keys($topExpenseCategories)); ?>,
+                datasets: [
+                    {
+                        data: <?php echo json_encode(array_values($topExpenseCategories)); ?>,
+                        backgroundColor: <?php echo json_encode($colors); ?>,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+            },
+        });
+        // Bar chart - Remaining Budget
+        const barChartCtx = document.getElementById("barChart").getContext("2d");
+        new Chart(barChartCtx, {
+            type: "bar",
+            data: {
+                labels: ["Remaining Budget"],
+                datasets: [
+                    {
+                        label: "Remaining Budget",
+                        data: [<?php echo $remainingBudget; ?>],
+                        backgroundColor: [<?php echo $remainingBudget < 0 ? '"rgba(255, 0, 0, 0.2)"' : '"rgba(75, 192, 192, 0.2)"'; ?>],
+                        borderColor: [<?php echo $remainingBudget < 0 ? '"rgba(255, 0, 0, 1)"' : '"rgba(75, 192, 192, 1)"'; ?>],
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    </script>
     <script src="static/js/event-dashboard.js"></script>
 </body>
 
