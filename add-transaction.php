@@ -47,7 +47,7 @@ date_default_timezone_set('Asia/Manila');
                     <?php endforeach; ?>
                     <option value="other">Other...</option>
                 </select>
-                <input type="text" id="new_transaction_category" name="new_transaction_category"
+                <input class="margin-top-16" type="text" id="new_transaction_category" name="new_transaction_category"
                     placeholder="Enter new category" style="display: none;">
                 <label for="transaction_type">Type:</label>
                 <select id="transaction_type" name="transaction_type">
