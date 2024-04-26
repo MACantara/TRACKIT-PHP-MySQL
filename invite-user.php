@@ -31,6 +31,11 @@ $row = getEvent($conn, $eventId);
                 </div>
             </form>
             <?php
+            if (isset($_GET['error'])) {
+                if ($_GET['error'] == 'emailnotfound') {
+                    echo '<p class="error-message">Email not found!</p>';
+                }
+            }
             if (isset($_GET["reset"])) {
                 if ($_GET["reset"] == "success") {
                     echo "<p class='success-message'>Invite sent!</p>";
