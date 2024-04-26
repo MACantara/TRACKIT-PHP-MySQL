@@ -12,46 +12,26 @@ $expenses = getEventExpenses($conn, $eventId);
 $incomes = getEventIncomes($conn, $eventId);
 $totalExpenses = getTotalEventExpenses($conn, $eventId);
 $totalIncome = getTotalEventIncome($conn, $eventId);
-$remainingBudget = getEventRemainingBudget($conn, $eventId);
+$remainingBudget = empty($transactions) ? $row['events_budget'] : getEventRemainingBudget($conn, $eventId);
 
 $colors = [
-    "#FF6384",
-    "#36A2EB",
-    "#FFCE56",
-    "#4BC0C0",
-    "#9966FF",
-    "#FF9F40",
-    "#FFCD56",
-    "#4BFFC0",
-    "#9966AA",
-    "#FF9F80",
-    "#FF5656",
-    "#4B5060",
-    "#99FFAA",
-    "#FF1F40",
-    "#FF5656",
-    "#4BC080",
-    "#99FF00",
-    "#FF1F80",
-    "#FFAA56",
-    "#4BC0A0",
-    "#9900FF"
+    '#B71C1C', // Red
+    '#880E4F', // Pink
+    '#4A148C', // Purple
+    '#311B92', // Deep Purple
+    '#1A237E', // Indigo
+    '#0D47A1', // Blue
+    '#01579B', // Light Blue
+    '#006064', // Cyan
+    '#004D40', // Teal
+    '#1B5E20', // Green
+    '#33691E', // Light Green
+    '#827717', // Lime
+    '#F57F17', // Yellow
+    '#FF6F00', // Amber
+    '#E65100', // Orange
+    '#BF360C'  // Deep Orange
 ];
-
-// Group transactions by category and calculate total amount    
-function groupTransactionsByCategory($transactions)
-{
-    $groupedTransactions = [];
-    if (is_array($transactions)) {
-        foreach ($transactions as $transaction) {
-            if (!isset($groupedTransactions[$transaction['transaction_category']])) {
-                $groupedTransactions[$transaction['transaction_category']] = 0;
-            }
-            $groupedTransactions[$transaction['transaction_category']] += $transaction['transaction_total'];
-        }
-    }
-    return $groupedTransactions;
-}
 
 $groupedExpenseTransactions = groupTransactionsByCategory($expenses);
 $groupedIncomeTransactions = groupTransactionsByCategory($incomes);
@@ -64,12 +44,8 @@ $topExpenseCategories = array_slice($groupedExpenseTransactions, 0, 15, true);
 $topIncomeCategories = array_slice($groupedIncomeTransactions, 0, 15, true);
 
 // Add "Other" category
-if (count($groupedExpenseTransactions) > 15) {
-    $topExpenseCategories['Other'] = array_sum(array_slice($groupedExpenseTransactions, 20));
-}
-if (count($groupedIncomeTransactions) > 15) {
-    $topIncomeCategories['Other'] = array_sum(array_slice($groupedIncomeTransactions, 15));
-}
+$topExpenseCategories = groupOtherCategories($groupedExpenseTransactions, 15);
+$topIncomeCategories = groupOtherCategories($groupedIncomeTransactions, 15);
 ?>
 
 <!DOCTYPE html>
@@ -96,50 +72,54 @@ if (count($groupedIncomeTransactions) > 15) {
                 <button class="button" type="submit" name="generate-report">Generate Report</button>
             </form>
         </div>
-        <h1><?php echo $row['events_name']; ?></h1>
+        <h1 class="margin-top-16"><?php echo $row['events_name']; ?></h1>
         <section class="chart-container">
             <section class="one-column-grid-container">
                 <h2>Expenses</h2>
                 <canvas id="pieChart1"></canvas>
-                <p>Total Expenses: PHP <?php echo number_format(getTotalEventExpenses($conn, $eventId), 2); ?></p>
+                <p>Total Expenses: &#8369; <?php echo number_format(getTotalEventExpenses($conn, $eventId), 2); ?></p>
             </section>
             <section class="one-column-grid-container">
                 <h2>Incomes</h2>
                 <canvas id="pieChart2"></canvas>
-                <p>Total income: PHP <?php echo number_format(getTotalEventIncome($conn, $eventId), 2); ?></p>
+                <p>Total income: &#8369; <?php echo number_format(getTotalEventIncome($conn, $eventId), 2); ?></p>
             </section>
             <section class="one-column-grid-container">
                 <h2>Remaining Budget</h2>
                 <canvas id="barChart"></canvas>
-                <p>Remaining budget: PHP <?php echo number_format(getEventRemainingBudget($conn, $eventId), 2); ?></p>
+                <p>Remaining budget: &#8369; <?php echo number_format($remainingBudget, 2); ?></p>
             </section>
         </section>
         <section class="one-column-grid-container">
             <h2>Transaction History</h2>
-            <table>
-                <tr>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th>Category</th>
-                    <th>Type</th>
-                    <th style="max-width: 300px;">Description</th>
-                </tr>
-                <?php foreach ($transactions as $transaction): ?>
+            <?php if (empty($transactions)): ?>
+                <p>There are No Transaction History     Yet</p>
+            <?php else: ?>
+                <table>
                     <tr>
-                        <td><?php echo $transaction['transaction_date']; ?></td>
-                        <td><?php echo $transaction['transaction_name']; ?></td>
-                        <td><?php echo number_format($transaction['transaction_amount']); ?></td>
-                        <td><?php echo 'PHP ' . number_format($transaction['transaction_price'], 2); ?></td>
-                        <td><?php echo 'PHP ' . number_format($transaction['transaction_total'], 2); ?></td>
-                        <td><?php echo $transaction['transaction_category']; ?></td>
-                        <td><?php echo $transaction['transaction_type']; ?></td>
-                        <td style="max-width: 300px;"><?php echo $transaction['transaction_description']; ?></td>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th style="max-width: 300px;">Description</th>
                     </tr>
-                <?php endforeach; ?>
-            </table>
+                    <?php foreach ($transactions as $transaction): ?>
+                        <tr>
+                            <td><?php echo $transaction['transaction_date']; ?></td>
+                            <td><?php echo $transaction['transaction_name']; ?></td>
+                            <td><?php echo number_format($transaction['transaction_amount']); ?></td>
+                            <td><?php echo '&#8369; ' . number_format($transaction['transaction_price'], 2); ?></td>
+                            <td><?php echo '&#8369; ' . number_format($transaction['transaction_total'], 2); ?></td>
+                            <td><?php echo $transaction['transaction_category']; ?></td>
+                            <td><?php echo $transaction['transaction_type']; ?></td>
+                            <td style="max-width: 300px;"><?php echo $transaction['transaction_description']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            <?php endif; ?>
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
@@ -166,10 +146,10 @@ if (count($groupedIncomeTransactions) > 15) {
         new Chart(pieChartCtx2, {
             type: "pie",
             data: {
-                labels: <?php echo json_encode(array_keys($topExpenseCategories)); ?>,
+                labels: <?php echo json_encode(array_keys($topIncomeCategories)); ?>,
                 datasets: [
                     {
-                        data: <?php echo json_encode(array_values($topExpenseCategories)); ?>,
+                        data: <?php echo json_encode(array_values($topIncomeCategories)); ?>,
                         backgroundColor: <?php echo json_encode($colors); ?>,
                     },
                 ],
@@ -183,7 +163,7 @@ if (count($groupedIncomeTransactions) > 15) {
         new Chart(barChartCtx, {
             type: "bar",
             data: {
-                labels: ["Remaining Budget"],
+                labels: ["Remaining Budget  "],
                 datasets: [
                     {
                         label: "Remaining Budget",
