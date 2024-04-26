@@ -32,7 +32,7 @@ $events = getUserEvents($conn, $userId);
                     <div>
                         <h2><a href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><?php echo $event['events_name']; ?></a></h2>
                         <p><?php echo $event['events_description']; ?></p>
-                        <p class="margin-top-16">Date: <?php echo $event['events_date']; ?></p>
+                        <p class="margin-top-16">Date: <?php echo date('F j, Y', strtotime($event['events_date'])); ?> <?php echo date('h:i A', strtotime($event['events_date'])); ?></p>
                         <p>Budget: &#8369; <?php echo number_format($event['events_budget'], 2); ?></p>
                         <div class="grid-container">
                             <a class="button button-primary margin-top-16" href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>">View</a>
