@@ -32,7 +32,10 @@ $event = getEvent($conn, $events_id);
                 <textarea id="event_description" name="event_description" required><?php echo $event['events_description']; ?></textarea>
 
                 <label for="event_date">Event Date:</label>
-                <input type="date" id="event_date" name="event_date" value="<?php echo $event['events_date']; ?>" required>
+                <input type="date" id="event_date" name="event_date" value="<?php echo date('Y-m-d', strtotime($event['events_date'])); ?>" required>
+
+                <label for="event_time">Event Time:</label>
+                <input type="time" id="event_time" name="event_time" value="<?php echo date('H:i', strtotime($event['events_date'])); ?>" required>
 
                 <label for="event_budget">Event Budget:</label>
                 <input type="number" id="event_budget" name="event_budget" value="<?php echo $event['events_budget']; ?>" required>
