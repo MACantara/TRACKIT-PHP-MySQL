@@ -25,6 +25,16 @@ function getEvent($conn, $eventId) {
     return mysqli_fetch_assoc($result);
 }
 
+function getEventName($conn, $eventId) {
+    $sql = "SELECT events_name FROM events WHERE events_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    return $row['events_name'];
+}
+
 function getTransactions($conn, $eventId) {
     $sql = "SELECT * FROM transaction_history WHERE events_id = ? ORDER BY transaction_date DESC";
     $stmt = mysqli_prepare($conn, $sql);
