@@ -23,7 +23,7 @@ if (isset($user)) {
 <body>
     <?php include 'templates/header.tpl.php'; ?>
     <main>
-        <section>
+        <section class="section-container">
             <h1>Accept Invitation</h1>
             <p><?php echo $message; ?></p>
         </section>
