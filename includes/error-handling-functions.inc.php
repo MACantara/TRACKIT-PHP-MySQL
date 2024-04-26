@@ -137,3 +137,76 @@ function userExists($conn, $username, $email) {
 
     mysqli_stmt_close($stmt);
 }
+
+function eventEmptyInput($eventName, $eventDescription, $eventDate, $eventTime, $eventBudget) {
+    $result;
+    if (empty($eventName) || empty($eventDescription) || empty($eventDate) || empty($eventTime) || empty($eventBudget)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+function eventNameExists($conn, $eventName) {
+    $sql = "SELECT * FROM events WHERE events_name = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../create-event.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $eventName);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    } else {
+        $result = false;
+        return $result;
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
+function tooLongEventName($eventName) {
+    $result;
+    if (strlen($eventName) > 255) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+function invalidEventDate($eventDate) {
+    $result;
+    if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $eventDate)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+function invalidEventTime($eventTime) {
+    $result;
+    if (!preg_match("/^[0-9]{2}:[0-9]{2}$/", $eventTime)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+function invalidEventBudget($eventBudget) {
+    $result;
+    if (!preg_match("/^[0-9]*\.?[0-9]+$/", $eventBudget)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
