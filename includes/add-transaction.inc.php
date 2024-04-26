@@ -15,6 +15,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-transaction-submit
     $eventsId = sanitizeInput($_POST['events_id']);
     $usersId = sanitizeInput($_POST['users_id']);
 
+    // Validation
+    if (empty($transactionName) || empty($transactionDescription) || empty($transactionDate) || empty($transactionTime) || empty($transactionAmount) || empty($transactionPrice) || empty($transactionCategory) || empty($transactionType) || empty($eventsId) || empty($usersId)) {
+        // Handle error here, one or more fields are empty.
+        header("Location: ../add-transaction.php?error=emptyfields");
+        exit();
+    }
+
+    // Check if the transaction's name is too long
+    if (strlen($transactionName) > 255) {
+        // Handle error here, the transaction's name is too long.
+        header("Location: ../add-transaction.php?error=nametoolong");
+        exit();
+    }
+
+    if (!is_numeric($transactionAmount)) {
+        header("Location: ../add-transaction.php?error=invalidamount");
+        exit();
+    }
+
+    if (!is_numeric($transactionPrice)) {
+        header("Location: ../add-transaction.php?error=invalidprice");
+        exit();
+    }
+
+    if ($transactionType !== 'income' && $transactionType !== 'expense') {
+        header("Location: ../add-transaction.php?error=invalidtype");
+        exit();
+    }
+
     $sql = "INSERT INTO transaction_history (transaction_name, transaction_description, transaction_date, transaction_amount, transaction_price, transaction_category, transaction_type, events_id, users_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
 
@@ -46,3 +75,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-transaction-submit
     header("Location: ../event-dashboard.php?events_id=" . $_POST['events_id']);
     exit();
 }
+?>
