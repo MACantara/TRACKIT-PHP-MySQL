@@ -15,17 +15,17 @@ session_start();
 <body>
     <?php include 'templates/header.tpl.php'; ?>
     <main>
-        <section>
+        <section class="section-container">
             <h1>TRACKIT</h1>
-            <h2>Tracking Real-time Accounts, Costs, and Keeping It Tidy</h2>
+            <h2 class="margin-top-16">Tracking Real-time Accounts, Costs, and Keeping It Tidy</h2>
             <?php if (isset($_SESSION['users_id'])): ?>
                 <div class="button-container">
-                    <a class="button" href="events-overview.php">Go to Events Overview</a>
+                    <a class="button margin-top-16" href="events-overview.php">Go to Events Overview</a>
                 </div>
             <?php else: ?>
                 <div class="login-signup-buttons">
-                    <a href="log-in.php" class="button">Log In</a>
-                    <a href="sign-up.php" class="secondary-outline-button">Sign Up</a>
+                    <a href="log-in.php" class="button margin-top-16">Log In</a>
+                    <a href="sign-up.php" class="secondary-outline-button margin-top-16">Sign Up</a>
                 </div>
             <?php endif; ?>
         </section>
