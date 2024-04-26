@@ -93,3 +93,21 @@ function getEventRemainingBudget($conn, $eventId) {
     $remainingBudget = $income - $expenses;
     return $remainingBudget;
 }
+
+function getEventManagers($conn, $eventId) {
+    $sql = "SELECT users.users_last_name, users.users_first_name FROM event_users 
+            INNER JOIN users ON event_users.users_id = users.users_id 
+            WHERE event_users.events_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        return false;
+    }
+    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $managers = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $managers[] = $row['users_last_name'] . ', ' . $row['users_first_name'];
+    }
+    return $managers;
+}
