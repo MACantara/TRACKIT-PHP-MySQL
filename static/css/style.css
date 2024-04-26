@@ -67,7 +67,6 @@ h1 {
     color: #333;
     text-align: center;
     font-size: 2.5em;
-    margin-top: 16px;
 }
 
 h2 {
@@ -82,23 +81,29 @@ h2 a {
     text-decoration: none;
 }
 
+/* Buttons */
+
 .button,
 .secondary-outline-button {
     display: inline-block;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
     text-align: center;
-    font-size: 16px;
+    text-decoration: none;
+    vertical-align: middle;
     cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;  
 }
 
 .button {
     color: #fff;
     background-color: #007bff;
     border: 1px solid #007bff;
-    margin-top: 12px;
 }
 
 .button:hover {
@@ -106,16 +111,59 @@ h2 a {
     cursor: pointer;
 }
 
+.button-outline-danger {
+    color: #dc3545;
+    background-color: transparent;
+    border-color: #dc3545;
+}
+
+.button-outline-danger:hover {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.button-outline-danger:focus, .button-outline-danger:active {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+
 .secondary-outline-button {
     color: #007bff;
     background-color: transparent;
     border: 1px solid #007bff;
-    margin-top: 12px;
 }
 
 .secondary-outline-button:hover {
     color: #fff;
     background-color: #007bff;
+}
+
+.button-tertiary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.button-tertiary:hover {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.button-tertiary:focus, .button-tertiary:active {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
+}
+
+/* Margins */
+
+.margin-top-16 {
+    margin-top: 16px;
 }
 
 p.logged-out {
@@ -128,6 +176,11 @@ section:not(.chart-container) {
     padding: 20px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     margin-top: 16px;
+}
+
+.section-container {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .button-container {
@@ -189,8 +242,10 @@ label {
 
 .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Event Dashboard */
@@ -199,12 +254,16 @@ label {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .chart-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .chart-container canvas {
@@ -217,10 +276,19 @@ label {
     grid-template-columns: 1fr;
     justify-items: center;
     align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .one-column-grid-container > p {
     margin-top: 16px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    align-items: center;
 }
 
 .grid-item {
@@ -286,6 +354,14 @@ tr:hover {
 
 .log-in-text {
     color: #4f8a10;
+}
+
+/* Profile Information Settings */
+
+.two-grid-column-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
 }
 
 /* Footer */
