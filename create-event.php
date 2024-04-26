@@ -19,7 +19,7 @@ handleCreateEvent($conn);
 <body>
     <?php include 'templates/header.tpl.php'; ?>
     <main>
-        <section>
+        <section class="section-container">
             <h1>Create a New Event</h1>
             <form method="post" action="create-event.php">
                 <label for="event_name">Event Name:</label>
@@ -34,7 +34,10 @@ handleCreateEvent($conn);
                 <label for="event_budget">Event Budget:</label>
                 <input type="number" id="event_budget" name="event_budget" required>
 
-                <button class="button" type="submit">Create Event</button>
+                <div class="two-grid-column-container">
+                    <a class="button margin-top-16" href="events-overview.php">Back</a>
+                    <button class="button margin-top-16" type="submit" name="create-event">Create Event</button>
+                </div>
             </form>
         </section>
     </main>
