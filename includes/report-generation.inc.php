@@ -2,7 +2,7 @@
 session_start();
 require_once '../vendor/autoload.php';
 require_once 'db-connection.inc.php';
-require_once "../includes/event-functions.inc.php";
+require_once "event-functions.inc.php";
 
 $eventId = $_GET['events_id'];
 $usersUsername = $_SESSION["users_username"];
