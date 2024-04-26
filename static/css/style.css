@@ -58,7 +58,6 @@ nav ul li a:hover {
 
 main {
     width: 100%;
-    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     flex: 1 0 auto;
@@ -75,7 +74,7 @@ h2 {
     color: #333;
     text-align: center;
     font-weight: lighter;
-    margin: 12px 0;
+    margin-bottom: 12px;
 }
 
 h2 a {
@@ -121,12 +120,12 @@ p.logged-out {
     color: red;
 }
 
-section {
+section:not(.chart-container) {
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-    margin: 16px 0;
+    margin-top: 16px;
 }
 
 .button-container {
@@ -173,12 +172,50 @@ label {
     margin-top: 8px;
 }
 
+.account-information-text {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.login-signup-buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 16px;
+}
+
+/* Events Overview */
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+}
+
 /* Event Dashboard */
 
-.three-column-grid-container {
+.event-dashboard-buttons-container {
     display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: center;
+    justify-items: center;
+}
+
+.chart-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.chart-container section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    max-height: 400px;
 }
 
 .one-column-grid-container {
