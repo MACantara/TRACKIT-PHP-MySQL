@@ -208,20 +208,20 @@ label {
     gap: 20px;
 }
 
-.chart-container section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .chart-container canvas {
     width: 100% !important;
-    max-height: 400px;
+    height: 400px; /* Set the height of the canvas to 100% */
 }
 
 .one-column-grid-container {
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
+}
+
+.one-column-grid-container > p {
+    margin-top: 16px;
 }
 
 .grid-item {
