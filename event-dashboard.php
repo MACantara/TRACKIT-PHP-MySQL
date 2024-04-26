@@ -108,7 +108,12 @@ $topIncomeCategories = groupOtherCategories($groupedIncomeTransactions, 15);
                     </tr>
                     <?php foreach ($transactions as $transaction): ?>
                         <tr>
-                            <td><?php echo $transaction['transaction_date']; ?></td>
+                            <td>
+                                <?php 
+                                    $date = new DateTime($transaction['transaction_date']);
+                                    echo $date->format('Y-m-d g:i A'); 
+                                ?>
+                            </td>
                             <td><?php echo $transaction['transaction_name']; ?></td>
                             <td><?php echo number_format($transaction['transaction_amount']); ?></td>
                             <td><?php echo '&#8369; ' . number_format($transaction['transaction_price'], 2); ?></td>
