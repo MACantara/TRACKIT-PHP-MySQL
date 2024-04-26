@@ -86,17 +86,17 @@ function getTotalEventIncome($conn, $eventId) {
     $row = mysqli_fetch_assoc($result);
     return $row['total_income'];
 }
-
+    
 function getEventRemainingBudget($conn, $eventId) {
+    $event = getEvent($conn, $eventId);
     $expenses = getTotalEventExpenses($conn, $eventId);
-    $income = getTotalEventIncome($conn, $eventId);
-    $remainingBudget = $income - $expenses;
+    $remainingBudget = $event['events_budget'] - $expenses;
     return $remainingBudget;
 }
 
 function getEventManagers($conn, $eventId) {
-    $sql = "SELECT users.users_last_name, users.users_first_name FROM event_users 
-            INNER JOIN users ON event_users.users_id = users.users_id 
+    $sql = "SELECT users.users_last_name, users.users_first_name FROM event_users
+            INNER JOIN users ON event_users.users_id = users.users_id
             WHERE event_users.events_id = ?";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -114,9 +114,9 @@ function getEventManagers($conn, $eventId) {
 
 function getEventExpenses($conn, $eventId)
 {
-    $sql = "SELECT transaction_category, SUM(transaction_total) as transaction_total 
-            FROM transaction_history 
-            WHERE events_id = ? AND transaction_type = 'Expense' 
+    $sql = "SELECT transaction_category, SUM(transaction_total) as transaction_total
+            FROM transaction_history
+            WHERE events_id = ? AND transaction_type = 'Expense'
             GROUP BY transaction_category";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -136,9 +136,9 @@ function getEventExpenses($conn, $eventId)
 }
 
 function getEventIncomes($conn, $eventId) {
-    $sql = "SELECT transaction_category, SUM(transaction_total) as transaction_total 
-            FROM transaction_history 
-            WHERE events_id = ? AND transaction_type = 'Income' 
+    $sql = "SELECT transaction_category, SUM(transaction_total) as transaction_total
+            FROM transaction_history
+            WHERE events_id = ? AND transaction_type = 'Income'
             GROUP BY transaction_category";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -150,9 +150,50 @@ function getEventIncomes($conn, $eventId) {
     mysqli_stmt_execute($stmt);
 
     $resultData = mysqli_stmt_get_result($stmt);
-    $income = mysqli_fetch_all($resultData, MYSQLI_ASSOC);  
+    $income = mysqli_fetch_all($resultData, MYSQLI_ASSOC);
 
     mysqli_stmt_close($stmt);
 
     return $income;
+}
+
+function deleteEvent($conn, $eventId) {
+    $sql = "DELETE FROM events WHERE events_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        return false;
+    }
+    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    mysqli_stmt_execute($stmt);
+    return true;
+}
+
+function updateEvent($conn, $eventId, $eventName, $eventDescription, $eventDate, $eventBudget) {
+    $sql = "UPDATE events SET events_name = ?, events_description = ?, events_date = ?, events_budget = ? WHERE events_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ssssi", $eventName, $eventDescription, $eventDate, $eventBudget, $eventId);
+    mysqli_stmt_execute($stmt);
+}
+
+// Group transactions by category and calculate total amount    
+function groupTransactionsByCategory($transactions)
+{
+    $groupedTransactions = [];
+    if (is_array($transactions)) {
+        foreach ($transactions as $transaction) {
+            if (!isset($groupedTransactions[$transaction['transaction_category']])) {
+                $groupedTransactions[$transaction['transaction_category']] = 0;
+            }
+            $groupedTransactions[$transaction['transaction_category']] += $transaction['transaction_total'];
+        }
+    }
+    return $groupedTransactions;
+}
+
+function groupOtherCategories($groupedTransactions, $limit) {
+    $topCategories = array_slice($groupedTransactions, 0, $limit, true);
+    if (count($groupedTransactions) > $limit) {
+        $topCategories['Other'] = array_sum(array_slice($groupedTransactions, $limit));
+    }
+    return $topCategories;
 }
