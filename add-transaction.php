@@ -22,8 +22,8 @@ $categories = getCategories($conn, $eventId);
 <body>
     <?php include 'templates/header.tpl.php'; ?>
     <main>
-        <section>
-            <h2>Add Transaction</h2>
+        <section class="section-container">
+            <h1>Add Transaction</h1>
             <form action="includes/add-transaction.inc.php" method="post">
                 <label for="transaction_name">Transaction Name:</label><br>
                 <input type="text" id="transaction_name" name="transaction_name"><br>
@@ -53,7 +53,10 @@ $categories = getCategories($conn, $eventId);
                 </select><br>
                 <input type="hidden" id="events_id" name="events_id" value="<?php echo $eventId; ?>">
                 <input type="hidden" id="users_id" name="users_id" value="<?php echo $userId; ?>">
-                <button type="submit" class="button">Add Transaction</button>
+                <div class="two-grid-column-container">
+                    <a class="button" href="event-dashboard.php?events_id=<?php echo $eventId; ?>">Back</a>
+                    <input class="button" type="submit" value="Add Transaction">
+                </div>
             </form>
         </section>
     </main>
