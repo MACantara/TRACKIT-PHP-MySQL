@@ -31,6 +31,9 @@ handleCreateEvent($conn);
                 <label for="event_date">Event Date:</label>
                 <input type="date" id="event_date" name="event_date" required>
 
+                <label for="event_time">Event Time:</label>
+                <input type="time" id="event_time" name="event_time" required>
+
                 <label for="event_budget">Event Budget:</label>
                 <input type="number" id="event_budget" name="event_budget" required>
 
