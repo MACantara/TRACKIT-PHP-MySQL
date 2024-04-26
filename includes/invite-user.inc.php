@@ -8,11 +8,18 @@ require_once "../PHPMailer/src/Exception.php";
 require_once "../PHPMailer/src/PHPMailer.php";
 require_once "../PHPMailer/src/SMTP.php";
 require_once "../config.php";
+require_once "error-handling-functions.inc.php";
+$eventId = $_POST['events_id'];
 
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get email from form
     $email = $_POST['email'];
+
+    if (!emailNotFound($userEmail, $conn)) {
+        header("Location: ../invite-user.php?events_id=" . $eventId . "&error=emailnotfound");
+        exit();
+    }
 
     // Generate unique token
     $token = bin2hex(random_bytes(32));
