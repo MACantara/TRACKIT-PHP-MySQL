@@ -18,7 +18,7 @@
 <body>
     <?php include 'templates/header.tpl.php'; ?>
     <main>
-        <section>
+        <section class="section-container">
             <h1>Profile Settings</h1>
             <form action="includes/profile-information.inc.php" method="post">
                 <label for="profileAbout">About</label>
@@ -27,8 +27,10 @@
                 <input type="text" name="profileTitle" id="profileTitle" value='<?php echo $profileData['profiles_introduction_title']; ?>'><br>
                 <label for="profileText">Text</label>
                 <textarea type="text" name="profileText" rows="5" cols="20"  id="profileText"><?php echo $profileData['profiles_introduction_text']; ?></textarea><br>
-                <button class="button" type="submit" name="profile-settings">Save</button>
-                <a href="profile-information.php"><button class="button" type="button">Back</button></a>
+                <div class="two-grid-column-container">
+                    <a class="button" href="profile-information.php">Back</a>
+                    <button class="button" type="submit" name="profile-settings">Save</button>
+                </div>
             </form>
         </section>
     </main>
