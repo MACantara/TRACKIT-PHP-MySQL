@@ -15,9 +15,6 @@
                     <a href="events-overview.php">Events Overview</a>
                 </li>
                 <li>
-                    <a href="#"></a>
-                </li>
-                <li>
                     <a href="profile-information.php"><?php echo $_SESSION["users_username"]; ?></a>
                 </li>
                 <li>
