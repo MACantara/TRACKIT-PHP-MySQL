@@ -66,3 +66,30 @@ function getCategories($conn, $eventId) {
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 }
+
+function getEventExpenses($conn, $eventId) {
+    $sql = "SELECT SUM(transaction_total) AS total_expenses FROM transaction_history WHERE events_id = ? AND transaction_type = 'expense'";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    return $row['total_expenses'];
+}
+
+function getEventIncome($conn, $eventId) {
+    $sql = "SELECT SUM(transaction_total) AS total_income FROM transaction_history WHERE events_id = ? AND transaction_type = 'income'";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    return $row['total_income'];
+}
+
+function getEventRemainingBudget($conn, $eventId) {
+    $expenses = getEventExpenses($conn, $eventId);
+    $income = getEventIncome($conn, $eventId);
+    $remainingBudget = $income - $expenses;
+    return $remainingBudget;
+}
