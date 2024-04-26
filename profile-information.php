@@ -18,21 +18,21 @@
 <body>
     <?php include 'templates/header.tpl.php'; ?>
     <main>
-        <section>
+        <section class="section-container">
             <h1><?php echo $_SESSION["users_username"] ?>'s Profile</h1>
             <div class="button-container">
-                <a class="button" href="profile-information-settings.php">Edit Profile</a>
+                <a class="button margin-top-16" href="profile-information-settings.php">Edit Profile</a>
             </div>
         </section>
-        <section>
+        <section class="section-container">
             <h2>About</h2>
             <p><?php echo $profileData['profiles_about']; ?></p>
         </section>
-        <section>
+        <section class="section-container">
             <h2>Title</h2>
             <p><?php echo $profileData['profiles_introduction_title']; ?></p>
         </section>
-        <section>
+        <section class="section-container">
             <h2>Text</h2>
             <p><?php echo $profileData['profiles_introduction_text']; ?></p>
         </section>
