@@ -13,7 +13,7 @@
 <body>
     <?php include 'templates/header.tpl.php'; ?>
     <main>
-        <section>
+        <section class="section-container">
             <h2>Sign Up</h2>
             <form action="includes/sign-up.inc.php" method="post">
                 <label for="firstName">First Name</label>
