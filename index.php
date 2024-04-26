@@ -23,7 +23,7 @@ session_start();
                     <a class="button" href="events-overview.php">Go to Events Overview</a>
                 </div>
             <?php else: ?>
-                <div class="button-container">
+                <div class="login-signup-buttons">
                     <a href="log-in.php" class="button">Log In</a>
                     <a href="sign-up.php" class="secondary-outline-button">Sign Up</a>
                 </div>
