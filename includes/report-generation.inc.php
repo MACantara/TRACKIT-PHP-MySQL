@@ -8,13 +8,15 @@ require_once "report-generation-functions.inc.php";
 $eventId = $_GET['events_id'];
 $usersUsername = $_SESSION["users_username"];
 $eventName = getEventName($conn, $eventId);
+$totalExpenses = getTotalEventExpenses($conn, $eventId);
+$totalIncome = getTotalEventIncome($conn, $eventId);
 
 // Fetch transactions
 $transactions = getTransactions($conn, $eventId);
 
 // Fetch expenses, income, and remaining budget
 $expenses = getEventExpenses($conn, $eventId);
-$income = getEventIncome($conn, $eventId);
+$income = getEventIncomes($conn, $eventId);
 $remainingBudget = getEventRemainingBudget($conn, $eventId);
 
 // Fetch managers
@@ -61,9 +63,9 @@ $pdf->SetFont('Helvetica', '', 12); // Reset font size to 12
 
 // Expenses, Income, and Remaining Budget
 $pdf->Bookmark('Total Expenses', 0, 0, '', 'B', array(0,64,128));
-$pdf->Cell(0, 10, 'Total Expenses: PHP ' . number_format($expenses, 2), 0, 1);
+$pdf->Cell(0, 10, 'Total Expenses: PHP ' . number_format($totalExpenses, 2), 0, 1);
 $pdf->Bookmark('Total Income', 0, 0, '', 'B', array(0,64,128));
-$pdf->Cell(0, 10, 'Total Income: PHP ' . number_format($income, 2), 0, 1);
+$pdf->Cell(0, 10, 'Total Income: PHP ' . number_format($totalIncome, 2), 0, 1);
 $pdf->Bookmark('Remaining Budget', 0, 0, '', 'B', array(0,64,128));
 $pdf->Cell(0, 10, 'Remaining Budget: PHP ' . number_format($remainingBudget, 2), 0, 1);
 
