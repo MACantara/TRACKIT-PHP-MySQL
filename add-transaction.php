@@ -61,6 +61,21 @@ date_default_timezone_set('Asia/Manila');
                     <input class="button margin-top-16" type="submit" name="add-transaction-submit" value="Add Transaction">
                 </div>
             </form>
+            <?php
+            if (isset($_GET['error'])) {
+                if ($_GET['error'] == 'emptyfields') {
+                    echo '<p class="error">Please fill in all fields.</p>';
+                } elseif ($_GET['error'] == 'nametoolong') {
+                    echo '<p class="error">The transaction name is too long.</p>';
+                } elseif ($_GET['error'] == 'invalidamount') {
+                    echo '<p class="error">The amount should be a number.</p>';
+                } elseif ($_GET['error'] == 'invalidprice') {
+                    echo '<p class="error">The price should be a number.</p>';
+                } elseif ($_GET['error'] == 'invalidtype') {
+                    echo '<p class="error">The transaction type is invalid.</p>';
+                }
+            }
+            ?>
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
