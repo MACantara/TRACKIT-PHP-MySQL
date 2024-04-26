@@ -38,14 +38,17 @@ $transactions = getTransactions($conn, $eventId);
             <p>Budget: <?php echo $row['events_budget']; ?></p>
         </section>
         <section class="chart-container">
-            <section>
+            <section class="one-column-grid-container">
                 <canvas id="pieChart1"></canvas>
+                <p>Total Expenses: PHP <?php echo number_format(getEventExpenses($conn, $eventId), 2); ?></p>
             </section>
-            <section>
+            <section class="one-column-grid-container">
                 <canvas id="pieChart2"></canvas>
+                <p>Total income: PHP <?php echo number_format(getEventIncome($conn, $eventId), 2); ?></p>
             </section>
-            <section>
+            <section class="one-column-grid-container">
                 <canvas id="barChart"></canvas>
+                <p>Remaining budget: PHP <?php echo number_format(getEventRemainingBudget($conn, $eventId), 2); ?></p>
             </section>
         </section>
         <section class="one-column-grid-container">
@@ -59,7 +62,7 @@ $transactions = getTransactions($conn, $eventId);
                     <th>Total</th>
                     <th>Category</th>
                     <th>Type</th>
-                    <th>Description</th>
+                    <th style="max-width: 300px;">Description</th>
                 </tr>
                 <?php foreach ($transactions as $transaction): ?>
                     <tr>
@@ -70,14 +73,14 @@ $transactions = getTransactions($conn, $eventId);
                         <td><?php echo 'PHP ' . number_format($transaction['transaction_total'], 2); ?></td>
                         <td><?php echo $transaction['transaction_category']; ?></td>
                         <td><?php echo $transaction['transaction_type']; ?></td>
-                        <td><?php echo $transaction['transaction_description']; ?></td>
+                        <td style="max-width: 300px;"><?php echo $transaction['transaction_description']; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
-    <script src="static/js/event-dashboard-charts.js"></script>
+    <script src="static/js/event-dashboard.js"></script>
 </body>
 
 </html>
