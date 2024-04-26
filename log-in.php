@@ -24,6 +24,7 @@
                     <a href="forgot-password.php">Forgot Password?</a>
                 </div>
                 <button class="button" type="submit" name="submit">Log In</button>
+                <p class="account-information-text">Don't have an account yet? <a href="sign-up.php">Sign Up</a></p>
             </form>
             <?php
             if (isset($_GET["error"])) {
