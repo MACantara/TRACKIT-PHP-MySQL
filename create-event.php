@@ -42,6 +42,27 @@ handleCreateEvent($conn);
                     <button class="button margin-top-16" type="submit" name="create-event">Create Event</button>
                 </div>
             </form>
+            <?php
+            if (isset($_GET["error"])) {
+                if ($_GET["error"] == "emptyinput") {
+                    echo "<p class='error-message'>Please fill in all fields!</p>";
+                } else if ($_GET["error"] == "eventnametaken") {
+                    echo "<p class='error-message'>Event name already taken!</p>";
+                } else if ($_GET["error"] == "toolongeventname") {
+                    echo "<p class='error-message'>Event name too long!</p>";
+                } else if ($_GET["error"] == "invalideventdate") {
+                    echo "<p class='error-message'>Invalid event date!</p>";
+                } else if ($_GET["error"] == "invalideventtime") {
+                    echo "<p class='error-message'>Invalid event time!</p>";
+                } else if ($_GET["error"] == "invalideventbudget") {
+                    echo "<p class='error-message'>Invalid event budget!</p>";
+                } else if ($_GET["error"] == "stmtfailed") {
+                    echo "<p class='error-message'>Something went wrong. Please try again!</p>";
+                } else if ($_GET["error"] == "none") {
+                    echo "<p class='success-message'>Event created successfully!</p>";
+                }
+            }
+            ?>
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
