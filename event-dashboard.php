@@ -7,7 +7,11 @@ $eventId = $_GET['events_id'];
 $userId = $_SESSION["users_id"];
 
 $row = getEvent($conn, $eventId);
-$transactions = getTransactions($conn, $eventId);
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$recordsPerPage = 25; // Change this to 50, 75, or 100 as needed
+$startFrom = ($page-1) * $recordsPerPage;
+
+$transactions = getTransactions($conn, $eventId, $startFrom, $recordsPerPage);
 $expenses = getEventExpenses($conn, $eventId);
 $incomes = getEventIncomes($conn, $eventId);
 $totalExpenses = getTotalEventExpenses($conn, $eventId);
@@ -46,6 +50,10 @@ $topIncomeCategories = array_slice($groupedIncomeTransactions, 0, 15, true);
 // Add "Other" category
 $topExpenseCategories = groupOtherCategories($groupedExpenseTransactions, 15);
 $topIncomeCategories = groupOtherCategories($groupedIncomeTransactions, 15);
+
+// Add pagination links at the end of the transaction history table
+$totalRecords = count(getTransactions($conn, $eventId));
+$totalPages = ceil($totalRecords / $recordsPerPage);
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +62,7 @@ $topIncomeCategories = groupOtherCategories($groupedIncomeTransactions, 15);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Information</title>
+    <title>Event Dashboard - <?php echo $row['events_name']; ?></title>
     <?php include "templates/external-links.tpl.php"; ?>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -95,6 +103,17 @@ $topIncomeCategories = groupOtherCategories($groupedIncomeTransactions, 15);
             <?php if (empty($transactions)): ?>
                 <p>There are No Transaction History     Yet</p>
             <?php else: ?>
+                <?php
+                    echo "<div class='pagination'>";
+                    if ($page > 1) {
+                        echo "<a href='event-dashboard.php?events_id=".$eventId."&page=".($page - 1)."'>←</a> ";
+                    }
+                    echo "Page ".$page." of ".$totalPages;
+                    if ($page < $totalPages) {
+                        echo " <a href='event-dashboard.php?events_id=".$eventId."&page=".($page + 1)."'>→</a>";
+                    }
+                    echo "</div>";
+                ?>
                 <table>
                     <tr>
                         <th>Date</th>
