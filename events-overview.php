@@ -24,6 +24,15 @@ $events = getUserEvents($conn, $userId);
             <h1>Events Overview</h1>
             <div class="button-container">
                 <a class="button margin-top-16" href="create-event.php">Create New Event</a>
+                <?php               
+                if (isset($_GET["create-event"])) {
+                    if ($_GET["create-event"] == "success") {
+                        echo "<p class='success-message'>Event successfully created!</p>";
+                    } else if ($_GET["create-event"] == "error") {
+                        echo "<p class='error-message'>Something went wrong. Please try again!</p>";
+                    }
+                } 
+                ?>
             </div>
         </section>
         <div class="events-grid">
