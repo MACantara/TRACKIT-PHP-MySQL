@@ -45,6 +45,15 @@ $event = getEvent($conn, $events_id);
                     <button class="button margin-top-16" type="submit" name="update-event">Update Event</button>
                 </div>
             </form>
+            <?php
+                if (isset($_GET["error"])) {
+                    if ($_GET["error"] == "stmtfailed") {
+                        echo "<p class='error-message'>Something went wrong. Please try again!</p>";
+                    } else if ($_GET["error"] == "none") {
+                        echo "<p class='success-message'>Event updated successfully!</p>";
+                    }
+                }
+            ?>
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
