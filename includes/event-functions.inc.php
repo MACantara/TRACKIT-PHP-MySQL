@@ -67,7 +67,7 @@ function getCategories($conn, $eventId) {
     }
 }
 
-function getEventExpenses($conn, $eventId) {
+function getTotalEventExpenses($conn, $eventId) {
     $sql = "SELECT SUM(transaction_total) AS total_expenses FROM transaction_history WHERE events_id = ? AND transaction_type = 'expense'";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $eventId);
@@ -77,7 +77,7 @@ function getEventExpenses($conn, $eventId) {
     return $row['total_expenses'];
 }
 
-function getEventIncome($conn, $eventId) {
+function getTotalEventIncome($conn, $eventId) {
     $sql = "SELECT SUM(transaction_total) AS total_income FROM transaction_history WHERE events_id = ? AND transaction_type = 'income'";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $eventId);
@@ -88,8 +88,8 @@ function getEventIncome($conn, $eventId) {
 }
 
 function getEventRemainingBudget($conn, $eventId) {
-    $expenses = getEventExpenses($conn, $eventId);
-    $income = getEventIncome($conn, $eventId);
+    $expenses = getTotalEventExpenses($conn, $eventId);
+    $income = getTotalEventIncome($conn, $eventId);
     $remainingBudget = $income - $expenses;
     return $remainingBudget;
 }
@@ -107,7 +107,52 @@ function getEventManagers($conn, $eventId) {
     $result = mysqli_stmt_get_result($stmt);
     $managers = array();
     while ($row = mysqli_fetch_assoc($result)) {
-        $managers[] = $row['users_last_name'] . ', ' . $row['users_first_name'];
+        $managers[] = $row['users_first_name'] . ' ' . $row['users_last_name'];
     }
     return $managers;
+}
+
+function getEventExpenses($conn, $eventId)
+{
+    $sql = "SELECT transaction_category, SUM(transaction_total) as transaction_total 
+            FROM transaction_history 
+            WHERE events_id = ? AND transaction_type = 'Expense' 
+            GROUP BY transaction_category";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../events-overview.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $expenses = mysqli_fetch_all($resultData, MYSQLI_ASSOC);
+
+    mysqli_stmt_close($stmt);
+
+    return $expenses;
+}
+
+function getEventIncomes($conn, $eventId) {
+    $sql = "SELECT transaction_category, SUM(transaction_total) as transaction_total 
+            FROM transaction_history 
+            WHERE events_id = ? AND transaction_type = 'Income' 
+            GROUP BY transaction_category";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../events-overview.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $income = mysqli_fetch_all($resultData, MYSQLI_ASSOC);  
+
+    mysqli_stmt_close($stmt);
+
+    return $income;
 }
