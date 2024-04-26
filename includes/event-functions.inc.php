@@ -2,17 +2,20 @@
 require_once 'event.inc.php';
 
 function handleCreateEvent($conn) {
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $userId = $_SESSION["users_id"];
-        $eventName = $_POST["event_name"];
-        $eventDescription = $_POST["event_description"];
-        $eventDate = $_POST["event_date"];
-        $eventBudget = $_POST["event_budget"];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['event_name'], $_POST['event_description'], $_POST['event_date'], $_POST['event_time'], $_POST['event_budget'])) {
+            $userId = $_SESSION['users_id'];
+            $eventName = $_POST['event_name'];
+            $eventDescription = $_POST['event_description'];
+            $eventDate = $_POST['event_date'];
+            $eventTime = $_POST['event_time'];
+            $eventBudget = $_POST['event_budget'];
 
-        createEvent($conn, $userId, $eventName, $eventDescription, $eventDate, $eventBudget);
-
-        header("Location: events-overview.php");
-        exit();
+            createEvent($conn, $userId, $eventName, $eventDescription, $eventDate, $eventTime, $eventBudget);
+            header("Location: events-overview.php?create=success");
+        } else {
+            header("Location: events-overview.php?create=error");
+        }
     }
 }
 
@@ -90,7 +93,8 @@ function getTotalEventIncome($conn, $eventId) {
 function getEventRemainingBudget($conn, $eventId) {
     $event = getEvent($conn, $eventId);
     $expenses = getTotalEventExpenses($conn, $eventId);
-    $remainingBudget = $event['events_budget'] - $expenses;
+    $income = getTotalEventIncome($conn, $eventId);
+    $remainingBudget = ($event['events_budget'] + $income) - $expenses;
     return $remainingBudget;
 }
 
@@ -168,10 +172,11 @@ function deleteEvent($conn, $eventId) {
     return true;
 }
 
-function updateEvent($conn, $eventId, $eventName, $eventDescription, $eventDate, $eventBudget) {
+function updateEvent($conn, $eventId, $eventName, $eventDescription, $eventDate, $eventTime, $eventBudget) {
+    $eventDateTime = $eventDate . ' ' . $eventTime . ':00';
     $sql = "UPDATE events SET events_name = ?, events_description = ?, events_date = ?, events_budget = ? WHERE events_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssi", $eventName, $eventDescription, $eventDate, $eventBudget, $eventId);
+    mysqli_stmt_bind_param($stmt, "ssssi", $eventName, $eventDescription, $eventDateTime, $eventBudget, $eventId);
     mysqli_stmt_execute($stmt);
 }
 
@@ -196,4 +201,8 @@ function groupOtherCategories($groupedTransactions, $limit) {
         $topCategories['Other'] = array_sum(array_slice($groupedTransactions, $limit));
     }
     return $topCategories;
+}
+
+function sanitizeInput($input) {
+    return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
 }
