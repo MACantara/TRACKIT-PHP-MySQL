@@ -12,9 +12,9 @@ function handleCreateEvent($conn) {
             $eventBudget = $_POST['event_budget'];
 
             createEvent($conn, $userId, $eventName, $eventDescription, $eventDate, $eventTime, $eventBudget);
-            header("Location: events-overview.php?create=success");
+            header("Location: events-overview.php?create-event=success");
         } else {
-            header("Location: events-overview.php?create=error");
+            header("Location: events-overview.php?create-event=error");
         }
     }
 }
