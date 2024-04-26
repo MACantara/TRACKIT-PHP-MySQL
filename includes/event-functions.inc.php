@@ -38,10 +38,17 @@ function getEventName($conn, $eventId) {
     return $row['events_name'];
 }
 
-function getTransactions($conn, $eventId) {
+function getTransactions($conn, $eventId, $startFrom = 0, $recordsPerPage = 0) {
     $sql = "SELECT * FROM transaction_history WHERE events_id = ? ORDER BY transaction_date DESC";
+    if ($recordsPerPage > 0) {
+        $sql .= " LIMIT ?, ?";
+    }
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    if ($recordsPerPage > 0) {
+        mysqli_stmt_bind_param($stmt, "iii", $eventId, $startFrom, $recordsPerPage);
+    } else {
+        mysqli_stmt_bind_param($stmt, "i", $eventId);
+    }
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
