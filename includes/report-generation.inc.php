@@ -1,8 +1,12 @@
 <?php
+session_start();
 require_once '../vendor/autoload.php';
 require_once 'db-connection.inc.php';
+require_once "../includes/event-functions.inc.php";
 
 $eventId = $_GET['events_id'];
+$usersUsername = $_SESSION["users_username"];
+$eventName = getEventName($conn, $eventId);
 
 // Fetch transactions
 $sql = "SELECT * FROM transaction_history WHERE events_id = ? ORDER BY transaction_date DESC";
@@ -18,8 +22,8 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 
 // Set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Your Name');
-$pdf->SetTitle('Transaction Report');
+$pdf->SetAuthor($usersUsername);
+$pdf->SetTitle($eventName .' Report');
 
 // Set default header data
 $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
