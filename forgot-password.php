@@ -15,13 +15,16 @@ session_start();
 <body>
     <?php include 'templates/header.tpl.php'; ?>
     <main>
-        <section>
+        <section class="section-container">
             <h1>Reset your password</h1>
-            <p>Enter your email address and we will send you a link to reset your password.</p>
-            <form action="includes/reset-request.inc.php" method="post">
+            <p class="margin-top-16">Enter your email address and we will send you a link to reset your password.</p>
+            <form class="margin-top-16" action="includes/reset-request.inc.php" method="post">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" placeholder="Enter your email" required><br>
-                <button class="button" type="submit" name="reset-request-submit">Reset Password</button>
+                <div class="two-grid-column-container">
+                    <a class="button" href="log-in.php">Back</a>
+                    <button class="button" type="submit" name="reset-request-submit">Send Reset Link</button>
+                </div>
             </form>
             <?php
             if (isset($_GET["reset"])) {
