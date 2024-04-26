@@ -67,6 +67,7 @@ h1 {
     color: #333;
     text-align: center;
     font-size: 2.5em;
+    margin-top: 16px;
 }
 
 h2 {
@@ -196,10 +197,8 @@ label {
 
 .event-dashboard-buttons-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    align-items: center;
-    justify-items: center;
 }
 
 .chart-container {
