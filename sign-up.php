@@ -31,6 +31,7 @@
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword" required><br>
                 <button class="button" type="submit" name="sign-up">Sign Up</button>
+                <p class="account-information-text">Already have an account? <a href="log-in.php">Log In</a></p>
             </form>
             <?php
             if (isset($_GET["error"])) {
