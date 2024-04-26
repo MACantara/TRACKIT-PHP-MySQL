@@ -15,7 +15,7 @@ session_start();
 <body>
     <?php include 'templates/header.tpl.php'; ?>
     <main>
-        <section>
+        <section class="section-container">
             <?php 
                 $selector = $_GET["selector"];
                 $validator = $_GET["validator"];
@@ -31,6 +31,8 @@ session_start();
                             <input type="hidden" name="validator" value="<?php echo $validator; ?>">
                             <label for="password">Enter a new password</label>
                             <input type="password" name="password" id="password" required>
+                            <p class="info-text">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one
+                    number, and one special character.</p>
                             <label for="confirmPassword">Confirm Password</label>
                             <input type="password" name="confirmPassword" id="confirmPassword" required>
                             <button class="button" type="submit" name="reset-password-submit">Reset Password</button>
