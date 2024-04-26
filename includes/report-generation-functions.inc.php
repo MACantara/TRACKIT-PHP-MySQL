@@ -12,7 +12,12 @@ function loadTransactionData($transactions, $transactionType) {
             $formattedPrice = formatNumber($row['transaction_price']);
             $transactionTotal = $row['transaction_amount'] * $row['transaction_price'];
             $formattedTotal = formatNumber($transactionTotal);
-            $data[] = array($row['transaction_date'], $row['transaction_name'], $formattedAmount, $formattedPrice, $formattedTotal, $row['transaction_category']);
+            
+            // Format the transaction date to 12-hour format
+            $date = new DateTime($row['transaction_date']);
+            $formattedDate = $date->format('Y-m-d g:i A');
+            
+            $data[] = array($formattedDate, $row['transaction_name'], $formattedAmount, $formattedPrice, $formattedTotal, $row['transaction_category']);
         }
     }
     return $data;
@@ -34,17 +39,20 @@ function generateTransactionHistory($pdf, $data, $header, $cellWidth, $title) {
     // Header
     foreach($header as $i => $col) {
         $width = $cellWidth;
+        if ($col == 'Date') {
+            $width *= 1.3;
+        }
         if ($col == 'Amount') {
             $width /= 1.5;
         }
-        if ($col == "Date") {
-            $width /= 1.4;
-        }
         if ($col == "Name") {
+            $width /= 1.5;
+        }
+        if ($col == "Price") {
             $width /= 1.2;
         }
         if ($col == "Total") {
-            $width *= 1.35;
+            $width *= 1.1;
         }
         if ($col == "Category") {
             $width /= 1.3;
@@ -63,17 +71,20 @@ function generateTransactionHistory($pdf, $data, $header, $cellWidth, $title) {
     foreach($data as $row) {
         for($i = 0; $i < count($header); ++$i) {
             $width = $cellWidth;
+            if ($i == 0) {
+                $width *= 1.3;
+            }
+            if ($i == 1) {
+                $width /= 1.5;
+            }
             if ($i == 2) { // 'Amount' is the third column
                 $width /= 1.5;
             }
-            if ($i == 0) {
-                $width /= 1.4;
-            }
-            if ($i == 1) {
+            if ($i == 3) {
                 $width /= 1.2;
             }
             if ($i == 4) {
-                $width *= 1.35;
+                $width *= 1.1;
             }
             if ($i == 5) {
                 $width /= 1.3;
