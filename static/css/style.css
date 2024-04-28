@@ -385,6 +385,64 @@ tr:hover {
     color: #4f8a10;
 }
 
+/* Filter Form */
+
+.filter-form {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: auto auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.filter-label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.filter-select {
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+    font-size: 16px;
+}
+
+.filter-select:hover {
+    border-color: #007bff;
+}
+
+.filter-button {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    user-select: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;  
+    grid-column: 1 / span 2;
+}
+
+.filter-button:hover {
+    background-color: #0056b3;
+}
+
+.filter-button:active {
+    transform: scale(0.9);
+}
+
 /* Profile Information Settings */
 
 .two-grid-column-container {
