@@ -23,7 +23,7 @@ function loadTransactionData($transactions, $transactionType) {
     return $data;
 }
 
-function generateTransactionHistory($pdf, $data, $header, $cellWidth, $title) {
+function generateTransactionHistory($pdf, $data, $header, $cellWidth, $title, $wordWrap = false) {
     // Transaction History Header
     $pdf->SetFont('Helvetica', 'B', 16);
     $pdf->Cell(0, 20, $title, 0, 1, 'C');
