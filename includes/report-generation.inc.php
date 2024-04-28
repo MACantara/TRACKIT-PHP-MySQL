@@ -11,6 +11,9 @@ $eventName = getEventName($conn, $eventId);
 $totalExpenses = getTotalEventExpenses($conn, $eventId);
 $totalIncome = getTotalEventIncome($conn, $eventId);
 
+// Fetch initial budget
+$initialBudget = getEventInitialBudget($conn, $eventId);
+
 // Fetch transactions
 $transactions = getTransactions($conn, $eventId);
 
@@ -62,6 +65,8 @@ $pdf->Cell(0, 20, $eventName . " Generated Report", 0, 1, 'C');
 $pdf->SetFont('Helvetica', '', 12); // Reset font size to 12
 
 // Expenses, Income, and Remaining Budget
+$pdf->Bookmark('Initial Budget', 0, 0, '', 'B', array(0,64,128));
+$pdf->Cell(0, 10, 'Initial Budget: PHP ' . number_format($initialBudget, 2), 0, 1);
 $pdf->Bookmark('Total Expenses', 0, 0, '', 'B', array(0,64,128));
 $pdf->Cell(0, 10, 'Total Expenses: PHP ' . number_format($totalExpenses, 2), 0, 1);
 $pdf->Bookmark('Total Income', 0, 0, '', 'B', array(0,64,128));
