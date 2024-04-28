@@ -30,10 +30,6 @@ session_start();
             if (isset($_GET["error"])) {
                 if ($_GET["error"] == "emptyinput") {
                     echo "<p class='error-message'>Fill in all fields!</p>";
-                } else if ($_GET["error"] == "invalidemail") {
-                    echo "<p class='error-message'>Invalid email!</p>";
-                } else if ($_GET["error"] == "emailnotfound") {
-                    echo "<p class='error-message'>Email not found!</p>";
                 } else if ($_GET["error"] == "stmtfailed") {
                     echo "<p class='error-message'>Something went wrong, try again!</p>";
                 }
