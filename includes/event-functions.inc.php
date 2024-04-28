@@ -38,20 +38,31 @@ function getEventName($conn, $eventId) {
     return $row['events_name'];
 }
 
-function getTransactions($conn, $eventId, $sort = 'DESC', $filterDays = null, $startFrom = 0, $recordsPerPage = 0) {
+function getTransactions($conn, $eventId, $sort = 'DESC', $filterDays = null, $transactionType = null, $startFrom = 0, $recordsPerPage = 0) {
     $sql = "SELECT * FROM transaction_history WHERE events_id = ?";
     if ($filterDays) {
         $sql .= " AND transaction_date >= DATE_SUB(CURDATE(), INTERVAL ? DAY)";
+    }
+    if ($transactionType) {
+        $sql .= " AND transaction_type = ?";
     }
     $sql .= " ORDER BY transaction_date " . $sort;
     if ($recordsPerPage > 0) {
         $sql .= " LIMIT ?, ?";
     }
     $stmt = mysqli_prepare($conn, $sql);
-    if ($filterDays && $recordsPerPage > 0) {
+    if ($filterDays && $transactionType && $recordsPerPage > 0) {
+        mysqli_stmt_bind_param($stmt, "isiii", $eventId, $filterDays, $transactionType, $startFrom, $recordsPerPage);
+    } elseif ($filterDays && $transactionType) {
+        mysqli_stmt_bind_param($stmt, "isi", $eventId, $filterDays, $transactionType);
+    } elseif ($filterDays && $recordsPerPage > 0) {
         mysqli_stmt_bind_param($stmt, "iiii", $eventId, $filterDays, $startFrom, $recordsPerPage);
     } elseif ($filterDays) {
         mysqli_stmt_bind_param($stmt, "ii", $eventId, $filterDays);
+    } elseif ($transactionType && $recordsPerPage > 0) {
+        mysqli_stmt_bind_param($stmt, "isii", $eventId, $transactionType, $startFrom, $recordsPerPage);
+    } elseif ($transactionType) {
+        mysqli_stmt_bind_param($stmt, "isi", $eventId, $transactionType);
     } elseif ($recordsPerPage > 0) {
         mysqli_stmt_bind_param($stmt, "iii", $eventId, $startFrom, $recordsPerPage);
     } else {
@@ -220,4 +231,14 @@ function groupOtherCategories($groupedTransactions, $limit) {
 
 function sanitizeInput($input) {
     return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+}
+
+function getEventInitialBudget($conn, $eventId) {
+    $sql = "SELECT events_budget FROM events WHERE events_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    return $row['events_budget'];
 }
