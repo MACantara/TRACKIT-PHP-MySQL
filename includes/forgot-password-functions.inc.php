@@ -58,11 +58,6 @@ function handleRequest($conn, $userEmail) {
         exit();
     }
 
-    if (emailNotFound($userEmail, $conn) !== false) {
-        header("location: ../forgot-password.php?error=emailnotfound");
-        exit();
-    }
-
     deleteExistingResetRequest($conn, $userEmail);
     $selector = bin2hex(random_bytes(8));
     $token = random_bytes(32);
