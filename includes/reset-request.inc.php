@@ -11,11 +11,6 @@ if (isset($_POST['reset-request-submit'])) {
         exit();
     }
 
-    if (!emailNotFound($userEmail, $conn)) {
-        header("Location: ../forgot-password.php?error=emailnotfound");
-        exit();
-    }
-
     handleRequest($conn, $userEmail);
     header("location: ../forgot-password.php?reset=success");
 } else {
