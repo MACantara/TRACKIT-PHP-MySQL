@@ -11,12 +11,13 @@ $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $recordsPerPage = 25; // Change this to 50, 75, or 100 as needed
 $startFrom = ($page - 1) * $recordsPerPage;
 
-
 $_SESSION['sort'] = $_GET['sort'] ?? $_SESSION['sort'] ?? 'DESC';
 $_SESSION['filter'] = $_GET['filter'] ?? $_SESSION['filter'] ?? null;
+$_SESSION['transaction_type'] = $_GET['transaction_type'] ?? $_SESSION['transaction_type'] ?? null;
 $sort = $_SESSION['sort'];
 $filterDays = $_SESSION['filter'];
-$transactions = getTransactions($conn, $eventId, $sort, $filterDays === 0 ? null : $filterDays, $startFrom, $recordsPerPage);
+$transactionType = $_SESSION['transaction_type'];
+$transactions = getTransactions($conn, $eventId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType, $startFrom, $recordsPerPage);
 $expenses = getEventExpenses($conn, $eventId);
 $incomes = getEventIncomes($conn, $eventId);
 $totalExpenses = getTotalEventExpenses($conn, $eventId);
@@ -127,49 +128,57 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
                         <option value="60" <?php echo $filterDays == '60' ? 'selected' : ''; ?>>Last 60 days</option>
                         <option value="90" <?php echo $filterDays == '90' ? 'selected' : ''; ?>>Last 90 days</option>
                     </select>
+                    <label for="transaction_type" class="filter-label">Filter by transaction type:</label>
+                    <select name="transaction_type" id="transaction_type" class="filter-select">
+                        <option value="">All</option>
+                        <option value="income" <?php echo $_SESSION['transaction_type'] == 'income' ? 'selected' : ''; ?>>
+                            Income</option>
+                        <option value="expense" <?php echo $_SESSION['transaction_type'] == 'expense' ? 'selected' : ''; ?>>
+                            Expense</option>
+                    </select>
                     <button type="submit" class="filter-button">Apply</button>
-                    </form>
-                    <?php
-                    echo "<div class='pagination'>";
-                    if ($page > 1) {
-                        echo "<a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page - 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'>←</a> ";
-                    }
-                    echo "Page " . $page . " of " . $totalPages;
-                    if ($page < $totalPages) {
-                        echo " <a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page + 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'>→</a>";
-                    }
-                    echo "</div>";
-                    ?>
-                    <table>
+                </form>
+                <?php
+                echo "<div class='pagination'>";
+                if ($page > 1) {
+                    echo "<a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page - 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'>←</a> ";
+                }
+                echo "Page " . $page . " of " . $totalPages;
+                if ($page < $totalPages) {
+                    echo " <a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page + 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'>→</a>";
+                }
+                echo "</div>";
+                ?>
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th style="max-width: 300px;">Description</th>
+                    </tr>
+                    <?php foreach ($transactions as $transaction): ?>
                         <tr>
-                            <th>Date</th>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Price</th>
-                            <th>Total</th>
-                            <th>Category</th>
-                            <th>Type</th>
-                            <th style="max-width: 300px;">Description</th>
+                            <td>
+                                <?php
+                                $date = new DateTime($transaction['transaction_date']);
+                                echo $date->format('Y-m-d g:i A');
+                                ?>
+                            </td>
+                            <td><?php echo $transaction['transaction_name']; ?></td>
+                            <td><?php echo number_format($transaction['transaction_amount']); ?></td>
+                            <td><?php echo '&#8369; ' . number_format($transaction['transaction_price'], 2); ?></td>
+                            <td><?php echo '&#8369; ' . number_format($transaction['transaction_total'], 2); ?></td>
+                            <td><?php echo $transaction['transaction_category']; ?></td>
+                            <td><?php echo $transaction['transaction_type']; ?></td>
+                            <td style="max-width: 300px;"><?php echo $transaction['transaction_description']; ?></td>
                         </tr>
-                        <?php foreach ($transactions as $transaction): ?>
-                            <tr>
-                                <td>
-                                    <?php
-                                    $date = new DateTime($transaction['transaction_date']);
-                                    echo $date->format('Y-m-d g:i A');
-                                    ?>
-                                </td>
-                                <td><?php echo $transaction['transaction_name']; ?></td>
-                                <td><?php echo number_format($transaction['transaction_amount']); ?></td>
-                                <td><?php echo '&#8369; ' . number_format($transaction['transaction_price'], 2); ?></td>
-                                <td><?php echo '&#8369; ' . number_format($transaction['transaction_total'], 2); ?></td>
-                                <td><?php echo $transaction['transaction_category']; ?></td>
-                                <td><?php echo $transaction['transaction_type']; ?></td>
-                                <td style="max-width: 300px;"><?php echo $transaction['transaction_description']; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </table>
-                <?php endif; ?>
+                    <?php endforeach; ?>
+                </table>
+            <?php endif; ?>
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
