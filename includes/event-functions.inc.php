@@ -38,13 +38,21 @@ function getEventName($conn, $eventId) {
     return $row['events_name'];
 }
 
-function getTransactions($conn, $eventId, $startFrom = 0, $recordsPerPage = 0) {
-    $sql = "SELECT * FROM transaction_history WHERE events_id = ? ORDER BY transaction_date DESC";
+function getTransactions($conn, $eventId, $sort = 'DESC', $filterDays = null, $startFrom = 0, $recordsPerPage = 0) {
+    $sql = "SELECT * FROM transaction_history WHERE events_id = ?";
+    if ($filterDays) {
+        $sql .= " AND transaction_date >= DATE_SUB(CURDATE(), INTERVAL ? DAY)";
+    }
+    $sql .= " ORDER BY transaction_date " . $sort;
     if ($recordsPerPage > 0) {
         $sql .= " LIMIT ?, ?";
     }
     $stmt = mysqli_prepare($conn, $sql);
-    if ($recordsPerPage > 0) {
+    if ($filterDays && $recordsPerPage > 0) {
+        mysqli_stmt_bind_param($stmt, "iiii", $eventId, $filterDays, $startFrom, $recordsPerPage);
+    } elseif ($filterDays) {
+        mysqli_stmt_bind_param($stmt, "ii", $eventId, $filterDays);
+    } elseif ($recordsPerPage > 0) {
         mysqli_stmt_bind_param($stmt, "iii", $eventId, $startFrom, $recordsPerPage);
     } else {
         mysqli_stmt_bind_param($stmt, "i", $eventId);
