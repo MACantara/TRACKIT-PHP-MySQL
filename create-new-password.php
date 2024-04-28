@@ -35,7 +35,7 @@ session_start();
                     number, and one special character.</p>
                             <label for="confirmPassword">Confirm Password</label>
                             <input type="password" name="confirmPassword" id="confirmPassword" required>
-                            <button class="button" type="submit" name="reset-password-submit">Reset Password</button>
+                            <button class="button margin-top-16" type="submit" name="reset-password-submit">Reset Password</button>
                         </form>
                         <?php
                             if (isset($_GET["error"])) {
