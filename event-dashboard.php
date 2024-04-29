@@ -58,7 +58,7 @@ $topExpenseCategories = groupOtherCategories($groupedExpenseTransactions, 15);
 $topIncomeCategories = groupOtherCategories($groupedIncomeTransactions, 15);
 
 // Add pagination links at the end of the transaction history table
-$totalRecords = count(getTransactions($conn, $eventId));
+$totalRecords = count(getTransactions($conn, $eventId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType));
 $totalPages = ceil($totalRecords / $recordsPerPage);
 
 ?>
