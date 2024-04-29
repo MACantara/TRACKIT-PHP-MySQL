@@ -40,34 +40,28 @@ function getEventName($conn, $eventId) {
 
 function getTransactions($conn, $eventId, $sort = 'DESC', $filterDays = null, $transactionType = null, $startFrom = 0, $recordsPerPage = 0) {
     $sql = "SELECT * FROM transaction_history WHERE events_id = ?";
+    $params = [$eventId];
+    $types = "i";
+
     if ($filterDays) {
         $sql .= " AND transaction_date >= DATE_SUB(CURDATE(), INTERVAL ? DAY)";
+        $params[] = $filterDays;
+        $types .= "i";
     }
     if ($transactionType) {
         $sql .= " AND transaction_type = ?";
+        $params[] = $transactionType;
+        $types .= "s";
     }
     $sql .= " ORDER BY transaction_date " . $sort;
     if ($recordsPerPage > 0) {
         $sql .= " LIMIT ?, ?";
+        $params[] = $startFrom;
+        $params[] = $recordsPerPage;
+        $types .= "ii";
     }
     $stmt = mysqli_prepare($conn, $sql);
-    if ($filterDays && $transactionType && $recordsPerPage > 0) {
-        mysqli_stmt_bind_param($stmt, "isiii", $eventId, $filterDays, $transactionType, $startFrom, $recordsPerPage);
-    } elseif ($filterDays && $transactionType) {
-        mysqli_stmt_bind_param($stmt, "isi", $eventId, $filterDays, $transactionType);
-    } elseif ($filterDays && $recordsPerPage > 0) {
-        mysqli_stmt_bind_param($stmt, "iiii", $eventId, $filterDays, $startFrom, $recordsPerPage);
-    } elseif ($filterDays) {
-        mysqli_stmt_bind_param($stmt, "ii", $eventId, $filterDays);
-    } elseif ($transactionType && $recordsPerPage > 0) {
-        mysqli_stmt_bind_param($stmt, "isii", $eventId, $transactionType, $startFrom, $recordsPerPage);
-    } elseif ($transactionType) {
-        mysqli_stmt_bind_param($stmt, "isi", $eventId, $transactionType);
-    } elseif ($recordsPerPage > 0) {
-        mysqli_stmt_bind_param($stmt, "iii", $eventId, $startFrom, $recordsPerPage);
-    } else {
-        mysqli_stmt_bind_param($stmt, "i", $eventId);
-    }
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
