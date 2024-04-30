@@ -31,10 +31,8 @@ $row = getEvent($conn, $eventId);
                 </div>
             </form>
             <?php
-            if (isset($_GET["reset"])) {
-                if ($_GET["reset"] == "success") {
-                    echo "<p class='success-message'>Invite sent!</p>";
-                }
+            if (isset($_GET["events_id"]) . "?error") {
+                echo "<p class='success-message'>Invite sent!</p>";
             }
             ?>
         </section>
