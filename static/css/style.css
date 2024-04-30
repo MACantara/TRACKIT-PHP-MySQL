@@ -388,9 +388,11 @@ tr:hover {
 /* Filter Form */
 
 .filter-form {
-    display: grid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 16px;
-    grid-template-columns: auto auto;
     margin-bottom: 20px;
     padding: 10px;
     border: 1px solid #ddd;
@@ -432,7 +434,7 @@ tr:hover {
     vertical-align: middle;
     user-select: none;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;  
-    grid-column: 1 / span 2;
+    margin-left: auto;
 }
 
 .filter-button:hover {
