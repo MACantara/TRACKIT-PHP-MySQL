@@ -56,5 +56,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $mail->Send();
 
-    header("location: ../invite-user.php?events_id=" . $eventId . "?error=none");
+    header("location: ../invite-user.php?events_id=" . $eventId . "&error=none");
 }
