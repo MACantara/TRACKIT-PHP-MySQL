@@ -110,7 +110,7 @@ $events = getUserEvents($conn, $userId);
                             var myChart = new Chart(ctx, {
                                 type: 'bar',
                                 data: {
-                                    labels: ['Event <?php echo $eventId; ?>'],
+                                    labels: [''],
                                     datasets: datasets
                                 },
                                 options: {
