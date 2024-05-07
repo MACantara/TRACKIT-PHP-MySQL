@@ -38,17 +38,17 @@ function sendResetEmail($userEmail, $url) {
     $mail->Send();
 }
 
-function deleteExistingResetRequest($conn, $userEmail) {
-    $sql = "DELETE FROM password_reset WHERE password_reset_email = ?";
+function deleteExistingResetRequest($conn, $userId) {
+    $sql = "DELETE FROM password_reset WHERE password_reset_users_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $userEmail);
+    mysqli_stmt_bind_param($stmt, "i", $userId);
     mysqli_stmt_execute($stmt);
 }
 
-function createNewResetRequest($conn, $userEmail, $selector, $hashedToken, $expires) {
-    $sql = "INSERT INTO password_reset (password_reset_email, password_reset_selector, password_reset_token, password_reset_expires) VALUES (?, ?, ?, ?)";
+function createNewResetRequest($conn, $userId, $selector, $hashedToken, $expires) {
+    $sql = "INSERT INTO password_reset (password_reset_users_id, password_reset_selector, password_reset_token, password_reset_expires) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssss", $userEmail, $selector, $hashedToken, $expires);
+    mysqli_stmt_bind_param($stmt, "isss", $userId, $selector, $hashedToken, $expires);
     mysqli_stmt_execute($stmt);
 }
 
@@ -58,12 +58,25 @@ function handleRequest($conn, $userEmail) {
         exit();
     }
 
-    deleteExistingResetRequest($conn, $userEmail);
+    // Get the user's id
+    $sql = "SELECT users_id FROM users WHERE users_email = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $userEmail);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    if ($row = mysqli_fetch_assoc($result)) {
+        $userId = $row['users_id'];
+    } else {
+        header("location: ../forgot-password.php?error=nouser");
+        exit();
+    }
+
+    deleteExistingResetRequest($conn, $userId);
     $selector = bin2hex(random_bytes(8));
     $token = random_bytes(32);
     $url = BASE_URL . "create-new-password.php?selector=" . $selector . "&validator=" . bin2hex($token);
     $expires = date("U") + 1800;
     $hashedToken = password_hash($token, PASSWORD_DEFAULT);
-    createNewResetRequest($conn, $userEmail, $selector, $hashedToken, $expires);
+    createNewResetRequest($conn, $userId, $selector, $hashedToken, $expires);
     sendResetEmail($userEmail, $url);
 }
