@@ -16,16 +16,16 @@ session_start();
     <?php include 'templates/header.tpl.php'; ?>
     <main>
         <section class="section-container">
-            <h1>TRACKIT</h1>
+            <h1><i class="bi bi-wallet2"></i> TRACKIT</h1>
             <h2 class="margin-top-16">Tracking Real-time Accounts, Costs, and Keeping It Tidy</h2>
             <?php if (isset($_SESSION['users_id'])): ?>
                 <div class="button-container">
-                    <a class="button margin-top-16" href="events-overview.php">Go to Events Overview</a>
+                    <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-calendar2-week"></i> Go to Events Overview</a>
                 </div>
             <?php else: ?>
                 <div class="login-signup-buttons">
-                    <a href="log-in.php" class="button margin-top-16">Log In</a>
-                    <a href="sign-up.php" class="secondary-outline-button margin-top-16">Sign Up</a>
+                    <a href="log-in.php" class="button margin-top-16"><i class="bi bi-box-arrow-in-right"></i> Log In</a>
+                    <a href="sign-up.php" class="secondary-outline-button margin-top-16"><i class="bi bi-person-plus"></i> Sign Up</a>
                 </div>
             <?php endif; ?>
         </section>
