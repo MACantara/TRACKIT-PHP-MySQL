@@ -26,8 +26,8 @@ $row = getEvent($conn, $eventId);
                 <input type="email" name="email" id="email" placeholder="Enter your email" required><br>
                 <input type="hidden" name="events_id" value="<?php echo $eventId; ?>">
                 <div class="two-grid-column-container">
-                    <a class="button" href="event-dashboard.php?events_id=<?php echo $eventId; ?>">Back</a>
-                    <button class="button" type="submit" name="Send Invite">Send Invite</button>
+                    <a class="button" href="event-dashboard.php?events_id=<?php echo $eventId; ?>"><i class="bi bi-arrow-left"></i> Back</a>
+                    <button class="button" type="submit" name="Send Invite"><i class="bi bi-envelope"></i> Send Invite</button>
                 </div>
             </form>
             <?php
