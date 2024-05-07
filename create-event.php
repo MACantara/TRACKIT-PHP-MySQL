@@ -38,8 +38,8 @@ handleCreateEvent($conn);
                 <input type="number" id="event_budget" name="event_budget" required>
 
                 <div class="two-grid-column-container">
-                    <a class="button margin-top-16" href="events-overview.php">Back</a>
-                    <button class="button margin-top-16" type="submit" name="create-event">Create Event</button>
+                    <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
+                    <button class="button margin-top-16" type="submit" name="create-event"><i class="bi bi-calendar-plus"></i> Create Event</button>
                 </div>
             </form>
             <?php
