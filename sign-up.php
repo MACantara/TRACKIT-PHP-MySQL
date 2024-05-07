@@ -17,24 +17,23 @@
             <h2>Sign Up</h2>
             <form action="includes/sign-up.inc.php" method="post">
                 <label for="firstName">First Name</label>
-                <input type="text" name="firstName" id="firstName" required><br>
+                <input type="text" name="firstName" id="firstName" required>
                 <label for="lastName">Last Name</label>
-                <input type="text" name="lastName" id="lastName" required><br>
+                <input type="text" name="lastName" id="lastName" required>
                 <label for="username">Username</label>
-                <input type="text" name="username" id="username" required><br>
+                <input type="text" name="username" id="username" required>
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" required><br>
+                <input type="email" name="email" id="email" required>
+                <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" required>
                 <div class="password-container">
-                    <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" required>
-                    <button class="show-button" type="button" onclick="togglePasswordVisibility('password')">Show</button><br>
+                    <button class="show-button" id="showPasswordButton" type="button" onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
                 </div>
-                <p class="info-text">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one
-                    number, and one special character.</p><br>
+                <p class="info-text">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.</p>
+                <label for="confirmPassword"><i class="bi bi-lock-fill"></i> Password</label>
+                <input type="password" name="password" id="confirmPassword" placeholder="Confirm Password" required>
                 <div class="password-container">
-                    <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" required>
-                    <button class="show-button" type="button" onclick="togglePasswordVisibility('password')">Show</button><br>
+                    <button class="show-button" id="showConfirmPasswordButton" type="button" onclick="togglePasswordVisibility('confirmPassword', 'showConfirmPasswordButton')">Show Password</button>
                 </div>
                 <button class="button" type="submit" name="sign-up"><i class="bi bi-box-arrow-in-right"></i> Sign Up</button>
                 <p class="account-information-text">Already have an account? <a href="log-in.php">Log In</a></p>
@@ -65,16 +64,7 @@
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
-    <script>
-        function togglePasswordVisibility(id) {
-            var passwordInput = document.getElementById(id);
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-            } else {
-                passwordInput.type = "password";
-            }
-        }
-    </script>
+    <script src="static/js/password-visibility.js"></script>
 </body>
 
 </html>
