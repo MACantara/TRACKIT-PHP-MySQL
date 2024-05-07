@@ -258,7 +258,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
         // Bar chart - Remaining Budget
         const barChartCtx = document.getElementById("barChart").getContext("2d");
         new Chart(barChartCtx, {
-            type: "bar",
+            type: "doughnut",
             data: {
                 labels: ["Remaining Budget"],
                 datasets: [
@@ -270,13 +270,6 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
                         borderWidth: 1,
                     },
                 ],
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                    },
-                },
             },
         })
     </script>
