@@ -23,7 +23,7 @@ $row = getEvent($conn, $eventId);
             <p class="margin-top-16">Enter the email address of the user you would like to invite to help you manage <?php echo $row['events_name']; ?>.</p>
             <form class="margin-top-16" action="includes/invite-user.inc.php" method="post">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="Enter your email" required><br>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required>
                 <input type="hidden" name="events_id" value="<?php echo $eventId; ?>">
                 <div class="two-grid-column-container">
                     <a class="button" href="event-dashboard.php?events_id=<?php echo $eventId; ?>"><i class="bi bi-arrow-left"></i> Back</a>
