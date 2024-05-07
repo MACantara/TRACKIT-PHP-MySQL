@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +34,8 @@
                     echo "<p class='error-message'>Fill in all fields!</p>";
                 } else if ($_GET["error"] == "wronglogin") {
                     echo "<p class='error-message'>Incorrect login information!</p>";
+                } else if ($_GET["error"] == "loginrequired") {
+                    echo "<p class='error-message'>Log in is required to access this page!</p>";
                 }
             }
             if (isset($_GET["newpwd"])) {
