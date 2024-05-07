@@ -46,16 +46,16 @@ $colors = [
 $groupedExpenseTransactions = groupTransactionsByCategory($expenses);
 $groupedIncomeTransactions = groupTransactionsByCategory($incomes);
 
-// Sort by total amount in descending order and take top 15
+// Sort by total amount in descending order and take top 5
 arsort($groupedExpenseTransactions);
 arsort($groupedIncomeTransactions);
 
-$topExpenseCategories = array_slice($groupedExpenseTransactions, 0, 15, true);
-$topIncomeCategories = array_slice($groupedIncomeTransactions, 0, 15, true);
+$topExpenseCategories = array_slice($groupedExpenseTransactions, 0, 5, true);
+$topIncomeCategories = array_slice($groupedIncomeTransactions, 0, 5, true);
 
 // Add "Other" category
-$topExpenseCategories = groupOtherCategories($groupedExpenseTransactions, 15);
-$topIncomeCategories = groupOtherCategories($groupedIncomeTransactions, 15);
+$topExpenseCategories = groupOtherCategories($groupedExpenseTransactions, 5);
+$topIncomeCategories = groupOtherCategories($groupedIncomeTransactions, 5);
 
 // Add pagination links at the end of the transaction history table
 $totalRecords = count(getTransactions($conn, $eventId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType));
