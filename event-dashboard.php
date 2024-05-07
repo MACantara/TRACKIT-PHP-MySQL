@@ -24,6 +24,22 @@ $totalExpenses = getTotalEventExpenses($conn, $eventId);
 $totalIncome = getTotalEventIncome($conn, $eventId);
 $remainingBudget = empty($transactions) ? $row['events_budget'] : getEventRemainingBudget($conn, $eventId);
 
+// Calculate expenses within and over budget
+$expensesWithinBudget = abs(min($totalExpenses, $remainingBudget));
+$expensesOverBudget = max(0, $totalExpenses - $remainingBudget);
+
+// If remaining budget is less than 0, set it to 0
+if ($remainingBudget < 0) {
+    $remainingBudget = 0;
+}
+
+// If there are no expenses or income, use the initial budget
+if ($expenses == 0 && $income == 0) {
+    $expenses = 0;
+    $income = 0;
+    $remainingBudget = $event['events_budget'];
+}
+
 $colors = [
     '#B71C1C', // Red
     '#880E4F', // Pink
@@ -260,18 +276,24 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
         new Chart(barChartCtx, {
             type: "doughnut",
             data: {
-                labels: ["Remaining Budget"],
+                labels: ["Remaining Budget", "Expenses Within Budget", "Expenses Over Budget"],
                 datasets: [
                     {
-                        label: "Remaining Budget (In PHP)",
-                        data: [<?php echo $remainingBudget; ?>],
-                        backgroundColor: [<?php echo $remainingBudget < 0 ? '"rgba(255, 0, 0, 0.2)"' : '"rgba(75, 192, 192, 0.2)"'; ?>],
-                        borderColor: [<?php echo $remainingBudget < 0 ? '"rgba(255, 0, 0, 1)"' : '"rgba(75, 192, 192, 1)"'; ?>],
-                        borderWidth: 1,
+                        label: "Budget (In PHP)",
+                        data: [
+                            <?php echo $remainingBudget; ?>, 
+                            <?php echo $expensesWithinBudget; ?>, 
+                            <?php echo $expensesOverBudget; ?>
+                        ],
+                        backgroundColor: [
+                            "green",
+                            "red",
+                            "darkred"
+                        ]
                     },
                 ],
             },
-        })
+        });
     </script>
 </body>
 
