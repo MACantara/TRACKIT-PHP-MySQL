@@ -57,8 +57,8 @@ date_default_timezone_set('Asia/Manila');
                 <input type="hidden" id="events_id" name="events_id" value="<?php echo $eventId; ?>">
                 <input type="hidden" id="users_id" name="users_id" value="<?php echo $userId; ?>">
                 <div class="two-grid-column-container">
-                    <a class="button margin-top-16" href="event-dashboard.php?events_id=<?php echo $eventId; ?>">Back</a>
-                    <input class="button margin-top-16" type="submit" name="add-transaction-submit" value="Add Transaction">
+                    <a class="button margin-top-16" href="event-dashboard.php?events_id=<?php echo $eventId; ?>"><i class="bi bi-arrow-left"></i> Back</a>
+                    <button class="button margin-top-16" type="submit" name="add-transaction-submit"><i class="bi bi-plus-circle"></i> Add Transaction</button>
                 </div>
             </form>
             <?php
