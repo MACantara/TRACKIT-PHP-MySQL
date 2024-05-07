@@ -4,6 +4,9 @@
     require_once "includes/profile-information-functions.inc.php";
     $profileData = getProfileInformation($conn, $_SESSION["users_id"]);
     $userData = getUserInformation($conn, $_SESSION["users_id"]);
+
+    require_once 'includes/user-functions.inc.php';
+    require_login();
 ?>
 
 <!DOCTYPE html>
