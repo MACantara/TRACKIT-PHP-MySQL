@@ -22,8 +22,8 @@ session_start();
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" placeholder="Enter your email" required><br>
                 <div class="two-grid-column-container">
-                    <a class="button" href="log-in.php">Back</a>
-                    <button class="button" type="submit" name="reset-request-submit">Send Reset Link</button>
+                    <a class="button" href="log-in.php"><i class="bi bi-arrow-left"></i> Back</a>
+                    <button class="button" type="submit" name="reset-request-submit"><i class="bi bi-envelope"></i> Send Reset Link</button>
                 </div>
             </form>
             <?php
