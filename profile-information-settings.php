@@ -23,19 +23,19 @@
             <h1>Profile Settings</h1>
             <form action="includes/profile-information.inc.php" method="post">
                 <label for="firstName">First Name</label>
-                <input type="text" name="firstName" id="firstName" value='<?php echo $userData['users_first_name']; ?>'><br>
+                <input type="text" name="firstName" id="firstName" value='<?php echo $userData['users_first_name']; ?>'>
                 <label for="lastName">Last Name</label>
-                <input type="text" name="lastName" id="lastName" value='<?php echo $userData['users_last_name']; ?>'><br>
+                <input type="text" name="lastName" id="lastName" value='<?php echo $userData['users_last_name']; ?>'>
                 <label for="username">Username</label>
-                <input type="text" name="username" id="username" value='<?php echo $userData['users_username']; ?>'><br>
+                <input type="text" name="username" id="username" value='<?php echo $userData['users_username']; ?>'>
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" value='<?php echo $userData['users_email']; ?>'><br>
+                <input type="email" name="email" id="email" value='<?php echo $userData['users_email']; ?>'>
                 <label for="profileAbout">About</label>
-                <textarea type="text" name="profileAbout" rows="5" cols="20" id="profileAbout"><?php echo $profileData['profiles_about']; ?></textarea><br>
+                <textarea type="text" name="profileAbout" rows="5" cols="20" id="profileAbout"><?php echo $profileData['profiles_about']; ?></textarea>
                 <label for="profileTitle">Title</label>
-                <input type="text" name="profileTitle" id="profileTitle" value='<?php echo $profileData['profiles_introduction_title']; ?>'><br>
+                <input type="text" name="profileTitle" id="profileTitle" value='<?php echo $profileData['profiles_introduction_title']; ?>'>
                 <label for="profileText">Text</label>
-                <textarea type="text" name="profileText" rows="5" cols="20"  id="profileText"><?php echo $profileData['profiles_introduction_text']; ?></textarea><br>
+                <textarea type="text" name="profileText" rows="5" cols="20"  id="profileText"><?php echo $profileData['profiles_introduction_text']; ?></textarea>
                 <div class="two-grid-column-container">
                     <a class="button" href="profile-information.php"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button" type="submit" name="profile-settings"><i class="bi bi-save"></i> Save</button>
