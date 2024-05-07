@@ -453,6 +453,20 @@ tr:hover {
     gap: 20px;
 }
 
+/* Password Show */
+
+.password-container {
+    position: relative;
+}
+.show-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
 /* Footer */
 
 footer {
