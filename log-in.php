@@ -16,13 +16,13 @@
         <section class="section-container">
             <h2>Log In</h2>            <form action="includes/log-in.inc.php" method="post">
                 <label for="username"><i class="bi bi-person-fill"></i> Username/Email</label>
-                <input type="text" name="username" id="username" placeholder="Username/Email" required><br>
+                <input type="text" name="username" id="username" placeholder="Username/Email" required>
+                <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" required>
                 <div class="password-container">
-                    <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" required>
-                    <button class="show-button" type="button" onclick="togglePasswordVisibility('password')">Show</button><br>
+                    <a href="forgot-password.php">Forgot Password?</a>
+                    <button class="show-button" type="button" id="showPasswordButton"onclick="togglePasswordVisibility('password, 'showPasswordButton')">Show Password</button>
                 </div>
-                <a href="forgot-password.php">Forgot Password?</a><br>
                 <button class="button" type="submit" name="submit"><i class="bi bi-box-arrow-in-right"></i> Log In</button>
                 <p class="account-information-text">Don't have an account yet? <a href="sign-up.php">Sign Up</a></p>
             </form>
@@ -43,16 +43,7 @@
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
-    <script>
-        function togglePasswordVisibility(id) {
-            var passwordInput = document.getElementById(id);
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-            } else {
-                passwordInput.type = "password";
-            }
-        }
-    </script>
+    <script src="static/js/password-visibility.js"></script>
 </body>
 
 </html>
