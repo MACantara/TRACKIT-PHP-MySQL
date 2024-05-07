@@ -5,6 +5,9 @@ require_once 'includes/event-functions.inc.php';
 
 $userId = $_SESSION["users_id"];
 $events = getUserEvents($conn, $userId);
+
+require_once 'includes/user-functions.inc.php';
+require_login();
 ?>
 
 <!DOCTYPE html>
