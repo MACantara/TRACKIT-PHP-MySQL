@@ -23,7 +23,7 @@ $events = getUserEvents($conn, $userId);
         <section class="section-container">
             <h1>Events Overview</h1>
             <div class="button-container">
-                <a class="button margin-top-16" href="create-event.php">Create New Event</a>
+                <a class="button margin-top-16" href="create-event.php"><i class="bi bi-plus-circle"></i> Create New Event</a>
                 <?php               
                 if (isset($_GET["create-event"])) {
                     if ($_GET["create-event"] == "success") {
@@ -44,13 +44,13 @@ $events = getUserEvents($conn, $userId);
                         <p class="margin-top-16">Date: <?php echo date('F j, Y', strtotime($event['events_date'])); ?> <?php echo date('h:i A', strtotime($event['events_date'])); ?></p>
                         <p>Budget: &#8369; <?php echo number_format($event['events_budget'], 2); ?></p>
                         <div class="grid-container">
-                            <a class="button button-primary margin-top-16" href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>">View</a>
-                            <a class="button secondary-outline-button margin-top-16" href="update-event.php?events_id=<?php echo $event['events_id']; ?>">Update</a>
-                            <a class="button secondary-outline-button margin-top-16" href="invite-user.php?events_id=<?php echo $event['events_id']; ?>">Invite</a>
+                            <a class="button button-primary margin-top-16" href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><i class="bi bi-eye"></i> View</a>
+                            <a class="button secondary-outline-button margin-top-16" href="update-event.php?events_id=<?php echo $event['events_id']; ?>"><i class="bi bi-pencil-square"></i> Update</a>
+                            <a class="button secondary-outline-button margin-top-16" href="invite-user.php?events_id=<?php echo $event['events_id']; ?>"><i class="bi bi-person-plus"></i> Invite</a>
                         </div>
                         <form method="post" action="includes/delete-event.inc.php">
                             <input type="hidden" name="events_id" value="<?php echo $event['events_id']; ?>">
-                            <button type="submit" class="button button-outline-danger margin-top-16">Delete</button>
+                            <button type="submit" class="button button-outline-danger margin-top-16"><i class="bi bi-trash"></i> Delete</button>
                         </form>
                     </div>
                 </section>
