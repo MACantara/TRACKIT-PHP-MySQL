@@ -3,6 +3,9 @@ session_start();
 require_once 'includes/db-connection.inc.php';
 require_once 'includes/event-functions.inc.php';
 
+require_once 'includes/user-functions.inc.php';
+require_login();
+
 $eventId = $_GET['events_id'];
 $userId = $_SESSION["users_id"];
 
