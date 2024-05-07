@@ -79,12 +79,12 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
 
     <main>
         <div class="event-dashboard-buttons-container">
-            <a class="secondary-outline-button" href="events-overview.php">Back to Events Overview</a>
-            <a class="button" href="add-transaction.php?events_id=<?php echo $eventId; ?>">Add Transaction</a>
-            <a class="button" href="invite-user.php?events_id=<?php echo $eventId; ?>">Invite User</a>
+            <a class="secondary-outline-button" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back to Events Overview</a>
+            <a class="button" href="add-transaction.php?events_id=<?php echo $eventId; ?>"><i class="bi bi-plus-circle"></i> Add Transaction</a>
+            <a class="button" href="invite-user.php?events_id=<?php echo $eventId; ?>"><i class="bi bi-person-plus"></i> Invite User</a>
             <form action="includes/report-generation.inc.php?events_id=<?php echo $eventId; ?>" method="post">
                 <input type="hidden" name="event_id" value="<?php echo $eventId; ?>">
-                <button class="button" type="submit" name="generate-report">Generate Report</button>
+                <button class="button" type="submit" name="generate-report"><i class="bi bi-file-earmark-text"></i> Generate Report</button>
             </form>
         </div>
         <h1 class="margin-top-16"><?php echo $row['events_name']; ?></h1>
@@ -95,14 +95,14 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
                 <p>Total Expenses: &#8369; <?php echo number_format(getTotalEventExpenses($conn, $eventId), 2); ?></p>
             </section>
             <section class="one-column-grid-container">
-                <h2>Incomes</h2>
+                <h2>Income</h2>
                 <canvas id="pieChart2"></canvas>
-                <p>Total income: &#8369; <?php echo number_format(getTotalEventIncome($conn, $eventId), 2); ?></p>
+                <p>Total Income: &#8369; <?php echo number_format(getTotalEventIncome($conn, $eventId), 2); ?></p>
             </section>
             <section class="one-column-grid-container">
                 <h2>Remaining Budget</h2>
                 <canvas id="barChart"></canvas>
-                <p>Remaining budget: &#8369; <?php echo number_format($remainingBudget, 2); ?></p>
+                <p>Remaining Budget: &#8369; <?php echo number_format($remainingBudget, 2); ?></p>
             </section>
         </section>
         <section class="one-column-grid-container">
@@ -177,11 +177,11 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
                         <?php
                         echo "<div class='pagination'>";
                         if ($page > 1) {
-                            echo "<a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page - 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'>←</a> ";
+                            echo "<a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page - 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'><i class='bi bi-arrow-left'></i></a> ";
                         }
                         echo "Page " . $page . " of " . $totalPages;
                         if ($page < $totalPages) {
-                            echo " <a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page + 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'>→</a>";
+                            echo " <a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page + 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'><i class='bi bi-arrow-right'></i></a>";
                         }
                         echo "</div>";
                         ?>
@@ -260,10 +260,10 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
         new Chart(barChartCtx, {
             type: "bar",
             data: {
-                labels: ["Remaining Budget  "],
+                labels: ["Remaining Budget"],
                 datasets: [
                     {
-                        label: "Remaining Budget",
+                        label: "Remaining Budget (In PHP)",
                         data: [<?php echo $remainingBudget; ?>],
                         backgroundColor: [<?php echo $remainingBudget < 0 ? '"rgba(255, 0, 0, 0.2)"' : '"rgba(75, 192, 192, 0.2)"'; ?>],
                         borderColor: [<?php echo $remainingBudget < 0 ? '"rgba(255, 0, 0, 1)"' : '"rgba(75, 192, 192, 1)"'; ?>],
