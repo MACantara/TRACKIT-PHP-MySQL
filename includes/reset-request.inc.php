@@ -6,6 +6,19 @@ require_once '../includes/forgot-password-functions.inc.php';
 if (isset($_POST['reset-request-submit'])) {
     $userEmail = $_POST["email"];
 
+    // Check if password reset request for the email already exists
+    $sql = "SELECT * FROM password_reset WHERE password_reset_email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $userEmail);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Password reset request for the email already exists
+        header("Location: ../forgot-password.php?error=passwordresetrequestalreadyexists");
+        exit();
+    }
+
     if (passwordRequestEmptyInput($userEmail) || invalidEmail($userEmail)) {
         header("Location: ../forgot-password.php?error=emptyinput");
         exit();
