@@ -20,7 +20,7 @@ session_start();
             <p class="margin-top-16">Enter your email address and we will send you a link to reset your password.</p>
             <form class="margin-top-16" action="includes/reset-request.inc.php" method="post">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="Enter your email" required><br>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required>
                 <div class="two-grid-column-container">
                     <a class="button" href="log-in.php"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button" type="submit" name="reset-request-submit"><i class="bi bi-envelope"></i> Send Reset Link</button>
