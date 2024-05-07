@@ -469,6 +469,12 @@ tr:hover {
     text-align: right;
 }
 
+/* Event Overview Charts */
+
+.event-overview-chart {
+    margin-top: 16px;
+}
+
 /* Footer */
 
 footer {
