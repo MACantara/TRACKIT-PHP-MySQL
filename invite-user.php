@@ -3,6 +3,9 @@ session_start();
 require_once "includes/event-functions.inc.php";
 $eventId = $_GET['events_id'];
 $row = getEvent($conn, $eventId);
+
+require_once 'includes/user-functions.inc.php';
+require_login();
 ?>
 
 <!DOCTYPE html>
