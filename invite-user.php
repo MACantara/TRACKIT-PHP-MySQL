@@ -34,7 +34,11 @@ $row = getEvent($conn, $eventId);
             if (isset($_GET['error'])) {
                 if ($_GET['error'] == "none") {
                     echo "<p class='success-message'>Invite sent!</p>";
-                }
+                } else if ($_GET['error'] == "userexistasmanager") {
+                    echo "<p class='error-message'>User is already a manager!</p>";
+                } else if ($_GET['error'] == "userinviteexists") {
+                    echo "<p class='error-message'>User already invited!</p>";
+                } 
             }
             ?>
         </section>
