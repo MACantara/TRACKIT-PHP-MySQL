@@ -30,6 +30,8 @@ session_start();
             if (isset($_GET["error"])) {
                 if ($_GET["error"] == "emptyinput") {
                     echo "<p class='error-message'>Fill in all fields!</p>";
+                } else if ($_GET["error"] == "passwordresetrequestalreadyexists") {
+                    echo "<p class='error-message'>Password reset request already exists! Check your email for a link to reset your password.</p>";
                 } else if ($_GET["error"] == "stmtfailed") {
                     echo "<p class='error-message'>Something went wrong, try again!</p>";
                 }
