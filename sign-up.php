@@ -24,12 +24,18 @@
                 <input type="text" name="username" id="username" required><br>
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" required><br>
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" required>
+                <div class="password-container">
+                    <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <button class="show-button" type="button" onclick="togglePasswordVisibility('password')">Show</button><br>
+                </div>
                 <p class="info-text">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one
                     number, and one special character.</p><br>
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" name="confirmPassword" id="confirmPassword" required><br>
+                <div class="password-container">
+                    <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <button class="show-button" type="button" onclick="togglePasswordVisibility('password')">Show</button><br>
+                </div>
                 <button class="button" type="submit" name="sign-up"><i class="bi bi-box-arrow-in-right"></i> Sign Up</button>
                 <p class="account-information-text">Already have an account? <a href="log-in.php">Log In</a></p>
             </form>
@@ -59,6 +65,16 @@
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
+    <script>
+        function togglePasswordVisibility(id) {
+            var passwordInput = document.getElementById(id);
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+    </script>
 </body>
 
 </html>
