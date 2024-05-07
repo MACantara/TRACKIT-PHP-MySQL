@@ -41,8 +41,8 @@ $event = getEvent($conn, $events_id);
                 <input type="number" id="event_budget" name="event_budget" value="<?php echo $event['events_budget']; ?>" required>
 
                 <div class="two-grid-column-container">
-                    <a class="button margin-top-16" href="events-overview.php">Back</a>
-                    <button class="button margin-top-16" type="submit" name="update-event">Update Event</button>
+                    <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
+                    <button class="button margin-top-16" type="submit" name="update-event"><i class="bi bi-save"></i> Update Event</button>
                 </div>
             </form>
             <?php
