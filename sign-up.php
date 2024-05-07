@@ -30,7 +30,7 @@
                     number, and one special character.</p><br>
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword" required><br>
-                <button class="button" type="submit" name="sign-up">Sign Up</button>
+                <button class="button" type="submit" name="sign-up"><i class="bi bi-box-arrow-in-right"></i> Sign Up</button>
                 <p class="account-information-text">Already have an account? <a href="log-in.php">Log In</a></p>
             </form>
             <?php
