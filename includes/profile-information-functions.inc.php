@@ -2,15 +2,17 @@
 
 require_once "db-connection.inc.php";
 
-function getProfileInformation($conn, $users_id) {
-    $sql = "SELECT * FROM profiles WHERE users_id = ?";
+function getUserInformation($conn, $users_id) {
+    $sql = "SELECT users_first_name, users_last_name, users_username, users_email FROM users WHERE users_id = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../profile-information.php?error=stmtfailed");
         exit();
     }
+
     mysqli_stmt_bind_param($stmt, "i", $users_id);
     mysqli_stmt_execute($stmt);
+
     $resultData = mysqli_stmt_get_result($stmt);
     if ($row = mysqli_fetch_assoc($resultData)) {
         return $row;
@@ -18,6 +20,29 @@ function getProfileInformation($conn, $users_id) {
         $result = false;
         return $result;
     }
+
+    mysqli_stmt_close($stmt);
+}
+
+function getProfileInformation($conn, $users_id) {
+    $sql = "SELECT * FROM profiles WHERE users_id = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../profile-information.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $users_id);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    } else {
+        $result = false;
+        return $result;
+    }
+
     mysqli_stmt_close($stmt);
 }
 
@@ -29,6 +54,19 @@ function updateProfileInformation($conn, $profileAbout, $profileTitle, $profileT
         exit();
     }
     mysqli_stmt_bind_param($stmt, "sssi", $profileAbout, $profileTitle, $profileText, $users_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function updateUserInformation($conn, $firstName, $lastName, $username, $email, $users_id) {
+    $sql = "UPDATE users SET users_first_name = ?, users_last_name = ?, users_username = ?, users_email = ? WHERE users_id = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../profile-information.php?error=stmtfailed");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ssssi", $firstName, $lastName, $username, $email, $users_id);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
