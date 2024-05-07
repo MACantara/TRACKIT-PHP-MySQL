@@ -4,6 +4,9 @@ session_start();
 require_once 'includes/event-functions.inc.php';
 
 handleCreateEvent($conn);
+
+require_once 'includes/user-functions.inc.php';
+require_login();
 ?>
 
 <!DOCTYPE html>
