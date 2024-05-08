@@ -236,3 +236,28 @@ function getEventInitialBudget($conn, $eventsId) {
     $row = mysqli_fetch_assoc($result);
     return $row['events_budget'];
 }
+
+function calculateBudget($totalExpenses, $remainingBudget, $transactions, $row, $eventsId, $conn) {
+    // If remaining budget is less than 0, set it to 0
+    if ($remainingBudget < 0) {
+        $remainingBudget = 0;
+    }
+
+    // Calculate expenses within and over budget
+    if ($totalExpenses > $remainingBudget && $remainingBudget == 0) {
+        $remainingBudget = empty($transactions) ? $row['events_budget'] : getEventRemainingBudget($conn, $eventsId);
+        $expensesWithinBudget = $totalExpenses - abs($remainingBudget);
+        $remainingBudget = 0;
+    } else {
+        $expensesWithinBudget = $totalExpenses;
+    }
+
+    // Calculate expenses over budget
+    if ($totalExpenses > $remainingBudget) {
+        $expensesOverBudget = $totalExpenses - $expensesWithinBudget;
+    } else {
+        $expensesOverBudget = 0;
+    }
+
+    return array($expensesWithinBudget, $expensesOverBudget, $remainingBudget);
+}
