@@ -7,14 +7,14 @@ if (isset($_GET['token'])) {
     $token = $_GET['token'];
 
     // Get event ID and email from database using the token
-    $sql = "SELECT event_invitations_event_id, event_invitations_email, events_name FROM event_invitations INNER JOIN events ON event_invitations.event_invitations_event_id = events.events_id WHERE event_invitations_token = ?";
+    $sql = "SELECT event_invitations_events_id, event_invitations_email, events_name FROM event_invitations INNER JOIN events ON event_invitations.event_invitations_events_id = events.events_id WHERE event_invitations_token = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $token);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $eventId = $row['event_invitations_event_id'];
+        $eventId = $row['event_invitations_events_id'];
         $email = $row['event_invitations_email'];
 
         // Check if email matches a user in the database
