@@ -138,7 +138,7 @@ function checkSessionTimeout() {
     }
 
     // set the timeout duration (in seconds)
-    $timeout_duration = 900;  // 15 minutes
+    $timeout_duration = 1800;  // 30 minutes
 
     // check if the timeout key exists
     if(isset($_SESSION['timeout'])) {
