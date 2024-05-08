@@ -1,8 +1,8 @@
 <?php
 session_start();
 require_once "includes/event-functions.inc.php";
-$eventId = $_GET['events_id'];
-$row = getEvent($conn, $eventId);
+$eventsId = $_GET['events_id'];
+$row = getEvent($conn, $eventsId);
 
 require_once 'includes/user-functions.inc.php';
 require_login();
@@ -27,9 +27,9 @@ require_login();
             <form class="margin-top-16" action="includes/invite-user.inc.php" method="post">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" placeholder="Enter your email" required>
-                <input type="hidden" name="events_id" value="<?php echo $eventId; ?>">
+                <input type="hidden" name="events_id" value="<?php echo $eventsId; ?>">
                 <div class="two-grid-column-container">
-                    <a class="button" href="event-dashboard.php?events_id=<?php echo $eventId; ?>"><i class="bi bi-arrow-left"></i> Back</a>
+                    <a class="button" href="event-dashboard.php?events_id=<?php echo $eventsId; ?>"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button" type="submit" name="Send Invite"><i class="bi bi-envelope"></i> Send Invite</button>
                 </div>
             </form>
