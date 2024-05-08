@@ -32,8 +32,6 @@ checkSessionTimeout();
                 <input type="text" name="lastName" id="lastName" value='<?php echo $userData['users_last_name']; ?>'>
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" value='<?php echo $userData['users_username']; ?>'>
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" value='<?php echo $userData['users_email']; ?>'>
                 <label for="profileAbout">About</label>
                 <textarea type="text" name="profileAbout" rows="5" cols="20"
                     id="profileAbout"><?php echo $profileData['profiles_about']; ?></textarea>
@@ -43,16 +41,46 @@ checkSessionTimeout();
                 <label for="profileText">Text</label>
                 <textarea type="text" name="profileText" rows="5" cols="20"
                     id="profileText"><?php echo $profileData['profiles_introduction_text']; ?></textarea>
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" required>
                 <div class="two-grid-column-container">
                     <a class="button" href="profile-information.php"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button" type="submit" name="profile-settings"><i class="bi bi-save"></i>
                         Save</button>
                 </div>
             </form>
+            <?php
+            if (isset($_GET["error"])) {
+                if ($_GET["error"] == "none") {
+                    echo "<p class='success-message'>Your profile has been updated successfully!</p>";
+                }
+            }
+            ?>
+        </section>
+        <!-- Email Section -->
+        <section class="section-container">
+            <h2>Update Email</h2>
+            <form action="includes/update-email.inc.php" method="post">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" value='<?php echo $userData['users_email']; ?>'>
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" required>
+                <button class="button" type="submit" name="update-email"><i class="bi bi-save"></i> Update
+                    Email</button>
+            </form>
+            <?php
+            if (isset($_GET["email"])) {
+                if ($_GET["email"] == "success") {
+                    echo "<p class='success-message'>Your email has been updated successfully!</p>";
+                }
+            }
+            ?>
         </section>
         <section class="section-container">
             <h2>Update Password</h2>
             <form action="includes/update-password.inc.php" method="post">
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" required>
                 <label for="password">New Password:</label>
                 <input type="password" id="password" name="password" required>
                 <label for="confirmPassword">Confirm New Password:</label>
