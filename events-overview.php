@@ -92,12 +92,12 @@ require_login();
                                 var expensesOverBudget = <?php echo $expensesOverBudget; ?>;
                         
                                 datasets.push({
-                                    label: 'Expenses (within budget)',
+                                    label: 'Expenses (Within budget)',
                                     data: [expensesWithinBudget],
                                     backgroundColor: 'red',
                                     stack: 'Stack 1',
                                 }, {
-                                    label: 'Expenses (over budget)',
+                                    label: 'Expenses (Over budget)',
                                     data: [expensesOverBudget],
                                     backgroundColor: 'darkred',
                                     stack: 'Stack 1',
