@@ -27,21 +27,8 @@ $totalExpenses = getTotalEventExpenses($conn, $eventsId);
 $totalIncome = getTotalEventIncome($conn, $eventsId);
 $remainingBudget = empty($transactions) ? $row['events_budget'] : getEventRemainingBudget($conn, $eventsId);
 
-// Calculate expenses within and over budget
-$expensesWithinBudget = abs(min($totalExpenses, $remainingBudget));
-$expensesOverBudget = max(0, $totalExpenses - $remainingBudget);
 
-// If remaining budget is less than 0, set it to 0
-if ($remainingBudget < 0) {
-    $remainingBudget = 0;
-}
-
-// If there are no expenses or income, use the initial budget
-if ($expenses == 0 && $income == 0) {
-    $expenses = 0;
-    $income = 0;
-    $remainingBudget = $event['events_budget'];
-}
+list($expensesWithinBudget, $expensesOverBudget, $remainingBudget) = calculateBudget($totalExpenses, $remainingBudget, $transactions, $row, $eventsId, $conn);
 
 $colors = [
     '#B71C1C', // Red
