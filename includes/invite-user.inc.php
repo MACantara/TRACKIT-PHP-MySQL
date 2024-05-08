@@ -9,7 +9,7 @@ require_once "../PHPMailer/src/PHPMailer.php";
 require_once "../PHPMailer/src/SMTP.php";
 require_once "../config.php";
 require_once "error-handling-functions.inc.php";
-$eventId = $_POST['events_id'];
+$eventsId = $_POST['events_id'];
 
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -23,48 +23,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
-    $userId = $user['users_id'];
+    $usersId = $user['users_id'];
 
     // Generate unique token
     $token = bin2hex(random_bytes(32));
 
     // Get event ID from form
-    $eventId = $_POST['events_id'];
+    $eventsId = $_POST['events_id'];
 
     $url = BASE_URL . "accept-invitation.php?token=$token";
 
     // Check if user ID and event ID already exist as a pair in the event_users table of the database
     $sql = "SELECT * FROM event_users WHERE events_id = ? AND users_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $eventId, $userId);
+    $stmt->bind_param("ii", $eventsId, $usersId);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         // User ID and event ID already exist as a pair in the event_users table of the database
         // Redirect to the invite-user page with an error message
-        header("location: ../invite-user.php?events_id=" . $eventId . "&error=userexistasmanager");
+        header("location: ../invite-user.php?events_id=" . $eventsId . "&error=userexistasmanager");
         exit();
     }
 
     // Check if event ID and email already exist as a pair in the database
     $sql = "SELECT * FROM event_invitations WHERE event_invitations_event_id = ? AND event_invitations_email = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("is", $eventId, $email);
+    $stmt->bind_param("is", $eventsId, $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         // Event ID and email already exist as a pair in the database
         // Redirect to the invite-user page with an error message
-        header("location: ../invite-user.php?events_id=" . $eventId . "&error=userinviteexists");
+        header("location: ../invite-user.php?events_id=" . $eventsId . "&error=userinviteexists");
         exit();
     }
 
     // Save token, event ID, and email in database
     $sql = "INSERT INTO event_invitations (event_invitations_event_id, event_invitations_email, event_invitations_token) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iss", $eventId, $email, $token);
+    $stmt->bind_param("iss", $eventsId, $email, $token);
     $stmt->execute();
 
     // Create PHPMailer instance and configure SMTP settings
@@ -93,5 +93,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $mail->Send();
 
-    header("location: ../invite-user.php?events_id=" . $eventId . "&error=none");
+    header("location: ../invite-user.php?events_id=" . $eventsId . "&error=none");
 }
