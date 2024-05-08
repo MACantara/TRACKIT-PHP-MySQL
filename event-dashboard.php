@@ -6,10 +6,10 @@ require_once 'includes/event-functions.inc.php';
 require_once 'includes/user-functions.inc.php';
 require_login();
 
-$eventId = $_GET['events_id'];
-$userId = $_SESSION["users_id"];
+$eventsId = $_GET['events_id'];
+$usersId = $_SESSION["users_id"];
 
-$row = getEvent($conn, $eventId);
+$row = getEvent($conn, $eventsId);
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $recordsPerPage = 25; // Change this to 50, 75, or 100 as needed
 $startFrom = ($page - 1) * $recordsPerPage;
@@ -20,12 +20,12 @@ $_SESSION['transaction_type'] = $_GET['transaction_type'] ?? $_SESSION['transact
 $sort = $_SESSION['sort'];
 $filterDays = $_SESSION['filter'];
 $transactionType = $_SESSION['transaction_type'];
-$transactions = getTransactions($conn, $eventId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType, $startFrom, $recordsPerPage);
-$expenses = getEventExpenses($conn, $eventId);
-$incomes = getEventIncomes($conn, $eventId);
-$totalExpenses = getTotalEventExpenses($conn, $eventId);
-$totalIncome = getTotalEventIncome($conn, $eventId);
-$remainingBudget = empty($transactions) ? $row['events_budget'] : getEventRemainingBudget($conn, $eventId);
+$transactions = getTransactions($conn, $eventsId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType, $startFrom, $recordsPerPage);
+$expenses = getEventExpenses($conn, $eventsId);
+$incomes = getEventIncomes($conn, $eventsId);
+$totalExpenses = getTotalEventExpenses($conn, $eventsId);
+$totalIncome = getTotalEventIncome($conn, $eventsId);
+$remainingBudget = empty($transactions) ? $row['events_budget'] : getEventRemainingBudget($conn, $eventsId);
 
 // Calculate expenses within and over budget
 $expensesWithinBudget = abs(min($totalExpenses, $remainingBudget));
@@ -77,7 +77,7 @@ $topExpenseCategories = groupOtherCategories($groupedExpenseTransactions, 5);
 $topIncomeCategories = groupOtherCategories($groupedIncomeTransactions, 5);
 
 // Add pagination links at the end of the transaction history table
-$totalRecords = count(getTransactions($conn, $eventId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType));
+$totalRecords = count(getTransactions($conn, $eventsId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType));
 $totalPages = ceil($totalRecords / $recordsPerPage);
 
 ?>
@@ -99,10 +99,10 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
     <main>
         <div class="event-dashboard-buttons-container">
             <a class="secondary-outline-button" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back to Events Overview</a>
-            <a class="button" href="add-transaction.php?events_id=<?php echo $eventId; ?>"><i class="bi bi-plus-circle"></i> Add Transaction</a>
-            <a class="button" href="invite-user.php?events_id=<?php echo $eventId; ?>"><i class="bi bi-person-plus"></i> Invite User</a>
-            <form action="includes/report-generation.inc.php?events_id=<?php echo $eventId; ?>" method="post">
-                <input type="hidden" name="event_id" value="<?php echo $eventId; ?>">
+            <a class="button" href="add-transaction.php?events_id=<?php echo $eventsId; ?>"><i class="bi bi-plus-circle"></i> Add Transaction</a>
+            <a class="button" href="invite-user.php?events_id=<?php echo $eventsId; ?>"><i class="bi bi-person-plus"></i> Invite User</a>
+            <form action="includes/report-generation.inc.php?events_id=<?php echo $eventsId; ?>" method="post">
+                <input type="hidden" name="event_id" value="<?php echo $eventsId; ?>">
                 <button class="button" type="submit" name="generate-report"><i class="bi bi-file-earmark-text"></i> Generate Report</button>
             </form>
         </div>
@@ -111,12 +111,12 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
             <section class="one-column-grid-container">
                 <h2>Expenses</h2>
                 <canvas id="pieChart1"></canvas>
-                <p>Total Expenses: &#8369; <?php echo number_format(getTotalEventExpenses($conn, $eventId), 2); ?></p>
+                <p>Total Expenses: &#8369; <?php echo number_format(getTotalEventExpenses($conn, $eventsId), 2); ?></p>
             </section>
             <section class="one-column-grid-container">
                 <h2>Income</h2>
                 <canvas id="pieChart2"></canvas>
-                <p>Total Income: &#8369; <?php echo number_format(getTotalEventIncome($conn, $eventId), 2); ?></p>
+                <p>Total Income: &#8369; <?php echo number_format(getTotalEventIncome($conn, $eventsId), 2); ?></p>
             </section>
             <section class="one-column-grid-container">
                 <h2>Remaining Budget</h2>
@@ -129,7 +129,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
             <?php if (empty($transactions)): ?>
                 <div class="controls">
                     <form action="event-dashboard.php" method="get" class="filter-form">
-                        <input type="hidden" name="events_id" value="<?php echo $eventId; ?>">
+                        <input type="hidden" name="events_id" value="<?php echo $eventsId; ?>">
                         <label for="sort" class="filter-label">Sort by date:</label>
                         <select name="sort" id="sort" class="filter-select">
                             <option value="ASC" <?php echo $sort == 'ASC' ? 'selected' : ''; ?>>Old to Recent</option>
@@ -155,7 +155,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
                                 Expense</option>
                         </select>
                         <button type="submit" class="filter-button">Apply</button>
-                        <a href="event-dashboard.php?events_id=<?php echo $eventId; ?>&sort=DESC&filter=&transaction_type="
+                        <a href="event-dashboard.php?events_id=<?php echo $eventsId; ?>&sort=DESC&filter=&transaction_type="
                             class="filter-button">Reset</a>
                     </form>
                 </div>
@@ -163,7 +163,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
             <?php else: ?>
                 <div class="controls">
                     <form action="event-dashboard.php" method="get" class="filter-form">
-                        <input type="hidden" name="events_id" value="<?php echo $eventId; ?>">
+                        <input type="hidden" name="events_id" value="<?php echo $eventsId; ?>">
                         <label for="sort" class="filter-label">Sort by date:</label>
                         <select name="sort" id="sort" class="filter-select">
                             <option value="ASC" <?php echo $sort == 'ASC' ? 'selected' : ''; ?>>Old to Recent</option>
@@ -189,18 +189,18 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
                                 Expense</option>
                         </select>
                         <button type="submit" class="filter-button">Apply</button>
-                        <a href="event-dashboard.php?events_id=<?php echo $eventId; ?>&sort=DESC&filter=&transaction_type="
+                        <a href="event-dashboard.php?events_id=<?php echo $eventsId; ?>&sort=DESC&filter=&transaction_type="
                             class="filter-button">Reset</a>
                     </form>
                     <div class="pagination">
                         <?php
                         echo "<div class='pagination'>";
                         if ($page > 1) {
-                            echo "<a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page - 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'><i class='bi bi-arrow-left'></i></a> ";
+                            echo "<a href='event-dashboard.php?events_id=" . $eventsId . "&page=" . ($page - 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'><i class='bi bi-arrow-left'></i></a> ";
                         }
                         echo "Page " . $page . " of " . $totalPages;
                         if ($page < $totalPages) {
-                            echo " <a href='event-dashboard.php?events_id=" . $eventId . "&page=" . ($page + 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'><i class='bi bi-arrow-right'></i></a>";
+                            echo " <a href='event-dashboard.php?events_id=" . $eventsId . "&page=" . ($page + 1) . "&sort=" . $sort . "&filter=" . $filterDays . "'><i class='bi bi-arrow-right'></i></a>";
                         }
                         echo "</div>";
                         ?>
