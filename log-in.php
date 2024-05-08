@@ -23,7 +23,7 @@ session_start();
                 <input type="password" name="password" id="password" placeholder="Password" required>
                 <div class="password-container">
                     <a href="forgot-password.php">Forgot Password?</a>
-                    <button class="show-button" type="button" id="showPasswordButton"onclick="togglePasswordVisibility('password, 'showPasswordButton')">Show Password</button>
+                    <button class="show-button" id="showPasswordButton" type="button" onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
                 </div>
                 <button class="button" type="submit" name="submit"><i class="bi bi-box-arrow-in-right"></i> Log In</button>
                 <p class="account-information-text">Don't have an account yet? <a href="sign-up.php">Sign Up</a></p>
