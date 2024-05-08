@@ -5,25 +5,25 @@ require_once 'db-connection.inc.php';
 require_once "event-functions.inc.php";
 require_once "report-generation-functions.inc.php";
 
-$eventId = $_GET['events_id'];
+$eventsId = $_GET['events_id'];
 $usersUsername = $_SESSION["users_username"];
-$eventName = getEventName($conn, $eventId);
-$totalExpenses = getTotalEventExpenses($conn, $eventId);
-$totalIncome = getTotalEventIncome($conn, $eventId);
+$eventName = getEventName($conn, $eventsId);
+$totalExpenses = getTotalEventExpenses($conn, $eventsId);
+$totalIncome = getTotalEventIncome($conn, $eventsId);
 
 // Fetch initial budget
-$initialBudget = getEventInitialBudget($conn, $eventId);
+$initialBudget = getEventInitialBudget($conn, $eventsId);
 
 // Fetch transactions
-$transactions = getTransactions($conn, $eventId);
+$transactions = getTransactions($conn, $eventsId);
 
 // Fetch expenses, income, and remaining budget
-$expenses = getEventExpenses($conn, $eventId);
-$income = getEventIncomes($conn, $eventId);
-$remainingBudget = getEventRemainingBudget($conn, $eventId);
+$expenses = getEventExpenses($conn, $eventsId);
+$income = getEventIncomes($conn, $eventsId);
+$remainingBudget = getEventRemainingBudget($conn, $eventsId);
 
 // Fetch managers
-$managers = getEventManagers($conn, $eventId);
+$managers = getEventManagers($conn, $eventsId);
 
 // Create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
