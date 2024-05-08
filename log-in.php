@@ -42,6 +42,8 @@ checkSessionTimeout();
                     echo "<p class='error-message'>Log in is required to access this page!</p>";
                 } else if ($_GET["error"] == "toomanyattempts") {
                     echo "<p class='error-message'>Too many failed login attempts. Please try again later.</p>";
+                } else if ($_GET["error"] == "sessiontimeout") {
+                    echo "<p class='error-message'>Your session has timed out. Please log in again.</p>";
                 }
             }
             if (isset($_GET["newpwd"])) {
