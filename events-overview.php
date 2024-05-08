@@ -45,25 +45,14 @@ require_login();
                 <?php
                 // Get the data for the current event
                 $eventsId = $event['events_id'];
+                $row = getEvent($conn, $eventsId);
                 $expenses = getTotalEventExpenses($conn, $eventsId);
                 $income = getTotalEventIncome($conn, $eventsId);
                 $remainingBudget = getEventRemainingBudget($conn, $eventsId);
+                $transactions = getTransactions($conn, $eventsId);
+                $totalExpenses = $expenses + $income;
 
-                // Calculate expenses within and over budget
-                $expensesWithinBudget = abs(min($expenses, $remainingBudget));
-                $expensesOverBudget = max(0, $expenses - $remainingBudget);
-
-                // If remaining budget is less than 0, set it to 0
-                if ($remainingBudget < 0) {
-                    $remainingBudget = 0;
-                }
-
-                // If there are no expenses or income, use the initial budget
-                if ($expenses == 0 && $income == 0) {
-                    $expenses = 0;
-                    $income = 0;
-                    $remainingBudget = $event['events_budget'];
-                }
+                list($expensesWithinBudget, $expensesOverBudget, $remainingBudget) = calculateBudget($totalExpenses, $remainingBudget, $transactions, $row, $eventsId, $conn);
                 ?>
                 <section>
                     <div>
