@@ -3,6 +3,7 @@ session_start();
 
 require_once "includes/user-functions.inc.php";
 checkSessionTimeout();
+
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +40,8 @@ checkSessionTimeout();
                     echo "<p class='error-message'>Incorrect login information!</p>";
                 } else if ($_GET["error"] == "loginrequired") {
                     echo "<p class='error-message'>Log in is required to access this page!</p>";
+                } else if ($_GET["error"] == "toomanyattempts") {
+                    echo "<p class='error-message'>Too many failed login attempts. Please try again later.</p>";
                 }
             }
             if (isset($_GET["newpwd"])) {
