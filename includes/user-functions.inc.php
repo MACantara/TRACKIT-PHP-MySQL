@@ -65,3 +65,31 @@ function require_login() {
         exit();
     }
 }
+
+function checkSessionTimeout() {
+    // start the session
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // set the timeout duration (in seconds)
+    $timeout_duration = 1800;  // 30 minutes
+
+    // check if the timeout key exists
+    if(isset($_SESSION['timeout'])) {
+        // calculate the session lifetime
+        $session_lifetime = time() - $_SESSION['timeout'];
+
+        // check if the session has expired
+        if($session_lifetime > $timeout_duration) {
+            // destroy the session and redirect the user
+            session_unset();
+            session_destroy();
+            header("Location: log-in.php?error=sessiontimeout");
+            exit();
+        }
+    }
+
+    // update the timeout time
+    $_SESSION['timeout'] = time();
+}
