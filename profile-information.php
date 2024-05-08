@@ -40,28 +40,16 @@ checkSessionTimeout();
         <section class="section-container">
             <h2>About</h2>
             <p><?php echo $profileData['profiles_about']; ?></p>
-        </section>
-        <section class="section-container">
             <h2>Title</h2>
             <p><?php echo $profileData['profiles_introduction_title']; ?></p>
-        </section>
-        <section class="section-container">
             <h2>Text</h2>
             <p><?php echo $profileData['profiles_introduction_text']; ?></p>
-        </section>
-        <section class="section-container">
             <h2>First Name</h2>
             <p><?php echo $userData['users_first_name']; ?></p>
-        </section>
-        <section class="section-container">
             <h2>Last Name</h2>
             <p><?php echo $userData['users_last_name']; ?></p>
-        </section>
-        <section class="section-container">
             <h2>Username</h2>
             <p><?php echo $userData['users_username']; ?></p>
-        </section>
-        <section class="section-container">
             <h2>Email</h2>
             <p><?php echo $userData['users_email']; ?></p>
         </section>
