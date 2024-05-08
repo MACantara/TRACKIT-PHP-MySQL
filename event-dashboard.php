@@ -5,6 +5,7 @@ require_once 'includes/event-functions.inc.php';
 
 require_once 'includes/user-functions.inc.php';
 require_login();
+checkSessionTimeout();
 
 $eventsId = $_GET['events_id'];
 $usersId = $_SESSION["users_id"];

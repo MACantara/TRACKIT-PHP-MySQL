@@ -3,6 +3,7 @@ session_start();
 
 require_once 'includes/user-functions.inc.php';
 require_login();
+checkSessionTimeout();
 ?>
 
 <!DOCTYPE html>

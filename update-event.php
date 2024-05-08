@@ -1,13 +1,14 @@
 <?php
-session_start();
+    session_start();
 
-require_once 'includes/event-functions.inc.php';
+    require_once 'includes/event-functions.inc.php';
 
-$eventsId = $_GET['events_id'];
-$event = getEvent($conn, $eventsId);
+    $eventsId = $_GET['events_id'];
+    $event = getEvent($conn, $eventsId);
 
-require_once 'includes/user-functions.inc.php';
-require_login();
+    require_once 'includes/user-functions.inc.php';
+    require_login();
+    checkSessionTimeout();
 ?>
 
 <!DOCTYPE html>

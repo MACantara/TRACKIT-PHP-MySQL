@@ -2,6 +2,9 @@
 session_start();
 require_once "includes/accept-invitation.inc.php";
 
+require_once "includes/user-functions.inc.php";
+checkSessionTimeout();
+
 // Check if user is linked to event
 if (isset($user)) {
     $message = "You have successfully accepted the invitation to manage the event: " . $row['events_name'];

@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php 
+    session_start();
+
+    require_once "includes/user-functions.inc.php";
+    checkSessionTimeout();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
