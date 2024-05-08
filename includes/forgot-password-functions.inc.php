@@ -38,17 +38,17 @@ function sendResetEmail($userEmail, $url) {
     $mail->Send();
 }
 
-function deleteExistingResetRequest($conn, $userId) {
+function deleteExistingResetRequest($conn, $usersId) {
     $sql = "DELETE FROM password_reset WHERE password_reset_users_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $userId);
+    mysqli_stmt_bind_param($stmt, "i", $usersId);
     mysqli_stmt_execute($stmt);
 }
 
-function createNewResetRequest($conn, $userId, $selector, $hashedToken, $expires) {
+function createNewResetRequest($conn, $usersId, $selector, $hashedToken, $expires) {
     $sql = "INSERT INTO password_reset (password_reset_users_id, password_reset_selector, password_reset_token, password_reset_expires) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "isss", $userId, $selector, $hashedToken, $expires);
+    mysqli_stmt_bind_param($stmt, "isss", $usersId, $selector, $hashedToken, $expires);
     mysqli_stmt_execute($stmt);
 }
 
@@ -65,18 +65,18 @@ function handleRequest($conn, $userEmail) {
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     if ($row = mysqli_fetch_assoc($result)) {
-        $userId = $row['users_id'];
+        $usersId = $row['users_id'];
     } else {
         header("location: ../forgot-password.php?error=nouser");
         exit();
     }
 
-    deleteExistingResetRequest($conn, $userId);
+    deleteExistingResetRequest($conn, $usersId);
     $selector = bin2hex(random_bytes(8));
     $token = random_bytes(32);
     $url = BASE_URL . "create-new-password.php?selector=" . $selector . "&validator=" . bin2hex($token);
     $expires = date("U") + 1800;
     $hashedToken = password_hash($token, PASSWORD_DEFAULT);
-    createNewResetRequest($conn, $userId, $selector, $hashedToken, $expires);
+    createNewResetRequest($conn, $usersId, $selector, $hashedToken, $expires);
     sendResetEmail($userEmail, $url);
 }
