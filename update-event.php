@@ -3,8 +3,8 @@ session_start();
 
 require_once 'includes/event-functions.inc.php';
 
-$events_id = $_GET['events_id'];
-$event = getEvent($conn, $events_id);
+$eventsId = $_GET['events_id'];
+$event = getEvent($conn, $eventsId);
 
 require_once 'includes/user-functions.inc.php';
 require_login();
@@ -26,7 +26,7 @@ require_login();
         <section class="section-container">
             <h1>Update Event</h1>
             <form method="post" action="includes/update-event.inc.php">
-                <input type="hidden" name="events_id" value="<?php echo $events_id; ?>">
+                <input type="hidden" name="events_id" value="<?php echo $eventsId; ?>">
 
                 <label for="event_name">Event Name:</label>
                 <input type="text" id="event_name" name="event_name" value="<?php echo $event['events_name']; ?>" required>
