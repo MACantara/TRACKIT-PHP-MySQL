@@ -3,7 +3,7 @@ require_once 'db-connection.inc.php';
 require_once 'error-handling-functions.inc.php';
 
 
-function createEvent($conn, $userId, $eventName, $eventDescription, $eventDate, $eventTime, $eventBudget) {
+function createEvent($conn, $usersId, $eventName, $eventDescription, $eventDate, $eventTime, $eventBudget) {
     if (eventEmptyInput($eventName, $eventDescription, $eventDate, $eventTime, $eventBudget) !== false) {
         header("location: create-event.php?error=emptyinput");
         exit();
@@ -39,10 +39,10 @@ function createEvent($conn, $userId, $eventName, $eventDescription, $eventDate, 
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ssss", $eventName, $eventDescription, $eventDateTime, $eventBudget);
     mysqli_stmt_execute($stmt);
-    $eventId = mysqli_insert_id($conn);
+    $eventsId = mysqli_insert_id($conn);
 
     $sql = "INSERT INTO event_users (users_id, events_id) VALUES (?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ii", $userId, $eventId);
+    mysqli_stmt_bind_param($stmt, "ii", $usersId, $eventsId);
     mysqli_stmt_execute($stmt);
 }
