@@ -1,13 +1,13 @@
 <?php
-    session_start();
-    require_once "includes/db-connection.inc.php";
-    require_once "includes/profile-information-functions.inc.php";
-    $profileData = getProfileInformation($conn, $_SESSION["users_id"]);
-    $userData = getUserInformation($conn, $_SESSION["users_id"]);
+session_start();
+require_once "includes/db-connection.inc.php";
+require_once "includes/profile-information-functions.inc.php";
+$profileData = getProfileInformation($conn, $_SESSION["users_id"]);
+$userData = getUserInformation($conn, $_SESSION["users_id"]);
 
-    require_once 'includes/user-functions.inc.php';
-    require_login();
-    checkSessionTimeout();
+require_once 'includes/user-functions.inc.php';
+require_login();
+checkSessionTimeout();
 ?>
 
 <!DOCTYPE html>
@@ -26,8 +26,16 @@
         <section class="section-container">
             <h1><?php echo $userData["users_username"] ?>'s Profile</h1>
             <div class="button-container">
-                <a class="button margin-top-16" href="profile-information-settings.php"><i class="bi bi-pencil"></i> Edit Profile</a>
+                <a class="button margin-top-16" href="profile-information-settings.php"><i class="bi bi-pencil"></i>
+                    Edit Profile</a>
             </div>
+            <?php
+            if (isset($_GET['error'])) {
+                if ($_GET['error'] == 'none') {
+                    echo '<p class="success-message">Your profile has been updated successfully!</p>';
+                }
+            }
+            ?>
         </section>
         <section class="section-container">
             <h2>About</h2>
