@@ -3,8 +3,8 @@ session_start();
 require_once 'includes/db-connection.inc.php';
 require_once 'includes/event-functions.inc.php';
 
-$userId = $_SESSION["users_id"];
-$events = getUserEvents($conn, $userId);
+$usersId = $_SESSION["users_id"];
+$events = getUserEvents($conn, $usersId);
 
 require_once 'includes/user-functions.inc.php';
 require_login();
@@ -44,10 +44,10 @@ require_login();
             <?php foreach ($events as $event): ?>
                 <?php
                 // Get the data for the current event
-                $eventId = $event['events_id'];
-                $expenses = getTotalEventExpenses($conn, $eventId);
-                $income = getTotalEventIncome($conn, $eventId);
-                $remainingBudget = getEventRemainingBudget($conn, $eventId);
+                $eventsId = $event['events_id'];
+                $expenses = getTotalEventExpenses($conn, $eventsId);
+                $income = getTotalEventIncome($conn, $eventsId);
+                $remainingBudget = getEventRemainingBudget($conn, $eventsId);
 
                 // Calculate expenses within and over budget
                 $expensesWithinBudget = abs(min($expenses, $remainingBudget));
@@ -75,9 +75,9 @@ require_login();
                             <?php echo date('h:i A', strtotime($event['events_date'])); ?>
                         </p>
                         <p>Initial Budget: &#8369; <?php echo number_format($event['events_budget'], 2); ?></p>
-                        <canvas class="event-overview-chart" id="myChart<?php echo $eventId; ?>"></canvas>
+                        <canvas class="event-overview-chart" id="myChart<?php echo $eventsId; ?>"></canvas>
                         <script>
-                            var ctx = document.getElementById('myChart<?php echo $eventId; ?>').getContext('2d');
+                            var ctx = document.getElementById('myChart<?php echo $eventsId; ?>').getContext('2d');
                         
                             var datasets = [{
                                 label: 'Remaining Budget',
