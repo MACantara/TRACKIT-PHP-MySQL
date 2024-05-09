@@ -42,7 +42,9 @@ checkSessionTimeout();
                     echo "<p class='error-message'>User is already a manager!</p>";
                 } else if ($_GET['error'] == "userinviteexists") {
                     echo "<p class='error-message'>User already invited!</p>";
-                } 
+                } else if ($_GET['error'] == 'usernotfound') {
+                    echo "<p class='error-message'>User not found!</p>";
+                }
             }
             ?>
         </section>
