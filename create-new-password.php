@@ -34,6 +34,13 @@ checkSessionTimeout();
                         <input type="hidden" name="validator" value="<?php echo $validator; ?>">
                         <label for="password">Enter a new password</label>
                         <input type="password" name="password" id="password" required>
+                        <div id="strengthBar"
+                            style="height: 10px; width: 0; background: linear-gradient(to right, red, yellow, green);"></div>
+                        <div class="password-container">
+                            <p id="strengthLabel"></p>
+                            <button class="show-button" id="showPasswordButton" type="button"
+                                onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
+                        </div>
                         <ul class="password-requirements" id="password-requirements">
                             <li id="length"><i class="bi bi-x-circle-fill text-danger"></i> Must be at least 8 characters long
                             </li>
@@ -50,7 +57,12 @@ checkSessionTimeout();
                         </ul>
                         <label for="confirmPassword">Confirm Password</label>
                         <input type="password" name="confirmPassword" id="confirmPassword" required>
-                        <div id="passwordMatchStatus" style="display: none; text-align: left;"></div>
+                        <div class="password-container">
+                            <div id="passwordMatchStatus" style="display: none; text-align: left;"></div>
+                            <button class="show-button" id="showConfirmPasswordButton" type="button"
+                                onclick="togglePasswordVisibility('confirmPassword', 'showConfirmPasswordButton')">Show
+                                Password</button>
+                        </div>
                         <button class="button margin-top-16" type="submit" name="reset-password-submit"><i
                                 class="bi bi-key"></i> Reset Password</button>
                     </form>
@@ -75,7 +87,7 @@ checkSessionTimeout();
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
-    <script src="static/js/password-check.js"></script>
+    <?php include 'includes/password-check-js-functions.inc.php' ?>
 </body>
 
 </html>
