@@ -90,8 +90,35 @@ checkSessionTimeout();
                 <input type="password" id="currentPassword" name="currentPassword" required>
                 <label for="password">New Password:</label>
                 <input type="password" id="password" name="password" required>
+                <div id="strengthBar"
+                    style="height: 10px; width: 0; background: linear-gradient(to right, red, yellow, green);"></div>
+                <div class="password-container">
+                    <p id="strengthLabel"></p>
+                    <button class="show-button" id="showPasswordButton" type="button"
+                        onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
+                </div>
+                <ul class="password-requirements" id="password-requirements">
+                    <li id="length"><i class="bi bi-x-circle-fill text-danger"></i> Must be at least 8 characters long
+                    </li>
+                    <li id="uppercase"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one
+                        uppercase
+                        letter</li>
+                    <li id="lowercase"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one
+                        lowercase
+                        letter</li>
+                    <li id="number"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one number
+                    </li>
+                    <li id="special"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one special
+                        character</li>
+                </ul>
                 <label for="confirmPassword">Confirm New Password:</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <div class="password-container">
+                    <div id="passwordMatchStatus" style="display: none; text-align: left;"></div>
+                    <button class="show-button" id="showConfirmPasswordButton" type="button"
+                        onclick="togglePasswordVisibility('confirmPassword', 'showConfirmPasswordButton')">Show
+                        Password</button>
+                </div>
                 <input type="hidden" name="usersEmail" value="<?php echo $userData['users_email']; ?>">
                 <button class="button margin-top-16" type="submit" name="updatePassword"><i class="bi bi-key-fill"></i>
                     Update Password</button>
@@ -117,6 +144,7 @@ checkSessionTimeout();
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
+    <?php include 'includes/password-check-js-functions.inc.php' ?>
 </body>
 
 </html>
