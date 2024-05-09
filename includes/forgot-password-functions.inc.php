@@ -18,7 +18,7 @@ function sendResetEmail($usersEmail, $usersUsername, $url) {
     $mail->isHTML();
     $mail->Username = "welptest12@gmail.com";
     $mail->Password = "faix wvbv fauy qodg";
-    $mail->SetFrom("no-reply@trackit.com");
+    $mail->setFrom('welptest12@gmail.com', 'TRACKIT Team');
     $mail->Subject = "Reset your password";
     $mail->Body = "
         <html>
