@@ -97,12 +97,12 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
         <h1 class="margin-top-16"><?php echo $row['events_name']; ?></h1>
         <section class="chart-container">
             <section class="one-column-grid-container">
-                <h2>Expenses</h2>
+                <h2>Top 5 Expenses</h2>
                 <canvas id="pieChart1"></canvas>
                 <p>Total Expenses: &#8369; <?php echo number_format(getTotalEventExpenses($conn, $eventsId), 2); ?></p>
             </section>
             <section class="one-column-grid-container">
-                <h2>Income</h2>
+                <h2>Top 5 Income</h2>
                 <canvas id="pieChart2"></canvas>
                 <p>Total Income: &#8369; <?php echo number_format(getTotalEventIncome($conn, $eventsId), 2); ?></p>
             </section>
@@ -231,7 +231,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
         // Pie chart - Expenses
         const pieChartCtx1 = document.getElementById("pieChart1").getContext("2d");
         new Chart(pieChartCtx1, {
-            type: "pie",
+            type: "doughnut",
             data: {
                 labels: <?php echo json_encode(array_keys($topExpenseCategories)); ?>,
                 datasets: [
@@ -248,7 +248,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
         // Pie chart - Incomes
         const pieChartCtx2 = document.getElementById("pieChart2").getContext("2d");
         new Chart(pieChartCtx2, {
-            type: "pie",
+            type: "doughnut",
             data: {
                 labels: <?php echo json_encode(array_keys($topIncomeCategories)); ?>,
                 datasets: [
