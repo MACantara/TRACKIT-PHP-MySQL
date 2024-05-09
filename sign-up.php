@@ -1,8 +1,8 @@
-<?php 
-    session_start();
+<?php
+session_start();
 
-    require_once "includes/user-functions.inc.php";
-    checkSessionTimeout();
+require_once "includes/user-functions.inc.php";
+checkSessionTimeout();
 ?>
 
 <!DOCTYPE html>
@@ -32,21 +32,28 @@
                 <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
                 <input type="password" id="password" name="password" required>
                 <div class="password-container">
-                    <button class="show-button" id="showPasswordButton" type="button" onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
+                    <button class="show-button" id="showPasswordButton" type="button"
+                        onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
                 </div>
                 <ul class="password-requirements" id="password-requirements">
-                    <li id="length">❌ Must be at least 8 characters long</li>
-                    <li id="uppercase">❌ Must contain at least one uppercase letter</li>
-                    <li id="lowercase">❌ Must contain at least one lowercase letter</li>
-                    <li id="number">❌ Must contain at least one number</li>
-                    <li id="special">❌ Must contain at least one special character</li>
+                    <li id="length"><i class="bi bi-x-circle-fill text-danger"></i> Must be at least 8 characters long</li>
+                    <li id="uppercase"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one uppercase
+                        letter</li>
+                    <li id="lowercase"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one lowercase
+                        letter</li>
+                    <li id="number"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one number</li>
+                    <li id="special"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one special
+                        character</li>
                 </ul>
                 <label for="confirmPassword"><i class="bi bi-lock-fill"></i> Password</label>
                 <input type="password" name="password" id="confirmPassword" placeholder="Confirm Password" required>
                 <div class="password-container">
-                    <button class="show-button" id="showConfirmPasswordButton" type="button" onclick="togglePasswordVisibility('confirmPassword', 'showConfirmPasswordButton')">Show Password</button>
+                    <button class="show-button" id="showConfirmPasswordButton" type="button"
+                        onclick="togglePasswordVisibility('confirmPassword', 'showConfirmPasswordButton')">Show
+                        Password</button>
                 </div>
-                <button class="button" type="submit" name="sign-up"><i class="bi bi-box-arrow-in-right"></i> Sign Up</button>
+                <button class="button" type="submit" name="sign-up"><i class="bi bi-box-arrow-in-right"></i> Sign
+                    Up</button>
                 <p class="account-information-text">Already have an account? <a href="log-in.php">Log In</a></p>
             </form>
             <?php
@@ -84,42 +91,42 @@
         var numberRequirement = document.getElementById('number');
         var specialRequirement = document.getElementById('special');
 
-        passwordInput.oninput = function() {
+        passwordInput.oninput = function () {
             var password = passwordInput.value;
 
             // Check length
             if (password.length >= 8) {
-                lengthRequirement.innerHTML = "✔️ Must be at least 8 characters long";
+                lengthRequirement.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> Must be at least 8 characters long';
             } else {
-                lengthRequirement.innerHTML = "❌ Must be at least 8 characters long";
+                lengthRequirement.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Must be at least 8 characters long';
             }
 
             // Check uppercase
             if (/[A-Z]/.test(password)) {
-                uppercaseRequirement.innerHTML = "✔️ Must contain at least one uppercase letter";
+                uppercaseRequirement.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> Must contain at least one uppercase letter';
             } else {
-                uppercaseRequirement.innerHTML = "❌ Must contain at least one uppercase letter";
+                uppercaseRequirement.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one uppercase letter';
             }
 
             // Check lowercase
             if (/[a-z]/.test(password)) {
-                lowercaseRequirement.innerHTML = "✔️ Must contain at least one lowercase letter";
+                lowercaseRequirement.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> Must contain at least one lowercase letter';
             } else {
-                lowercaseRequirement.innerHTML = "❌ Must contain at least one lowercase letter";
+                lowercaseRequirement.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one lowercase letter';
             }
 
             // Check number
             if (/[0-9]/.test(password)) {
-                numberRequirement.innerHTML = "✔️ Must contain at least one number";
+                numberRequirement.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> Must contain at least one number';
             } else {
-                numberRequirement.innerHTML = "❌ Must contain at least one number";
+                numberRequirement.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one number';
             }
 
             // Check special character
             if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password)) {
-                specialRequirement.innerHTML = "✔️ Must contain at least one special character";
+                specialRequirement.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> Must contain at least one special character';
             } else {
-                specialRequirement.innerHTML = "❌ Must contain at least one special character";
+                specialRequirement.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one special character';
             }
         };
     </script>
