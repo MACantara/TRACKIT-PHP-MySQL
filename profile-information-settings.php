@@ -76,9 +76,9 @@ checkSessionTimeout();
                     echo "<p class='error-message'>Incorrect current password!</p>";
                 }
             }
-            if (isset($_GET["email"])) {
-                if ($_GET["email"] == "success") {
-                    echo "<p class='success-message'>Your email has been updated successfully!</p>";
+            if (isset($_GET["emailupdaterequest"])) {
+                if ($_GET["emailupdaterequest"] == "success") {
+                    echo "<p class='success-message'>Your email update request have been sent to your new email! Please check your inbox to verify your email.</p>";
                 }
             }
             ?>
