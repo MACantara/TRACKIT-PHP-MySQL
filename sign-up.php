@@ -22,15 +22,15 @@ checkSessionTimeout();
             <h1>Sign Up</h1>
             <form action="includes/sign-up.inc.php" method="post">
                 <label for="firstName">First Name</label>
-                <input type="text" name="firstName" id="firstName" required>
+                <input type="text" name="firstName" id="firstName" placeholder="First Name" required>
                 <label for="lastName">Last Name</label>
-                <input type="text" name="lastName" id="lastName" required>
+                <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
                 <label for="username">Username</label>
-                <input type="text" name="username" id="username" required>
+                <input type="text" name="username" id="username" placeholder="Username" required>
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" required>
+                <input type="email" name="email" id="email" placeholder="Email" required>
                 <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
                 <div id="strengthBar"
                     style="height: 10px; width: 0; background: linear-gradient(to right, red, yellow, green);"></div>
                 <div class="password-container">
@@ -52,8 +52,8 @@ checkSessionTimeout();
                     <li id="special"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one special
                         character</li>
                 </ul>
-                <label for="confirmPassword"><i class="bi bi-lock-fill"></i> Password</label>
-                <input type="confirmPassword" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
+                <label for="confirmPassword"><i class="bi bi-lock-fill"></i> Confirm Password</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
                 <div class="password-container">
                     <div id="passwordMatchStatus" style="display: none; text-align: left;"></div>
                     <button class="show-button" id="showConfirmPasswordButton" type="button"
