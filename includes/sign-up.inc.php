@@ -1,5 +1,13 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once "../PHPMailer/src/Exception.php";
+require_once "../PHPMailer/src/PHPMailer.php";
+require_once "../PHPMailer/src/SMTP.php";
+require_once "../config.php";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = htmlspecialchars($_POST['firstName'], ENT_QUOTES, 'UTF-8');
     $lastName = htmlspecialchars($_POST['lastName'], ENT_QUOTES, 'UTF-8');
