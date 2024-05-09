@@ -8,7 +8,7 @@ require_once "../PHPMailer/src/PHPMailer.php";
 require_once "../PHPMailer/src/SMTP.php";
 require_once "db-connection.inc.php";
 
-function sendResetEmail($userEmail, $url) {
+function sendResetEmail($usersEmail, $usersUsername, $url) {
     $mail = new PHPMailer();
     $mail->isSMTP();
     $mail->SMTPAuth = true;
@@ -21,19 +21,20 @@ function sendResetEmail($userEmail, $url) {
     $mail->SetFrom("no-reply@trackit.com");
     $mail->Subject = "Reset your password";
     $mail->Body = "
-    <html>
-    <head>
-        <title>Password Reset Request</title>
-    </head>
-    <body>
-        <h1>Hi there, </h1>
-        <p>We received a request to reset your password. If you made this request, please click the button below:</p>
-        <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Reset Password</a>
-        <p>If you didn't request a password reset, you can safely ignore this email. Your password will not change.</p>
-        <p>Thanks,<br>Your Team</p>
-    </body>
-    </html>";
-    $mail->AddAddress($userEmail);
+        <html>
+        <head>
+            <title>Password Reset Request</title>
+        </head>
+        <body>
+            <h1>Hi there, " . $usersUsername . "</h1>
+            <p>We received a request to reset your password. If you made this request, please click the button below:</p>
+            <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Reset Password</a>
+            <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br>" . $url . "</p>
+            <p>If you didn't request a password reset, you can safely ignore this email. Your password will not change.</p>
+            <p>Sincerely,<br>TRACKIT Team</p>
+        </body>
+        </html>";
+    $mail->AddAddress($usersEmail);
 
     $mail->Send();
 }
@@ -52,20 +53,21 @@ function createNewResetRequest($conn, $usersId, $selector, $hashedToken, $expire
     mysqli_stmt_execute($stmt);
 }
 
-function handleRequest($conn, $userEmail) {
-    if (passwordRequestEmptyInput($userEmail) !== false) {
+function handleRequest($conn, $usersEmail) {
+    if (passwordRequestEmptyInput($usersEmail) !== false) {
         header("location: ../forgot-password.php?error=emptyinput");
         exit();
     }
 
-    // Get the user's id
-    $sql = "SELECT users_id FROM users WHERE users_email = ?";
+    // Get the user's id and username
+    $sql = "SELECT users_id, users_username FROM users WHERE users_email = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $userEmail);
+    mysqli_stmt_bind_param($stmt, "s", $usersEmail);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     if ($row = mysqli_fetch_assoc($result)) {
         $usersId = $row['users_id'];
+        $usersUsername = $row['users_username'];
     } else {
         header("location: ../forgot-password.php?error=nouser");
         exit();
@@ -78,5 +80,5 @@ function handleRequest($conn, $userEmail) {
     $expires = date("U") + 1800;
     $hashedToken = password_hash($token, PASSWORD_DEFAULT);
     createNewResetRequest($conn, $usersId, $selector, $hashedToken, $expires);
-    sendResetEmail($userEmail, $url);
+    sendResetEmail($usersEmail, $usersUsername, $url);
 }
