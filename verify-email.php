@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'includes/db-connection.inc.php';
 
 $message = '';
