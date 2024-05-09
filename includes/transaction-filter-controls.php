@@ -1,12 +1,3 @@
-<?php
-    $_SESSION['sort'] = $_GET['sort'] ?? $_SESSION['sort'] ?? 'DESC';
-    $_SESSION['filter'] = $_GET['filter'] ?? $_SESSION['filter'] ?? null;
-    $_SESSION['transaction_type'] = $_GET['transaction_type'] ?? $_SESSION['transaction_type'] ?? null;
-    $sort = $_SESSION['sort'];
-    $filterDays = $_SESSION['filter'];
-    $transactionType = $_SESSION['transaction_type'];
-?>
-
 <div class="controls">
     <form action="event-dashboard.php" method="get" class="filter-form">
         <input type="hidden" name="events_id" value="<?php echo $eventsId; ?>">

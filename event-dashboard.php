@@ -12,6 +12,16 @@ $usersId = $_SESSION["users_id"];
 
 $row = getEvent($conn, $eventsId);
 
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$recordsPerPage = 25; // Change this to 50, 75, or 100 as needed
+$startFrom = ($page - 1) * $recordsPerPage;
+
+$_SESSION['sort'] = $_GET['sort'] ?? $_SESSION['sort'] ?? 'DESC';
+$_SESSION['filter'] = $_GET['filter'] ?? $_SESSION['filter'] ?? null;
+$_SESSION['transaction_type'] = $_GET['transaction_type'] ?? $_SESSION['transaction_type'] ?? null;
+$sort = $_SESSION['sort'];
+$filterDays = $_SESSION['filter'];
+$transactionType = $_SESSION['transaction_type'];
 $transactions = getTransactions($conn, $eventsId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType, $startFrom, $recordsPerPage);
 $expenses = getEventExpenses($conn, $eventsId);
 $incomes = getEventIncomes($conn, $eventsId);
@@ -20,6 +30,10 @@ $totalIncome = getTotalEventIncome($conn, $eventsId);
 $remainingBudget = empty($transactions) ? $row['events_budget'] : getEventRemainingBudget($conn, $eventsId);
 
 list($expensesWithinBudget, $expensesOverBudget, $remainingBudget) = calculateBudget($totalExpenses, $remainingBudget, $transactions, $row, $eventsId, $conn);
+
+// Add pagination links at the end of the transaction history table
+$totalRecords = count(getTransactions($conn, $eventsId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType));
+$totalPages = ceil($totalRecords / $recordsPerPage);
 ?>
 
 <!DOCTYPE html>
