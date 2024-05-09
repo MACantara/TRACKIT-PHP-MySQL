@@ -1,10 +1,11 @@
 <?php
 require_once 'db-connection.inc.php'; // Include your database connection file
 
-// Check if token is provided
-if (isset($_GET['token'])) {
-    // Get token from URL
+// Check if token and action are provided
+if (isset($_GET['token']) && isset($_GET['action'])) {
+    // Get token and action from URL
     $token = $_GET['token'];
+    $action = $_GET['action'];
 
     // Get event ID and email from database using the token
     $sql = "SELECT event_invitations_events_id, event_invitations_email, events_name FROM event_invitations INNER JOIN events ON event_invitations.event_invitations_events_id = events.events_id WHERE event_invitations_token = ?";
@@ -26,11 +27,13 @@ if (isset($_GET['token'])) {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
-            // Link user to event in the event_users table
-            $sql = "INSERT INTO event_users (events_id, users_id) VALUES (?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ii", $eventId, $user['users_id']);
-            $stmt->execute();
+            // If action is 'accept', link user to event in the event_users table
+            if ($action === 'accept') {
+                $sql = "INSERT INTO event_users (events_id, users_id) VALUES (?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ii", $eventId, $user['users_id']);
+                $stmt->execute();
+            }
         }
 
         // Delete token from database
