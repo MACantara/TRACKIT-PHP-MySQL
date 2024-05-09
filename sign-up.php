@@ -30,11 +30,17 @@
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" required>
                 <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
-                <input type="password" name="password" id="password" placeholder="Password" required>
+                <input type="password" id="password" name="password" required>
                 <div class="password-container">
                     <button class="show-button" id="showPasswordButton" type="button" onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
                 </div>
-                <p class="info-text">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.</p>
+                <ul class="password-requirements" id="password-requirements">
+                    <li id="length">❌ Must be at least 8 characters long</li>
+                    <li id="uppercase">❌ Must contain at least one uppercase letter</li>
+                    <li id="lowercase">❌ Must contain at least one lowercase letter</li>
+                    <li id="number">❌ Must contain at least one number</li>
+                    <li id="special">❌ Must contain at least one special character</li>
+                </ul>
                 <label for="confirmPassword"><i class="bi bi-lock-fill"></i> Password</label>
                 <input type="password" name="password" id="confirmPassword" placeholder="Confirm Password" required>
                 <div class="password-container">
@@ -70,6 +76,53 @@
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
     <script src="static/js/password-visibility.js"></script>
+    <script>
+        var passwordInput = document.getElementById('password');
+        var lengthRequirement = document.getElementById('length');
+        var uppercaseRequirement = document.getElementById('uppercase');
+        var lowercaseRequirement = document.getElementById('lowercase');
+        var numberRequirement = document.getElementById('number');
+        var specialRequirement = document.getElementById('special');
+
+        passwordInput.oninput = function() {
+            var password = passwordInput.value;
+
+            // Check length
+            if (password.length >= 8) {
+                lengthRequirement.innerHTML = "✔️ Must be at least 8 characters long";
+            } else {
+                lengthRequirement.innerHTML = "❌ Must be at least 8 characters long";
+            }
+
+            // Check uppercase
+            if (/[A-Z]/.test(password)) {
+                uppercaseRequirement.innerHTML = "✔️ Must contain at least one uppercase letter";
+            } else {
+                uppercaseRequirement.innerHTML = "❌ Must contain at least one uppercase letter";
+            }
+
+            // Check lowercase
+            if (/[a-z]/.test(password)) {
+                lowercaseRequirement.innerHTML = "✔️ Must contain at least one lowercase letter";
+            } else {
+                lowercaseRequirement.innerHTML = "❌ Must contain at least one lowercase letter";
+            }
+
+            // Check number
+            if (/[0-9]/.test(password)) {
+                numberRequirement.innerHTML = "✔️ Must contain at least one number";
+            } else {
+                numberRequirement.innerHTML = "❌ Must contain at least one number";
+            }
+
+            // Check special character
+            if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password)) {
+                specialRequirement.innerHTML = "✔️ Must contain at least one special character";
+            } else {
+                specialRequirement.innerHTML = "❌ Must contain at least one special character";
+            }
+        };
+    </script>
 </body>
 
 </html>
