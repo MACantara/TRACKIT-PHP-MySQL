@@ -37,7 +37,7 @@ checkSessionTimeout();
             <?php
             if (isset($_GET['error'])) {
                 if ($_GET['error'] == "none") {
-                    echo "<p class='success-message'>Invite sent!</p>";
+                    echo "<p class='success-message'>The event management invite has been sent!</p>";
                 } else if ($_GET['error'] == "userexistasmanager") {
                     echo "<p class='error-message'>User is already a manager!</p>";
                 } else if ($_GET['error'] == "userinviteexists") {
