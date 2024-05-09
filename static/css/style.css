@@ -212,7 +212,8 @@ label {
     margin: 8px 0;
 }
 
-.info-text {
+.info-text,
+.password-requirements {
     font-size: 14px;
     color: black;
     padding: 16px;
@@ -220,6 +221,10 @@ label {
     border-radius: 8px;
     background-color: #f9f9f9;
     margin: 8px 0;
+}
+
+.password-requirements {
+    list-style-type: none;
 }
 
 .account-information-text {
