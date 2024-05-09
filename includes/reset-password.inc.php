@@ -43,15 +43,15 @@ if (isset($_POST["reset-password-submit"])) {
             header("Location: ../create-new-password.php?selector=" . $selector . "&validator=" . $validator . "&error=resubmit");
             exit();
         } else if ($tokenCheck === true) {
-            $tokenEmail = $row["password_reset_email"];
-            $sql = "UPDATE users SET users_password = ? WHERE users_email = ?";
+            $tokenUserId = $row["password_reset_users_id"];
+            $sql = "UPDATE users SET users_password = ? WHERE users_id = ?";
             $stmt = mysqli_prepare($conn, $sql);
             $newPwdHash = password_hash($password, PASSWORD_DEFAULT);
-            mysqli_stmt_bind_param($stmt, "ss", $newPwdHash, $tokenEmail);
+            mysqli_stmt_bind_param($stmt, "ss", $newPwdHash, $tokenUserId);
             mysqli_stmt_execute($stmt);
-            $sql = "DELETE FROM password_reset WHERE password_reset_email = ?";
+            $sql = "DELETE FROM password_reset WHERE password_reset_users_id = ?";
             $stmt = mysqli_prepare($conn, $sql);
-            mysqli_stmt_bind_param($stmt, "s", $tokenEmail);
+            mysqli_stmt_bind_param($stmt, "s", $tokenUserId);
             mysqli_stmt_execute($stmt);
             header("Location: ../log-in.php?newpwd=success");
         }
