@@ -25,6 +25,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $result->fetch_assoc();
     $usersId = $user['users_id'];
 
+    // Check if user ID exists in the database
+    $sql = "SELECT users_email FROM users WHERE users_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $usersId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 0) {
+        // User ID does not exist in the database
+        // Redirect to the invite-user page with an error message
+        header("location: ../invite-user.php?events_id=" . $eventsId . "&error=usernotfound");
+        exit();
+    }
+
     // Generate unique token
     $token = bin2hex(random_bytes(32));
 
@@ -103,8 +117,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <body>
             <h1>Hi there, " . $usersUsername . ",</h1>
             <p>You have been invited to manage the event: " . $eventsName . ". If you accept this invitation, please click the button below:</p>
-            <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Accept Invitation</a>
-            <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br>" . $url . "</p>
+            <a href='" . BASE_URL . "event-invitation.php?action=accept&token=$token' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Accept Invitation</a>
+            <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br>" . BASE_URL . "event-invitation.php?action=accept&token=$token" . "</p>
+            <p>If you wish to reject this invitation, please click the button below:</p>
+            <a href='" . BASE_URL . "event-invitation.php?action=reject&token=$token' style='background-color: #dc3545; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Reject Invitation</a>
+            <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br>" . BASE_URL . "event-invitation.php?action=reject&token=$token" . "</p>
             <p>If you didn't request this invitation, you can safely ignore this email.</p>
             <p>Sincerely,<br>TRACKIT Team</p>
         </body>
