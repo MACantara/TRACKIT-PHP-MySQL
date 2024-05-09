@@ -475,6 +475,19 @@ tr:hover {
     margin-top: 16px;
 }
 
+/* Profile Information Page */
+
+.profile-picture-container {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+.profile-picture {
+    font-size: 150px;
+    margin: 0 auto;
+}
+
 /* Footer */
 
 footer {
