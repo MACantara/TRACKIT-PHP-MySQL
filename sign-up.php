@@ -53,7 +53,7 @@ checkSessionTimeout();
                         character</li>
                 </ul>
                 <label for="confirmPassword"><i class="bi bi-lock-fill"></i> Password</label>
-                <input type="password" name="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <input type="confirmPassword" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
                 <div class="password-container">
                     <div id="passwordMatchStatus" style="display: none; text-align: left;"></div>
                     <button class="show-button" id="showConfirmPasswordButton" type="button"
