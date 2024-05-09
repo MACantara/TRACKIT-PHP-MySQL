@@ -50,6 +50,7 @@ checkSessionTimeout();
                             <?php echo $category['transaction_category']; ?></option>
                     <?php endforeach; ?>
                     <option value="other">Other...</option>
+                    <?php include "includes/add-transaction-js.inc.php"; ?>
                 </select>
                 <input class="margin-top-16" type="text" id="new_transaction_category" name="new_transaction_category"
                     placeholder="Enter new category" style="display: none;">
@@ -83,7 +84,6 @@ checkSessionTimeout();
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
-    <script src="static/js/add-transaction.js"></script>
 </body>
 
 </html>
