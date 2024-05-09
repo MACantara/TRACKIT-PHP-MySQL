@@ -486,6 +486,18 @@ tr:hover {
 .profile-picture {
     font-size: 150px;
     margin: 0 auto;
+    border: 2px solid white;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.profile-full-name {
+    margin-top: 8px;
+}
+
+.profile-username {
+    margin-top: 8px;   
+    color: #888;
 }
 
 /* Footer */
