@@ -29,6 +29,7 @@ checkSessionTimeout();
             </div>
             <h1 class="profile-full-name"><?php echo $userData["users_first_name"] . " " . $userData["users_last_name"]; ?></h1>
             <h2 class="profile-username">@<?php echo $userData["users_username"]; ?></h2>
+            <p class="profile-email">Contact me through e-mail: <?php echo $userData['users_email']; ?></p>
             <div class="button-container">
                 <a class="button margin-top-16" href="profile-information-settings.php"><i class="bi bi-pencil"></i>
                     Edit Profile</a>
@@ -42,14 +43,12 @@ checkSessionTimeout();
             ?>
         </section>
         <section class="section-container">
-            <h2>About</h2>
+            <h2 class="profile-section-title">About</h2>
             <p><?php echo $profileData['profiles_about']; ?></p>
-            <h2>Title</h2>
+            <h2 class="profile-section-title">Title</h2>
             <p><?php echo $profileData['profiles_introduction_title']; ?></p>
-            <h2>Text</h2>
+            <h2 class="profile-section-title">Text</h2>
             <p><?php echo $profileData['profiles_introduction_text']; ?></p>
-            <h2>Email</h2>
-            <p><?php echo $userData['users_email']; ?></p>
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>

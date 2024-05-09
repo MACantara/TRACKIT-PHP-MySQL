@@ -500,6 +500,15 @@ tr:hover {
     color: #888;
 }
 
+.profile-email {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.profile-section-title {
+    font-size: 24px;
+}
+
 /* Footer */
 
 footer {
