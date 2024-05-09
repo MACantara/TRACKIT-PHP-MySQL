@@ -53,6 +53,8 @@ checkSessionTimeout();
             if (isset($_GET["error"])) {
                 if ($_GET["error"] == "none") {
                     echo "<p class='success-message'>Your profile has been updated successfully!</p>";
+                } else if ($_GET["error"] == "wrongcurrentpasswordprofile") {
+                    echo "<p class='error-message'>Incorrect current password!</p>";
                 }
             }
             ?>
@@ -69,6 +71,11 @@ checkSessionTimeout();
                     Email</button>
             </form>
             <?php
+            if (isset($_GET["error"])) {
+                if ($_GET["error"] == "wrongcurrentpasswordemail") {
+                    echo "<p class='error-message'>Incorrect current password!</p>";
+                }
+            }
             if (isset($_GET["email"])) {
                 if ($_GET["email"] == "success") {
                     echo "<p class='success-message'>Your email has been updated successfully!</p>";
@@ -97,6 +104,8 @@ checkSessionTimeout();
                     echo "<p class='error-message'>Passwords don't match!</p>";
                 } else if ($_GET["error"] == "invalidpassword") {
                     echo "<p class='error-message'>Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.</p>";
+                } else if ($_GET["error"] == "wrongcurrentpasswordupdatepassword") {
+                    echo "<p class='error-message'>Incorrect current password!</p>";
                 }
             }
             if (isset($_GET["newpassword"])) {
