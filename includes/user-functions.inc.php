@@ -1,7 +1,7 @@
 <?php
 
-require_once "db-connection.inc.php";
-require_once "error-handling-functions.inc.php";
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 function createUser($conn, $firstName, $lastName, $username, $email, $password) {
     $sql = "INSERT INTO users (users_first_name, users_last_name, users_username, users_email, users_password) VALUES (?, ?, ?, ?, ?);";
@@ -15,6 +15,53 @@ function createUser($conn, $firstName, $lastName, $username, $email, $password) 
     mysqli_stmt_execute($stmt);
     $users_id = mysqli_insert_id($conn); // Get the ID of the newly created user
     defaultProfileInformation($conn, $username, $users_id); // Create a default profile for the new user
+
+    // Generate a unique token for email verification
+    $token = bin2hex(random_bytes(32));
+
+    // Save the token and email in the database
+    $sql = "INSERT INTO email_verification (email_verification_users_id, email_verification_token, email_verification_new_email) VALUES (?, ?, ?)";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../sign-up.php?error=stmtfailed");
+        exit();
+    }
+    mysqli_stmt_bind_param($stmt, "iss", $users_id, $token, $email);
+    mysqli_stmt_execute($stmt);
+
+    // Send verification email
+    $mail = new PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host = "smtp.gmail.com";
+        $mail->SMTPAuth = true;
+        $mail->Username = "welptest12@gmail.com";
+        $mail->Password = "faix wvbv fauy qodg";
+        $mail->SMTPSecure = "ssl";
+        $mail->Port = 465;
+
+        $mail->setFrom('welptest12@gmail.com', 'TRACKIT Team');
+        $mail->addAddress($email);
+
+        $mail->isHTML(true);
+        $mail->Subject = 'New Account Email Verification';
+        $url = BASE_URL . '/verify-email.php?token=' . $token;
+        $mail->Body = "
+            <html>
+            <body>
+                <h1>Welcome to our website!</h1>
+                <p>You have successfully created an account. Please click the button below to verify your email:</p>
+                <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Verify Email</a>
+                <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br><a href='" . $url . "'>" . $url . "</a></p>
+                <p>If you didn't create this account, you can safely ignore this email.</p>
+                <p>Sincerely,<br>Our Website Team</p>
+            </body>
+            </html>";
+        $mail->send();
+    } catch (Exception $e) {
+        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+    }
+
     mysqli_stmt_close($stmt);
     header("location: ../log-in.php?error=none");
     exit();
