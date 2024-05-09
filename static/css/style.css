@@ -227,6 +227,14 @@ label {
     list-style-type: none;
 }
 
+.text-success {
+    color: #28a745;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
 .account-information-text {
     margin-top: 16px;
     text-align: center;
