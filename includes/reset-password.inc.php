@@ -28,6 +28,11 @@ if (isset($_POST["reset-password-submit"])) {
     }
 
     $currentDate = date("U");
+    $sql = "DELETE FROM password_reset WHERE password_reset_selector = ? AND password_reset_expires < ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ss", $selector, $currentDate);
+    mysqli_stmt_execute($stmt);
+
     $sql = "SELECT * FROM password_reset WHERE password_reset_selector = ? AND password_reset_expires >= ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ss", $selector, $currentDate);
