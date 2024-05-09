@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Check if event ID and email already exist as a pair in the database
-    $sql = "SELECT * FROM event_invitations WHERE event_invitations_event_id = ? AND event_invitations_email = ?";
+    $sql = "SELECT * FROM event_invitations WHERE event_invitations_events_id = ? AND event_invitations_email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("is", $eventsId, $email);
     $stmt->execute();
@@ -62,10 +62,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Save token, event ID, and email in database
-    $sql = "INSERT INTO event_invitations (event_invitations_event_id, event_invitations_email, event_invitations_token) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO event_invitations (event_invitations_events_id, event_invitations_email, event_invitations_token) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("iss", $eventsId, $email, $token);
     $stmt->execute();
+
+    // Get user ID and username connected to the email
+    $sql = "SELECT users_id, users_username FROM users WHERE users_email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    $usersId = $user['users_id'];
+    $usersUsername = $user['users_username'];
+
+    // Get event name connected to the event ID
+    $sql = "SELECT events_name FROM events WHERE events_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $eventsId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $event = $result->fetch_assoc();
+    $eventsName = $event['events_name'];
 
     // Create PHPMailer instance and configure SMTP settings
     $mail = new PHPMailer();
@@ -80,15 +99,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mail->SetFrom("no-reply@trackit.com");
     $mail->Subject = "Event Management Invitation";
     $mail->Body = "
-    <html>
-    <head>
-        <title>Event Management Invitation</title>
-    </head>
-    <body>
-        <h1>Hi there, </h1>
-        <p>You have been invited to manage an event. Click the link to accept the invitation: " . $url . "</p>
-    </body>
-    </html>";
+        <html>
+        <body>
+            <h1>Hi there, " . $usersUsername . ",</h1>
+            <p>You have been invited to manage the event: " . $eventsName . ". If you accept this invitation, please click the button below:</p>
+            <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Accept Invitation</a>
+            <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br>" . $url . "</p>
+            <p>If you didn't request this invitation, you can safely ignore this email.</p>
+            <p>Sincerely,<br>TRACKIT Team</p>
+        </body>
+        </html>";
     $mail->AddAddress($email);
 
     $mail->Send();
