@@ -63,7 +63,17 @@ checkSessionTimeout();
         <section class="section-container">
             <h2>Update Email</h2>
             <form action="includes/update-email.inc.php" method="post">
-                <label for="email">Email</label>
+                <div class="email-container">
+                    <label for="email">Email</label>
+                    <?php
+                    if ($userData['users_email_verified'] == 0) {
+                        echo "<span class='error-message'>Not Verified</span>";
+                        echo "<button class='button' type='button' onclick='location.href=\"includes/send-verification-email.inc.php\"'><i class='bi bi-envelope'></i> Verify Email</button>";
+                    } else {
+                        echo "<span class='success-message'>Verified</span>";
+                    }
+                    ?>
+                </div>
                 <input type="email" name="email" id="email" value='<?php echo $userData['users_email']; ?>'>
                 <label for="currentPassword">Current Password:</label>
                 <input type="password" id="currentPassword" name="currentPassword" required>
@@ -80,6 +90,9 @@ checkSessionTimeout();
                 if ($_GET["emailupdaterequest"] == "success") {
                     echo "<p class='success-message'>Your email update request have been sent to your new email! Please check your inbox to verify your email.</p>";
                 }
+            }
+            if (isset($_GET["emailverificationsent"])) {
+                echo "<p class='success-message'>Verification email has been sent! Please check your inbox.</p>";
             }
             ?>
         </section>
