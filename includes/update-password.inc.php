@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePassword"])) {
     $checkPassword = password_verify($currentPassword, $passwordHashed);
 
     if ($checkPassword === false) {
-        header("location: ../profile-information-settings.php?error=wrongpassword");
+        header("location: ../profile-information-settings.php?error=wrongcurrentpasswordupdatepassword");
         exit();
     }
 
