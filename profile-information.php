@@ -24,6 +24,9 @@ checkSessionTimeout();
     <?php include 'templates/header.tpl.php'; ?>
     <main>
         <section class="section-container">
+            <div class="profile-picture-container">
+                <i class="bi bi-person-fill profile-picture"></i>
+            </div>
             <h1><?php echo $userData["users_username"] ?>'s Profile</h1>
             <div class="button-container">
                 <a class="button margin-top-16" href="profile-information-settings.php"><i class="bi bi-pencil"></i>
