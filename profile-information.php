@@ -27,7 +27,8 @@ checkSessionTimeout();
             <div class="profile-picture-container">
                 <i class="bi bi-person-fill profile-picture"></i>
             </div>
-            <h1><?php echo $userData["users_username"] ?>'s Profile</h1>
+            <h1 class="profile-full-name"><?php echo $userData["users_first_name"] . " " . $userData["users_last_name"]; ?></h1>
+            <h2 class="profile-username">@<?php echo $userData["users_username"]; ?></h2>
             <div class="button-container">
                 <a class="button margin-top-16" href="profile-information-settings.php"><i class="bi bi-pencil"></i>
                     Edit Profile</a>
@@ -47,12 +48,6 @@ checkSessionTimeout();
             <p><?php echo $profileData['profiles_introduction_title']; ?></p>
             <h2>Text</h2>
             <p><?php echo $profileData['profiles_introduction_text']; ?></p>
-            <h2>First Name</h2>
-            <p><?php echo $userData['users_first_name']; ?></p>
-            <h2>Last Name</h2>
-            <p><?php echo $userData['users_last_name']; ?></p>
-            <h2>Username</h2>
-            <p><?php echo $userData['users_username']; ?></p>
             <h2>Email</h2>
             <p><?php echo $userData['users_email']; ?></p>
         </section>
