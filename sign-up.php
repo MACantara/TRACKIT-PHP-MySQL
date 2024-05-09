@@ -48,6 +48,7 @@ checkSessionTimeout();
                 <label for="confirmPassword"><i class="bi bi-lock-fill"></i> Password</label>
                 <input type="password" name="password" id="confirmPassword" placeholder="Confirm Password" required>
                 <div class="password-container">
+                    <div id="passwordMatchStatus" style="display: none; text-align: left;"></div>
                     <button class="show-button" id="showConfirmPasswordButton" type="button"
                         onclick="togglePasswordVisibility('confirmPassword', 'showConfirmPasswordButton')">Show
                         Password</button>
@@ -84,15 +85,15 @@ checkSessionTimeout();
     <?php include 'templates/footer.tpl.php'; ?>
     <script src="static/js/password-visibility.js"></script>
     <script>
-        var passwordInput = document.getElementById('password');
-        var lengthRequirement = document.getElementById('length');
-        var uppercaseRequirement = document.getElementById('uppercase');
-        var lowercaseRequirement = document.getElementById('lowercase');
-        var numberRequirement = document.getElementById('number');
-        var specialRequirement = document.getElementById('special');
+        let passwordInput = document.getElementById('password');
+        let lengthRequirement = document.getElementById('length');
+        let uppercaseRequirement = document.getElementById('uppercase');
+        let lowercaseRequirement = document.getElementById('lowercase');
+        let numberRequirement = document.getElementById('number');
+        let specialRequirement = document.getElementById('special');
 
         passwordInput.oninput = function () {
-            var password = passwordInput.value;
+            let password = passwordInput.value;
 
             // Check length
             if (password.length >= 8) {
@@ -127,6 +128,20 @@ checkSessionTimeout();
                 specialRequirement.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> Must contain at least one special character';
             } else {
                 specialRequirement.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one special character';
+            }
+        };
+
+        let confirmPasswordInput = document.getElementById('confirmPassword');
+        let passwordMatchStatus = document.getElementById('passwordMatchStatus');
+
+        confirmPasswordInput.oninput = function () {
+            // Check if passwords match
+            if (passwordInput.value === confirmPasswordInput.value) {
+                passwordMatchStatus.style.display = 'block';
+                passwordMatchStatus.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> Passwords match';
+            } else {
+                passwordMatchStatus.style.display = 'block';
+                passwordMatchStatus.innerHTML = '<i class="bi bi-x-circle-fill text-danger"></i> Passwords do not match';
             }
         };
     </script>
