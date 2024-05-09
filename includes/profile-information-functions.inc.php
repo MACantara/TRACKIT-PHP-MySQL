@@ -3,7 +3,7 @@
 require_once "db-connection.inc.php";
 
 function getUserInformation($conn, $users_id) {
-    $sql = "SELECT users_first_name, users_last_name, users_username, users_email FROM users WHERE users_id = ?;";
+    $sql = "SELECT users_first_name, users_last_name, users_username, users_email, users_email_verified FROM users WHERE users_id = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../profile-information.php?error=stmtfailed");
