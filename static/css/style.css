@@ -526,6 +526,23 @@ tr:hover {
     font-size: 24px;
 }
 
+.email-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 8px 0;
+}
+.email-container label {
+    margin-right: 8px;
+}
+
+.email-container span, 
+.email-container button {
+    font-size: small;
+    margin: 0 8px;
+    text-align: center;
+}
+
 /* Footer */
 
 footer {
