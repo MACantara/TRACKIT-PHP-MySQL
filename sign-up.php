@@ -19,7 +19,7 @@ checkSessionTimeout();
     <?php include 'templates/header.tpl.php'; ?>
     <main>
         <section class="section-container">
-            <h2>Sign Up</h2>
+            <h1>Sign Up</h1>
             <form action="includes/sign-up.inc.php" method="post">
                 <label for="firstName">First Name</label>
                 <input type="text" name="firstName" id="firstName" required>

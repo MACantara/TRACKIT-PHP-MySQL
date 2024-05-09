@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 require_once "includes/user-functions.inc.php";
@@ -20,16 +20,19 @@ checkSessionTimeout();
     <?php include 'templates/header.tpl.php'; ?>
     <main>
         <section class="section-container">
-            <h2>Log In</h2>            <form action="includes/log-in.inc.php" method="post">
+            <h1>Log In</h1>
+            <form action="includes/log-in.inc.php" method="post">
                 <label for="username"><i class="bi bi-person-fill"></i> Username/Email</label>
                 <input type="text" name="username" id="username" placeholder="Username/Email" required>
                 <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
                 <input type="password" name="password" id="password" placeholder="Password" required>
                 <div class="password-container">
                     <a href="forgot-password.php">Forgot Password?</a>
-                    <button class="show-button" id="showPasswordButton" type="button" onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
+                    <button class="show-button" id="showPasswordButton" type="button"
+                        onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
                 </div>
-                <button class="button" type="submit" name="submit"><i class="bi bi-box-arrow-in-right"></i> Log In</button>
+                <button class="button" type="submit" name="submit"><i class="bi bi-box-arrow-in-right"></i> Log
+                    In</button>
                 <p class="account-information-text">Don't have an account yet? <a href="sign-up.php">Sign Up</a></p>
             </form>
             <?php
