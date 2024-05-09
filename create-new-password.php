@@ -33,7 +33,7 @@ checkSessionTimeout();
                         <input type="hidden" name="selector" value="<?php echo $selector; ?>">
                         <input type="hidden" name="validator" value="<?php echo $validator; ?>">
                         <label for="password">Enter a new password</label>
-                        <input type="password" name="password" id="password" required>
+                        <input type="password" name="password" id="password" placeholder="New Password" required>
                         <div id="strengthBar"
                             style="height: 10px; width: 0; background: linear-gradient(to right, red, yellow, green);"></div>
                         <div class="password-container">
@@ -56,7 +56,7 @@ checkSessionTimeout();
                                 character</li>
                         </ul>
                         <label for="confirmPassword">Confirm Password</label>
-                        <input type="password" name="confirmPassword" id="confirmPassword" required>
+                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
                         <div class="password-container">
                             <div id="passwordMatchStatus" style="display: none; text-align: left;"></div>
                             <button class="show-button" id="showConfirmPasswordButton" type="button"
