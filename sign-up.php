@@ -31,17 +31,24 @@ checkSessionTimeout();
                 <input type="email" name="email" id="email" required>
                 <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
                 <input type="password" id="password" name="password" required>
+                <div id="strengthBar"
+                    style="height: 10px; width: 0; background: linear-gradient(to right, red, yellow, green);"></div>
                 <div class="password-container">
+                    <p id="strengthLabel"></p>
                     <button class="show-button" id="showPasswordButton" type="button"
                         onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
                 </div>
                 <ul class="password-requirements" id="password-requirements">
-                    <li id="length"><i class="bi bi-x-circle-fill text-danger"></i> Must be at least 8 characters long</li>
-                    <li id="uppercase"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one uppercase
+                    <li id="length"><i class="bi bi-x-circle-fill text-danger"></i> Must be at least 8 characters long
+                    </li>
+                    <li id="uppercase"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one
+                        uppercase
                         letter</li>
-                    <li id="lowercase"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one lowercase
+                    <li id="lowercase"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one
+                        lowercase
                         letter</li>
-                    <li id="number"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one number</li>
+                    <li id="number"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one number
+                    </li>
                     <li id="special"><i class="bi bi-x-circle-fill text-danger"></i> Must contain at least one special
                         character</li>
                 </ul>
@@ -83,8 +90,7 @@ checkSessionTimeout();
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
-    <script src="static/js/password-visibility.js"></script>
-    <script src="static/js/password-check.js"></script>
+    <?php include 'includes/password-check-js-functions.inc.php' ?>
 </body>
 
 </html>
