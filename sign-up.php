@@ -35,7 +35,7 @@ checkSessionTimeout();
                 <div class="password-container">
                     <p id="strengthLabel"></p>
                     <button class="show-button" id="showPasswordButton" type="button"
-                        onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
+                        onclick="togglePasswordVisibility('password', 'showPasswordButton')"><i class='bi bi-eye'></i> Show Password</button>
                 </div>
                 <ul class="password-requirements" id="password-requirements">
                     <li id="length"><i class="bi bi-x-circle-fill text-danger"></i> Must be at least 8 characters long
@@ -56,7 +56,7 @@ checkSessionTimeout();
                 <div class="password-container">
                     <div id="passwordMatchStatus" style="display: none; text-align: left;"></div>
                     <button class="show-button" id="showConfirmPasswordButton" type="button"
-                        onclick="togglePasswordVisibility('confirmPassword', 'showConfirmPasswordButton')">Show
+                        onclick="togglePasswordVisibility('confirmPassword', 'showConfirmPasswordButton')"><i class='bi bi-eye'></i> Show
                         Password</button>
                 </div>
                 <button class="button" type="submit" name="sign-up"><i class="bi bi-box-arrow-in-right"></i> Sign

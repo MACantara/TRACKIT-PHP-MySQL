@@ -28,7 +28,7 @@ checkSessionTimeout();
                 <div class="password-container">
                     <a href="forgot-password.php">Forgot Password?</a>
                     <button class="show-button" id="showPasswordButton" type="button"
-                        onclick="togglePasswordVisibility('password', 'showPasswordButton')">Show Password</button>
+                        onclick="togglePasswordVisibility('password', 'showPasswordButton')"><i class="bi bi-eye"></i> Show Password</button>
                 </div>
                 <button class="button" type="submit" name="submit"><i class="bi bi-box-arrow-in-right"></i> Log
                     In</button>

@@ -111,10 +111,10 @@
     let showButton = document.getElementById(button);
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
-        showButton.textContent = "Hide Password";
+        showButton.innerHTML = "<i class='bi bi-eye-fill'></i> Hide Password";
     } else {
         passwordInput.type = "password";
-        showButton.textContent = "Show Password";
+        showButton.innerHTML = "<i class='bi bi-eye'></i> Show Password";
     }
 }
 </script>
