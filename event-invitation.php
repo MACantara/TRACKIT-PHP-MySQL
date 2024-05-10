@@ -25,8 +25,7 @@ if (isset($user)) {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include "templates/meta-tags.tpl.php"; ?>
     <title>Event Invitation</title>
     <?php include "templates/external-links.tpl.php"; ?>
 </head>

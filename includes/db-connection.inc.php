@@ -1,9 +1,9 @@
 <?php
 
-$serverName = "mysql-trackit.alwaysdata.net";
-$dBUserName = "trackit";
-$dBPassword = "Gloomily23Map15Landmass33Exonerate51Coagulant4";
-$dBName = "trackit_trackit-database";
+$serverName = "localhost";
+$dBUserName = "root";
+$dBPassword = "";
+$dBName = "trackit";
 
 $conn = mysqli_connect($serverName, $dBUserName, $dBPassword, $dBName);
 
