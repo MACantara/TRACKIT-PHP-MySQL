@@ -96,8 +96,8 @@ function emailExists($conn, $email) {
 
 function invalidPassword($password) {
     $result;
-    // Check if the password is less than 8 characters long or does not contain at least one digit, lowercase letter, uppercase letter, or special character.
-    if (strlen($password) < 8 || !preg_match("#[0-9]+#", $password) || !preg_match("#[a-z]+#", $password) || !preg_match("#[A-Z]+#", $password) || !preg_match("#\W+#", $password)) {
+    // Check if the password is less than 8 characters long or does not contain at least one digit, lowercase letter, uppercase letter, or special character (including underscore).
+    if (strlen($password) < 8 || !preg_match("#[0-9]+#", $password) || !preg_match("#[a-z]+#", $password) || !preg_match("#[A-Z]+#", $password) || !(preg_match("#\W+#", $password) || strpos($password, '_') !== false)) {
         $result = true;
     } else {
         $result = false;
