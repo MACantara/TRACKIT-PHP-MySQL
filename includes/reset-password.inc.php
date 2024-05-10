@@ -1,8 +1,6 @@
 <?php
 require_once 'db-connection.inc.php';
-require_once "../PHPMailer/src/Exception.php";
-require_once "../PHPMailer/src/PHPMailer.php";
-require_once "../PHPMailer/src/SMTP.php";
+require_once '../vendor/autoload.php';
 require_once "../config.php";
 require_once "error-handling-functions.inc.php";
 

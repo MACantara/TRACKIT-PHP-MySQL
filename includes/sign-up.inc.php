@@ -3,9 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once "../PHPMailer/src/Exception.php";
-require_once "../PHPMailer/src/PHPMailer.php";
-require_once "../PHPMailer/src/SMTP.php";
+require_once '../vendor/autoload.php';
 require_once "../config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
