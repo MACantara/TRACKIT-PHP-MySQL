@@ -60,7 +60,7 @@ checkSessionTimeout();
         </section>
     </main>
     <?php include 'templates/footer.tpl.php'; ?>
-    <script src="static/js/password-visibility.js"></script>
+    <?php include 'includes/password-check-js-functions.inc.php' ?>
 </body>
 
 </html>
