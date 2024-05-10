@@ -11,12 +11,12 @@ function sendResetEmail($usersEmail, $usersUsername, $url) {
     $mail->isSMTP();
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = "ssl";
-    $mail->Host = "smtp.gmail.com";
+    $mail->Host = "smtp-trackit.alwaysdata.net";
     $mail->Port = 465;
     $mail->isHTML();
-    $mail->Username = "welptest12@gmail.com";
-    $mail->Password = "faix wvbv fauy qodg";
-    $mail->setFrom('welptest12@gmail.com', 'TRACKIT Team');
+    $mail->Username = "trackit@alwaysdata.net";
+    $mail->Password = "Gloomily23Map15Landmass33Exonerate51Coagulant4";
+    $mail->setFrom('trackit@alwaysdata.net', 'TRACKIT Team');
     $mail->Subject = "Reset your password";
     $mail->Body = "
         <html>

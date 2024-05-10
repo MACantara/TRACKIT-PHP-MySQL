@@ -41,14 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host = "smtp.gmail.com";
+        $mail->Host = "smtp-trackit.alwaysdata.net";
         $mail->SMTPAuth = true;
-        $mail->Username = "welptest12@gmail.com";
-        $mail->Password = "faix wvbv fauy qodg";
+        $mail->Username = "trackit@alwaysdata.net";
+        $mail->Password = "Gloomily23Map15Landmass33Exonerate51Coagulant4";
         $mail->SMTPSecure = "ssl";
         $mail->Port = 465;
 
-        $mail->setFrom('welptest12@gmail.com', 'TRACKIT Team');
+        $mail->setFrom('trackit@alwaysdata.net', 'TRACKIT Team');
         $mail->addAddress($email);
 
         $mail->isHTML(true);
