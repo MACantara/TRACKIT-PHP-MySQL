@@ -134,6 +134,7 @@ function loginUser($conn, $username, $password) {
     $userExists = userExists($conn, $username, $username);
 
     if ($userExists === false) {
+        incrementLoginAttempts($conn, $row, $ip_address);
         header("location: ../log-in.php?error=wronglogin");
         exit();
     }
