@@ -5,7 +5,7 @@ $eventsId = $_GET['events_id'];
 $row = getEvent($conn, $eventsId);
 
 require_once 'includes/user-functions.inc.php';
-require_login();
+requireLogin();
 checkSessionTimeout();
 ?>
 

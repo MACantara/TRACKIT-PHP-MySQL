@@ -10,7 +10,7 @@ $categories = getCategories($conn, $eventsId);
 date_default_timezone_set('Asia/Manila');
 
 require_once 'includes/user-functions.inc.php';
-require_login();
+requireLogin();
 checkSessionTimeout();
 ?>
 

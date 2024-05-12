@@ -7,7 +7,7 @@ $usersId = $_SESSION["users_id"];
 $events = getUserEvents($conn, $usersId);
 
 require_once 'includes/user-functions.inc.php';
-require_login();
+requireLogin();
 checkSessionTimeout();
 ?>
 
