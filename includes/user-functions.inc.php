@@ -165,12 +165,13 @@ function loginUser($conn, $username, $password) {
     }
 }
 
-function require_login() {
+function requireLogin() {
     // Start the session if it's not already started
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-
+    // Regenerate session ID
+    session_regenerate_id();
     // Check if the user is logged in
     if (!isset($_SESSION['users_id'])) {
         // If they're not, redirect them to the login page
