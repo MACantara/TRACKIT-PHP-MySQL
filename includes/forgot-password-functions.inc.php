@@ -7,18 +7,10 @@ require_once '../vendor/autoload.php';
 require_once "db-connection.inc.php";
 
 function sendResetEmail($usersEmail, $usersUsername, $url) {
-    $mail = new PHPMailer();
-    $mail->isSMTP();
-    $mail->SMTPAuth = true;
-    $mail->SMTPSecure = "ssl";
-    $mail->Host = "smtp-trackit.alwaysdata.net";
-    $mail->Port = 465;
-    $mail->isHTML();
-    $mail->Username = "trackit@alwaysdata.net";
-    $mail->Password = "Gloomily23Map15Landmass33Exonerate51Coagulant4";
-    $mail->setFrom('trackit@alwaysdata.net', 'TRACKIT Team');
-    $mail->Subject = "Reset your password";
-    $mail->Body = "
+    require_once 'email-functions.inc.php';
+
+    $subject = "Reset your password";
+    $body = "
         <html>
         <head>
             <title>Password Reset Request</title>
@@ -32,9 +24,8 @@ function sendResetEmail($usersEmail, $usersUsername, $url) {
             <p>Sincerely,<br>TRACKIT Team</p>
         </body>
         </html>";
-    $mail->AddAddress($usersEmail);
 
-    $mail->Send();
+    sendEmail($usersEmail, $subject, $body, $url);
 }
 
 function deleteExistingResetRequest($conn, $usersId) {

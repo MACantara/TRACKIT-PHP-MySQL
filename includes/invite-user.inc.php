@@ -98,19 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $event = $result->fetch_assoc();
     $eventsName = $event['events_name'];
 
-    // Create PHPMailer instance and configure SMTP settings
-    $mail = new PHPMailer();
-    $mail->isSMTP();
-    $mail->SMTPAuth = true;
-    $mail->SMTPSecure = "ssl";
-    $mail->Host = "smtp-trackit.alwaysdata.net";
-    $mail->Port = 465;
-    $mail->isHTML();
-    $mail->Username = "trackit@alwaysdata.net";
-    $mail->Password = "Gloomily23Map15Landmass33Exonerate51Coagulant4";
-    $mail->setFrom('trackit@alwaysdata.net', 'TRACKIT Team');
-    $mail->Subject = "Event Management Invitation";
-    $mail->Body = "
+    require_once 'email-functions.inc.php';
+
+    $subject = "Event Management Invitation";
+    $body = "
         <html>
         <body>
             <h1>Hi there, " . $usersUsername . ",</h1>
@@ -124,9 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>Sincerely,<br>TRACKIT Team</p>
         </body>
         </html>";
-    $mail->AddAddress($email);
 
-    $mail->Send();
+    sendEmail($email, $subject, $body, $url);
 
     header("location: ../invite-user.php?events_id=" . $eventsId . "&error=none");
 }

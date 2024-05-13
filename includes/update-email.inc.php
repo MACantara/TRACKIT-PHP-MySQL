@@ -37,39 +37,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("iss", $users_id, $token, $email);
     $stmt->execute();
 
-    // Send verification email
-    $mail = new PHPMailer(true);
-    try {
-        $mail->isSMTP();
-        $mail->Host = "smtp-trackit.alwaysdata.net";
-        $mail->SMTPAuth = true;
-        $mail->Username = "trackit@alwaysdata.net";
-        $mail->Password = "Gloomily23Map15Landmass33Exonerate51Coagulant4";
-        $mail->SMTPSecure = "ssl";
-        $mail->Port = 465;
+    require_once 'email-functions.inc.php';
 
-        $mail->setFrom('trackit@alwaysdata.net', 'TRACKIT Team');
-        $mail->addAddress($email);
+    $url = BASE_URL . '/verify-email.php?token=' . $token;
+    $subject = 'Email Change Verification';
+    $body = "
+        <html>
+        <body>
+            <h1>Hi there, " . $usersUsername . "</h1>
+            <p>You have requested to change your email address. Please click the button below to verify your new email:</p>
+            <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Verify Email</a>
+            <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br>" . $url . "</p>
+            <p>If you didn't request this change, you can safely ignore this email.</p>
+            <p>Sincerely,<br>Your Website Team</p>
+        </body>
+        </html>";
 
-        $mail->isHTML(true);
-        $url = BASE_URL . '/verify-email.php?token=' . $token;
-        $mail->Subject = 'Email Change Verification';
-        $mail->Body = "
-            <html>
-            <body>
-                <h1>Hi there, " . $usersUsername . "</h1>
-                <p>You have requested to change your email address. Please click the button below to verify your new email:</p>
-                <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Verify Email</a>
-                <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br>" . $url . "</p>
-                <p>If you didn't request this change, you can safely ignore this email.</p>
-                <p>Sincerely,<br>Your Website Team</p>
-            </body>
-            </html>";
-
-        $mail->send();
-    } catch (Exception $e) {
-        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
-    }
+    sendEmail($email, $subject, $body, $url);
 
     // Redirect to the profile-information-settings page with a success message
     header("location: ../profile-information-settings.php?emailupdaterequest=success");

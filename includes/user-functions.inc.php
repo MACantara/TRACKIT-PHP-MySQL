@@ -1,8 +1,5 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
 function createUser($conn, $firstName, $lastName, $username, $email, $password) {
     $sql = "INSERT INTO users (users_first_name, users_last_name, users_username, users_email, users_password) VALUES (?, ?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($conn);
@@ -29,38 +26,23 @@ function createUser($conn, $firstName, $lastName, $username, $email, $password) 
     mysqli_stmt_bind_param($stmt, "iss", $users_id, $token, $email);
     mysqli_stmt_execute($stmt);
 
-    // Send verification email
-    $mail = new PHPMailer(true);
-    try {
-        $mail->isSMTP();
-        $mail->Host = "smtp-trackit.alwaysdata.net";
-        $mail->SMTPAuth = true;
-        $mail->Username = "trackit@alwaysdata.net";
-        $mail->Password = "Gloomily23Map15Landmass33Exonerate51Coagulant4";
-        $mail->SMTPSecure = "ssl";
-        $mail->Port = 465;
+    require_once 'email-functions.inc.php';
 
-        $mail->setFrom('trackit@alwaysdata.net', 'TRACKIT Team');
-        $mail->addAddress($email);
+    $subject = 'New Account Email Verification';
+    $url = BASE_URL . '/verify-email.php?token=' . $token;
+    $body = "
+        <html>
+        <body>
+            <h1>Welcome to our website!</h1>
+            <p>You have successfully created an account. Please click the button below to verify your email:</p>
+            <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Verify Email</a>
+            <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br><a href='" . $url . "'>" . $url . "</a></p>
+            <p>If you didn't create this account, you can safely ignore this email.</p>
+            <p>Sincerely,<br>Our Website Team</p>
+        </body>
+        </html>";
 
-        $mail->isHTML(true);
-        $mail->Subject = 'New Account Email Verification';
-        $url = BASE_URL . '/verify-email.php?token=' . $token;
-        $mail->Body = "
-            <html>
-            <body>
-                <h1>Welcome to our website!</h1>
-                <p>You have successfully created an account. Please click the button below to verify your email:</p>
-                <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Verify Email</a>
-                <p style='font-size: 0.8em; color: gray;'>Or copy and paste this link into your browser: <br><a href='" . $url . "'>" . $url . "</a></p>
-                <p>If you didn't create this account, you can safely ignore this email.</p>
-                <p>Sincerely,<br>Our Website Team</p>
-            </body>
-            </html>";
-        $mail->send();
-    } catch (Exception $e) {
-        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
-    }
+    sendEmail($email, $subject, $body, $url);
 
     mysqli_stmt_close($stmt);
     header("location: ../log-in.php?error=none");

@@ -29,32 +29,21 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("iss", $users_id, $token, $userData['users_email']);
 $stmt->execute();
 
-// Send verification email
-$mail = new PHPMailer(true);
-try {
-    $mail->isSMTP();
-    $mail->Host = "smtp-trackit.alwaysdata.net";
-    $mail->SMTPAuth = true;
-    $mail->Username = "trackit@alwaysdata.net";
-    $mail->Password = "Gloomily23Map15Landmass33Exonerate51Coagulant4";
-    $mail->SMTPSecure = "ssl";
-    $mail->Port = 465;
+require_once 'email-functions.inc.php';
 
-    $mail->setFrom('trackit@alwaysdata.net', 'TRACKIT Team');
-    $mail->addAddress($userData['users_email'], $userData['users_username']);
-
-    $mail->isHTML(true);
-    $mail->Subject = 'Email Verification';
-    $url = BASE_URL . '/verify-email.php?token=' . $token;
-    $mail->Body = "
+$url = BASE_URL . '/verify-email.php?token=' . $token;
+$subject = 'Email Verification';
+$body = "
+    <html>
+    <body>
         <h1>Welcome to our website!</h1>
         <p>Please click the link below to verify your email:</p>
         <a href='" . $url . "' style='background-color: #007BFF; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block;'>Verify Email</a>
         <p>If you didn't create this account, you can safely ignore this email.</p>
-        <p>Sincerely,<br>Our Website Team</p>";
+        <p>Sincerely,<br>Our Website Team</p>
+    </body>
+    </html>";
 
-    $mail->send();
-    header("location: ../profile-information-settings.php?emailverificationsent");
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-}
+sendEmail($userData['users_email'], $subject, $body, $url);
+
+header("location: ../profile-information-settings.php?emailverificationsent");
