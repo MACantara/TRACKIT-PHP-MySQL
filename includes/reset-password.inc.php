@@ -5,10 +5,10 @@ require_once "../config.php";
 require_once "error-handling-functions.inc.php";
 
 if (isset($_POST["reset-password-submit"])) {
-    $selector = $_POST["selector"];
-    $validator = $_POST["validator"];
-    $password = $_POST["password"];
-    $confirmPassword = $_POST["confirmPassword"];
+    $selector = sanitizeInput($_POST["selector"]);
+    $validator = sanitizeInput($_POST["validator"]);
+    $password = sanitizeInput($_POST["password"]);
+    $confirmPassword = sanitizeInput($_POST["confirmPassword"]);
 
     if (passwordResetEmptyInput($password, $confirmPassword) !== false) {
         header("Location: ../create-new-password.php?selector=" . $selector . "&validator=" . $validator . "&error=emptyinput");

@@ -12,7 +12,7 @@ require_once "../config.php";
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $users_id = $_SESSION['users_id'];
-    $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+    $email = sanitizeInput($_POST['email']);
     $currentPassword = $_POST['currentPassword'];
 
     $userData = getUserIdInformationById($conn, $users_id);

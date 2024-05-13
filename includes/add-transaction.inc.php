@@ -1,6 +1,7 @@
 <?php
 require_once "db-connection.inc.php";
 require_once "event-functions.inc.php";
+require_once "error-handling-functions.inc.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-transaction-submit'])) {
     $transactionCategory = sanitizeInput($_POST['transaction_category']) === 'other' ? $_POST['new_transaction_category'] : sanitizeInput($_POST['transaction_category']);

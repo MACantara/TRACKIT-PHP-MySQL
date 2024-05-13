@@ -12,7 +12,7 @@ $eventsId = $_POST['events_id'];
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get email from form
-    $email = $_POST['email'];
+    $email = sanitizeInput($_POST['email']);
 
     // Get user ID connected to the email
     $sql = "SELECT users_id FROM users WHERE users_email = ?";

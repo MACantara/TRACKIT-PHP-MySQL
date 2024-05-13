@@ -2,6 +2,13 @@
 
 require_once "db-connection.inc.php";
 
+function sanitizeInput($input) {
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    return $input;
+}
+
 function signUpEmptyInput($firstName, $lastName, $username, $email, $password, $confirmPassword) {
     $result;
     if (empty($firstName) || empty($lastName) || empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {

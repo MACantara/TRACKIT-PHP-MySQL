@@ -4,7 +4,7 @@ require_once "error-handling-functions.inc.php";
 require_once '../includes/forgot-password-functions.inc.php';
 
 if (isset($_POST['reset-request-submit'])) {
-    $userEmail = $_POST["email"];
+    $userEmail = sanitizeInput($_POST["email"]);
 
     // Check if password reset request for the user already exists
     $sql = "SELECT * FROM password_reset 

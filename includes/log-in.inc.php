@@ -1,12 +1,12 @@
 <?php
 
 if (isset($_POST["submit"])) {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-
     require_once 'db-connection.inc.php';
     require_once "error-handling-functions.inc.php";
     require_once "user-functions.inc.php";
+
+    $username = sanitizeInput($_POST["username"]);
+    $password = sanitizeInput($_POST["password"]);
 
     if (logInEmptyInput($username, $password) !== false) {
         header("location: ../login.php?error=emptyinput");

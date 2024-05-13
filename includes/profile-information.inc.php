@@ -6,13 +6,13 @@ require_once 'profile-information-functions.inc.php';
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $users_id = $_SESSION['users_id'];
-    $firstName = htmlspecialchars($_POST['firstName'], ENT_QUOTES, 'UTF-8');
-    $lastName = htmlspecialchars($_POST['lastName'], ENT_QUOTES, 'UTF-8');
-    $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
-    $profileAbout = htmlspecialchars($_POST['profileAbout'], ENT_QUOTES, 'UTF-8');
-    $profileTitle = htmlspecialchars($_POST['profileTitle'], ENT_QUOTES, 'UTF-8');
-    $profileText = htmlspecialchars($_POST['profileText'], ENT_QUOTES, 'UTF-8');
-    $currentPassword = $_POST['currentPassword'];
+    $firstName = sanitizeInput($_POST['firstName']);
+    $lastName = sanitizeInput($_POST['lastName']);
+    $username = sanitizeInput($_POST['username']);
+    $profileAbout = sanitizeInput($_POST['profileAbout']);
+    $profileTitle = sanitizeInput($_POST['profileTitle']);
+    $profileText = sanitizeInput($_POST['profileText']);
+    $currentPassword = sanitizeInput($_POST['currentPassword']);
 
     $userData = getUserIdInformationById($conn, $users_id);
     $passwordHashed = $userData["users_password"];

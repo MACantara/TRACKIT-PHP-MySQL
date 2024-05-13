@@ -5,19 +5,18 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once '../vendor/autoload.php';
 require_once "../config.php";
+require_once "db-connection.inc.php";
+require_once "error-handling-functions.inc.php";
+require_once "user-functions.inc.php";
+require_once "profile-information-functions.inc.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstName = htmlspecialchars($_POST['firstName'], ENT_QUOTES, 'UTF-8');
-    $lastName = htmlspecialchars($_POST['lastName'], ENT_QUOTES, 'UTF-8');
-    $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
-    $email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
-    $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
-    $confirmPassword = htmlspecialchars($_POST['confirmPassword'], ENT_QUOTES, 'UTF-8');
-
-    require_once "db-connection.inc.php";
-    require_once "error-handling-functions.inc.php";
-    require_once "user-functions.inc.php";
-    require_once "profile-information-functions.inc.php";
+    $firstName = sanitizeInput($_POST['firstName']);
+    $lastName = sanitizeInput($_POST['lastName']);
+    $username = sanitizeInput($_POST['username']);
+    $email = sanitizeInput($_POST['email']);
+    $password = sanitizeInput($_POST['password']);
+    $confirmPassword = sanitizeInput($_POST['confirmPassword']);
 
     if (signUpEmptyInput($firstName, $lastName, $username, $email, $password, $confirmPassword) !== false) {
         header("location: ../sign-up.php?error=emptyinput");

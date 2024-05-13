@@ -4,10 +4,10 @@ require_once "error-handling-functions.inc.php";
 require_once 'profile-information-functions.inc.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatePassword"])) {
-    $usersEmail = $_POST["usersEmail"];
-    $password = $_POST["password"];
-    $confirmPassword = $_POST["confirmPassword"];
-    $currentPassword = $_POST["currentPassword"];
+    $usersEmail = sanitizeInput($_POST["usersEmail"]);
+    $password = sanitizeInput($_POST["password"]);
+    $confirmPassword = sanitizeInput($_POST["confirmPassword"]);
+    $currentPassword = sanitizeInput($_POST["currentPassword"]);
 
     $userData = getUserInformationByEmail($conn, $usersEmail);
     $passwordHashed = $userData["users_password"];
