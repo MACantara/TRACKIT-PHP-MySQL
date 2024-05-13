@@ -68,12 +68,12 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
             <section class="one-column-grid-container">
                 <h2>Top 5 Expenses</h2>
                 <canvas id="pieChart1"></canvas>
-                <p>Total Expenses: &#8369; <?php echo number_format(getTotalEventExpenses($conn, $eventsId), 2); ?></p>
+                <p>Total Expenses: &#8369; <?php echo number_format(getTotalEventExpenses($conn, $eventsId) ?? 0.0, 2); ?></p>
             </section>
             <section class="one-column-grid-container">
                 <h2>Top 5 Income</h2>
                 <canvas id="pieChart2"></canvas>
-                <p>Total Income: &#8369; <?php echo number_format(getTotalEventIncome($conn, $eventsId), 2); ?></p>
+                <p>Total Income: &#8369; <?php echo number_format(getTotalEventIncome($conn, $eventsId) ?? 0.0, 2); ?></p>
             </section>
             <section class="one-column-grid-container">
                 <h2>Remaining Budget</h2>
