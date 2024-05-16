@@ -14,10 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-transaction-submit
     $transactionPrice = sanitizeInput($_POST['transaction_price']);
     $transactionType = sanitizeInput($_POST['transaction_type']);
     $eventsId = sanitizeInput($_POST['events_id']);
-    $usersId = sanitizeInput($_POST['users_id']);
 
     // Validation
-    if (empty($transactionName) || empty($transactionDescription) || empty($transactionDate) || empty($transactionTime) || empty($transactionAmount) || empty($transactionPrice) || empty($transactionCategory) || empty($transactionType) || empty($eventsId) || empty($usersId)) {
+    if (empty($transactionName) || empty($transactionDescription) || empty($transactionDate) || empty($transactionTime) || empty($transactionAmount) || empty($transactionPrice) || empty($transactionCategory) || empty($transactionType) || empty($eventsId)) {
         // Handle error here, one or more fields are empty.
         header("Location: ../add-transaction.php?error=emptyfields");
         exit();
@@ -45,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-transaction-submit
         exit();
     }
 
-    $sql = "INSERT INTO transaction_history (transaction_name, transaction_description, transaction_date, transaction_amount, transaction_price, transaction_category, transaction_type, events_id, users_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO transaction_history (transaction_name, transaction_description, transaction_date, transaction_amount, transaction_price, transaction_category, transaction_type, events_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
 
     if ($stmt === false) {
@@ -54,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-transaction-submit
         exit('An error occurred. Please try again later.');
     }
 
-    $bindResult = mysqli_stmt_bind_param($stmt, "sssidssii", $transactionName, $transactionDescription, $transactionDateTime, $transactionAmount, $transactionPrice, $transactionCategory, $transactionType, $eventsId, $usersId);
+    $bindResult = mysqli_stmt_bind_param($stmt, "sssidssi", $transactionName, $transactionDescription, $transactionDateTime, $transactionAmount, $transactionPrice, $transactionCategory, $transactionType, $eventsId);
 
     if ($bindResult === false) {
         // Handle error - perhaps by logging and showing an error message
