@@ -543,6 +543,47 @@ tr:hover {
     text-align: center;
 }
 
+/* Event Status Indicator */
+
+.event-status-container {
+    display: flex;
+    align-items: center;
+    position: relative; /* Add this line */
+}
+
+.event-status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color 0.3s ease; /* Add this line */
+}
+
+.event-status-indicator.upcoming {
+    background-color: #4a90d9; /* Less saturated blue */
+}
+
+.event-status-indicator.done {
+    background-color: #66b266; /* Less saturated green */
+}
+
+.event-status-indicator.postponed {
+    background-color: #ffab40; /* Less saturated orange */
+}
+
+.event-status-indicator.canceled {
+    background-color: #b22222; /* Dark red */
+}
+
+.event-status-dropdown {
+    padding-left: 20px; /* Add this line */
+    /* Add your styles for the dropdown here */
+}
+
 /* Footer */
 
 footer {
