@@ -70,7 +70,7 @@ function getTransactions($conn, $eventsId, $sort = 'DESC', $filterDays = null, $
 }
 
 function getUserEvents($conn, $usersId) {
-    $sql = "SELECT events.events_id, events.events_name, events.events_description, events.events_date, events.events_budget 
+    $sql = "SELECT events.events_id, events.events_status, events.events_name, events.events_description, events.events_date, events.events_budget 
             FROM events 
             JOIN department_events ON events.events_id = department_events.events_id 
             JOIN department_users ON department_events.departments_id = department_users.departments_id 
