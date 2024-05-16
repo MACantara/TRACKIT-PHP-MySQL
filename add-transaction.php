@@ -59,7 +59,6 @@ checkSessionTimeout();
                     <option value="income">Income</option>
                 </select>
                 <input type="hidden" id="events_id" name="events_id" value="<?php echo $eventsId; ?>">
-                <input type="hidden" id="users_id" name="users_id" value="<?php echo $usersId; ?>">
                 <div class="two-grid-column-container">
                     <a class="button margin-top-16" href="event-dashboard.php?events_id=<?php echo $eventsId; ?>"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button margin-top-16" type="submit" name="add-transaction-submit"><i class="bi bi-plus-circle"></i> Add Transaction</button>
@@ -68,15 +67,15 @@ checkSessionTimeout();
             <?php
             if (isset($_GET['error'])) {
                 if ($_GET['error'] == 'emptyfields') {
-                    echo '<p class="error">Please fill in all fields.</p>';
+                    echo '<p class="error-message">Please fill in all fields.</p>';
                 } elseif ($_GET['error'] == 'nametoolong') {
-                    echo '<p class="error">The transaction name is too long.</p>';
+                    echo '<p class="error-message">The transaction name is too long.</p>';
                 } elseif ($_GET['error'] == 'invalidamount') {
-                    echo '<p class="error">The amount should be a number.</p>';
+                    echo '<p class="error-message">The amount should be a number.</p>';
                 } elseif ($_GET['error'] == 'invalidprice') {
-                    echo '<p class="error">The price should be a number.</p>';
+                    echo '<p class="error-message">The price should be a number.</p>';
                 } elseif ($_GET['error'] == 'invalidtype') {
-                    echo '<p class="error">The transaction type is invalid.</p>';
+                    echo '<p class="error-message">The transaction type is invalid.</p>';
                 }
             }
             ?>
