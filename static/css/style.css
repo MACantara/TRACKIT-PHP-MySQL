@@ -585,6 +585,12 @@ tr:hover {
     /* Add your styles for the dropdown here */
 }
 
+/* Event Card */
+
+.event-description {
+    text-align: justify;
+}
+
 /* Footer */
 
 footer {

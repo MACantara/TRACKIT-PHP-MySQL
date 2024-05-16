@@ -86,7 +86,7 @@ checkSessionTimeout();
                         <h2><a
                                 href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><?php echo $event['events_name']; ?></a>
                         </h2>
-                        <p><?php echo $event['events_description']; ?></p>
+                        <p class="event-description"><?php echo $event['events_description']; ?></p>
                         <p class="margin-top-16">Date: <?php echo date('F j, Y', strtotime($event['events_date'])); ?>
                             <?php echo date('h:i A', strtotime($event['events_date'])); ?>
                         </p>
