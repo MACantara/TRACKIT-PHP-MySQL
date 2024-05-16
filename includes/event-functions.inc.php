@@ -70,7 +70,11 @@ function getTransactions($conn, $eventsId, $sort = 'DESC', $filterDays = null, $
 }
 
 function getUserEvents($conn, $usersId) {
-    $sql = "SELECT events.events_id, events.events_name, events.events_description, events.events_date, events.events_budget FROM events JOIN event_users ON events.events_id = event_users.events_id WHERE event_users.users_id = ?";
+    $sql = "SELECT events.events_id, events.events_name, events.events_description, events.events_date, events.events_budget 
+            FROM events 
+            JOIN department_events ON events.events_id = department_events.events_id 
+            JOIN department_users ON department_events.departments_id = department_users.departments_id 
+            WHERE department_users.users_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $usersId);
     mysqli_stmt_execute($stmt);
