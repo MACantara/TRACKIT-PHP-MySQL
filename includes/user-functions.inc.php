@@ -227,3 +227,13 @@ function verifyUserEmailToken($conn, $token) {
         return "Invalid verification token!";
     }
 }
+
+function getDepartmentsIdByUsersId($conn, $usersId) {
+    $sql = "SELECT departments_id FROM department_users WHERE users_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $usersId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    return $row['departments_id'];
+}
