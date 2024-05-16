@@ -56,6 +56,34 @@ checkSessionTimeout();
                 ?>
                 <section>
                     <div>
+                        <div class="event-status-container">
+                            <div id="event-status-indicator-<?php echo $event['events_id']; ?>"
+                                class="event-status-indicator <?php echo strtolower($event['events_status']); ?>"></div>
+                            <select class="event-status-dropdown" name="events_status"
+                                onchange="updateEventStatus(<?php echo $event['events_id']; ?>, this.value)">
+                                <option value="Upcoming" <?php echo $event['events_status'] == 'Upcoming' ? 'selected' : ''; ?>>Upcoming</option>
+                                <option value="Done" <?php echo $event['events_status'] == 'Done' ? 'selected' : ''; ?>>Done
+                                </option>
+                                <option value="Postponed" <?php echo $event['events_status'] == 'Postponed' ? 'selected' : ''; ?>>Postponed</option>
+                                <option value="Canceled" <?php echo $event['events_status'] == 'Canceled' ? 'selected' : ''; ?>>Canceled</option>
+                            </select>
+                            <script>
+                                function updateEventStatus(eventsId, status) {
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open("POST", "includes/update-event-status.inc.php", true);
+                                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                                    xhr.onreadystatechange = function () {
+                                        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                                            console.log(this.responseText);
+                                            // Update the class of the event-status-indicator div
+                                            var indicator = document.getElementById('event-status-indicator-' + eventsId);
+                                            indicator.className = 'event-status-indicator ' + status.toLowerCase();
+                                        }
+                                    }
+                                    xhr.send("events_id=" + eventsId + "&events_status=" + status);
+                                }
+                            </script>
+                        </div>
                         <h2><a
                                 href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><?php echo $event['events_name']; ?></a>
                         </h2>
@@ -67,19 +95,19 @@ checkSessionTimeout();
                         <canvas class="event-overview-chart" id="myChart<?php echo $eventsId; ?>"></canvas>
                         <script>
                             var ctx = document.getElementById('myChart<?php echo $eventsId; ?>').getContext('2d');
-                        
+
                             var datasets = [{
                                 label: 'Remaining Budget',
                                 data: [<?php echo $remainingBudget; ?>],
                                 backgroundColor: 'green',
                                 stack: 'Stack 0',
                             }];
-                        
+
                             // If remaining budget is 0 or less, add the "Expenses (over budget)" dataset
                             if (<?php echo $remainingBudget; ?> <= 0) {
                                 var expensesWithinBudget = <?php echo $expensesWithinBudget; ?>;
                                 var expensesOverBudget = <?php echo $expensesOverBudget; ?>;
-                        
+
                                 datasets.push({
                                     label: 'Expenses (Within budget)',
                                     data: [expensesWithinBudget],
@@ -98,7 +126,7 @@ checkSessionTimeout();
                                     backgroundColor: 'red',
                                 });
                             }
-                        
+
                             var myChart = new Chart(ctx, {
                                 type: 'bar',
                                 data: {
@@ -133,7 +161,8 @@ checkSessionTimeout();
                         <form method="post" action="includes/delete-event.inc.php">
                             <input type="hidden" name="events_id" value="<?php echo $event['events_id']; ?>">
                             <button type="submit" class="button button-outline-danger margin-top-16"><i
-                                    class="bi bi-trash"></i> Delete</button>
+                                    class="bi bi-trash"></i>
+                                Delete</button>
                         </form>
                     </div>
                 </section>
