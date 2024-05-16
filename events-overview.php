@@ -62,9 +62,8 @@ checkSessionTimeout();
                             <select class="event-status-dropdown" name="events_status"
                                 onchange="updateEventStatus(<?php echo $event['events_id']; ?>, this.value)">
                                 <option value="Upcoming" <?php echo $event['events_status'] == 'Upcoming' ? 'selected' : ''; ?>>Upcoming</option>
-                                <option value="Done" <?php echo $event['events_status'] == 'Done' ? 'selected' : ''; ?>>Done
-                                </option>
                                 <option value="Postponed" <?php echo $event['events_status'] == 'Postponed' ? 'selected' : ''; ?>>Postponed</option>
+                                <option value="Done" <?php echo $event['events_status'] == 'Done' ? 'selected' : ''; ?>>Done</option>
                                 <option value="Canceled" <?php echo $event['events_status'] == 'Canceled' ? 'selected' : ''; ?>>Canceled</option>
                             </select>
                             <script>

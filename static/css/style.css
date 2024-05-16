@@ -549,6 +549,7 @@ tr:hover {
     display: flex;
     align-items: center;
     position: relative; /* Add this line */
+    margin-bottom: 16px;
 }
 
 .event-status-indicator {
@@ -580,7 +581,7 @@ tr:hover {
 }
 
 .event-status-dropdown {
-    padding-left: 20px; /* Add this line */
+    padding-left: 20px;
     /* Add your styles for the dropdown here */
 }
 
