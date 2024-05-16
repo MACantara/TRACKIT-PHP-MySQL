@@ -1,17 +1,27 @@
 <?php
 
-function createUser($conn, $firstName, $lastName, $username, $email, $password) {
-    $sql = "INSERT INTO users (users_first_name, users_last_name, users_username, users_email, users_password) VALUES (?, ?, ?, ?, ?);";
+function createUser($conn, $firstName, $lastName, $username, $email, $department, $role, $password) {
+    $sql = "INSERT INTO users (users_first_name, users_last_name, users_username, users_email, users_role, users_password) VALUES (?, ?, ?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../sign-up.php?error=stmtfailed");
         exit();
     }
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    mysqli_stmt_bind_param($stmt, "sssss", $firstName, $lastName, $username, $email, $hashedPassword);
+    mysqli_stmt_bind_param($stmt, "ssssss", $firstName, $lastName, $username, $email, $role, $hashedPassword);
     mysqli_stmt_execute($stmt);
     $users_id = mysqli_insert_id($conn); // Get the ID of the newly created user
     defaultProfileInformation($conn, $username, $users_id); // Create a default profile for the new user
+
+    // Insert a record into the department_users table
+    $sql = "INSERT INTO department_users (departments_id, users_id) VALUES (?, ?)";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../sign-up.php?error=stmtfailed");
+        exit();
+    }
+    mysqli_stmt_bind_param($stmt, "ii", $department, $users_id);
+    mysqli_stmt_execute($stmt);
 
     // Generate a unique token for email verification
     $token = bin2hex(random_bytes(32));
