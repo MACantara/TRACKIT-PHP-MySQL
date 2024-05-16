@@ -15,10 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lastName = sanitizeInput($_POST['lastName']);
     $username = sanitizeInput($_POST['username']);
     $email = sanitizeInput($_POST['email']);
+    $department = sanitizeInput($_POST['department']);
+    $role = sanitizeInput($_POST['role']);
     $password = sanitizeInput($_POST['password']);
     $confirmPassword = sanitizeInput($_POST['confirmPassword']);
 
-    if (signUpEmptyInput($firstName, $lastName, $username, $email, $password, $confirmPassword) !== false) {
+    if (signUpEmptyInput($firstName, $lastName, $username, $email, $role, $password, $confirmPassword) !== false) {
         header("location: ../sign-up.php?error=emptyinput");
         exit();
     }
@@ -53,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    createUser($conn, $firstName, $lastName, $username, $email, $password);
+    createUser($conn, $firstName, $lastName, $username, $email, $department, $role, $password);
 
 } else {
     header("location: ../index.php");
