@@ -28,6 +28,32 @@ checkSessionTimeout();
                 <input type="text" name="username" id="username" placeholder="Username" required>
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" placeholder="Email" required>
+                <label for="department">Department</label>
+                <?php
+                // Database connection
+                require_once 'includes/db-connection.inc.php';
+
+                // Fetch departments from the database
+                $sql = "SELECT * FROM departments";
+                $result = mysqli_query($conn, $sql);
+                ?>
+
+                <select name="department" id="department">
+                    <option value="" selected disabled>Select a Department</option>
+                    <?php
+                    // Generate option elements for each department
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<option value="' . $row['departments_id'] . '">' . $row['departments_name'] . '</option>';
+                    }
+                    ?>
+                </select>
+                <label for="role">Role</label>
+                <select name="role" id="role">
+                    <option value="" selected disabled>Select a Role</option>
+                    <option value="Faculty">Faculty</option>
+                    <option value="Staff">Staff</option>
+                    <option value="Student-Council-Officer">Student Council Officer</option>
+                </select>
                 <label for="password"><i class="bi bi-lock-fill"></i> Password</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>
                 <div id="strengthBar"
