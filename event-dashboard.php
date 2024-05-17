@@ -7,6 +7,9 @@ require_once 'includes/user-functions.inc.php';
 requireLogin();
 checkSessionTimeout();
 
+// Get the user's role
+$usersRole = getUserRole($conn, $usersId);
+
 $eventsId = $_GET['events_id'];
 $usersId = $_SESSION["users_id"];
 
@@ -34,15 +37,6 @@ list($expensesWithinBudget, $expensesOverBudget, $remainingBudget) = calculateBu
 // Add pagination links at the end of the transaction history table
 $totalRecords = count(getTransactions($conn, $eventsId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType));
 $totalPages = ceil($totalRecords / $recordsPerPage);
-
-// Get the user's role
-$sql = "SELECT users_role FROM users WHERE users_id = ?";
-$stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "i", $usersId);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$usersRow = mysqli_fetch_assoc($result);
-$usersRole = $usersRow['users_role'];
 ?>
 
 <!DOCTYPE html>
