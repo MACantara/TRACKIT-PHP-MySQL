@@ -36,7 +36,8 @@ $usersRole = $row['users_role'];
             <h1>Events Overview</h1>
             <div class="button-container">
                 <?php if ($usersRole == 'Student-Council-Officer' || $usersRole == 'Admin'): ?>
-                    <a class="button margin-top-16" href="create-event.php"><i class="bi bi-plus-circle"></i> Create New Event</a>
+                    <a class="button margin-top-16" href="create-event.php"><i class="bi bi-plus-circle"></i> Create New
+                        Event</a>
                 <?php endif; ?>
                 <?php
                 if (isset($_GET["create-event"])) {
@@ -109,7 +110,29 @@ $usersRole = $row['users_role'];
                         <h2><a
                                 href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><?php echo $event['events_name']; ?></a>
                         </h2>
-                        <p class="event-description"><?php echo $event['events_description']; ?></p>
+                        <p class="event-description" id="eventDescriptionShort-<?php echo $event['events_id']; ?>">
+                            <?php echo limit_words($event['events_description'], 20); ?></p>
+                        <p class="event-description" id="eventDescriptionFull-<?php echo $event['events_id']; ?>"
+                            style="display: none;"><?php echo $event['events_description']; ?></p>
+                        <button id="showMoreButton-<?php echo $event['events_id']; ?>">Show More</button>
+                        <button id="showLessButton-<?php echo $event['events_id']; ?>" style="display: none;">Show
+                            Less</button>
+
+                        <script>
+                            document.getElementById('showMoreButton-<?php echo $event['events_id']; ?>').addEven tListener('click', function() {
+                                document.getElementById('eventDescriptionShort-<?php echo $event['events_id']; ?>').style.display = 'none';
+                                document.getElementById('eventDescriptionFull-<?php echo $event['events_id']; ?>').style.display = 'block';
+                                document.getElementById('showMoreButton-<?php echo $event['events_id']; ?>').style.display = 'none';
+                                document.getElementById('showLessButton-<?php echo $event['events_id']; ?>').style.display = 'block';
+                            });
+
+                            document.getElementById('showLessButton-<?php echo $event['events_id']; ?>').addEven tListener('click', function() {
+                                document.getElementById('eventDescriptionShort-<?php echo $event['events_id']; ?>').style.display = 'block';
+                                document.getElementById('eventDescriptionFull-<?php echo $event['events_id']; ?>').style.display = 'none';
+                                document.getElementById('showMoreButton-<?php echo $event['events_id']; ?>').style.display = 'block';
+                                document.getElementById('showLessButton-<?php echo $event['events_id']; ?>').style.display = 'none';
+                            });
+                        </script>
                         <p class="margin-top-16">Date: <?php echo date('F j, Y', strtotime($event['events_date'])); ?>
                             <?php echo date('h:i A', strtotime($event['events_date'])); ?>
                         </p>
