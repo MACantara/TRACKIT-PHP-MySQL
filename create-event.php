@@ -40,6 +40,14 @@ checkSessionTimeout();
                 <label for="event_budget">Event Budget:</label>
                 <input type="number" id="event_budget" name="event_budget" required>
 
+                <label for="event_status">Event Status:</label>
+                <select id="event_status" name="event_status" required>
+                    <option value="" selected disabled>Select an Event Status</option>
+                    <option value="Upcoming">Upcoming</option>
+                    <option value="Ongoing">Postponed</option>
+                    <option value="Done">Done</option>
+                    <option value="Canceled">Canceled</option>
+                </select>
                 <div class="two-grid-column-container">
                     <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button margin-top-16" type="submit" name="create-event"><i class="bi bi-calendar-plus"></i> Create Event</button>
