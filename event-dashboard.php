@@ -34,6 +34,15 @@ list($expensesWithinBudget, $expensesOverBudget, $remainingBudget) = calculateBu
 // Add pagination links at the end of the transaction history table
 $totalRecords = count(getTransactions($conn, $eventsId, $sort, $filterDays === 0 ? null : $filterDays, $transactionType));
 $totalPages = ceil($totalRecords / $recordsPerPage);
+
+// Get the user's role
+$sql = "SELECT users_role FROM users WHERE users_id = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $usersId);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$usersRow = mysqli_fetch_assoc($result);
+$usersRole = $usersRow['users_role'];
 ?>
 
 <!DOCTYPE html>
@@ -53,15 +62,19 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
         <div class="event-dashboard-buttons-container">
             <a class="secondary-outline-button" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back to
                 Events Overview</a>
-            <a class="button" href="add-transaction.php?events_id=<?php echo $eventsId; ?>"><i
-                    class="bi bi-plus-circle"></i> Add Transaction</a>
-            <a class="button" href="invite-user.php?events_id=<?php echo $eventsId; ?>"><i
-                    class="bi bi-person-plus"></i> Invite User</a>
-            <form action="includes/report-generation.inc.php?events_id=<?php echo $eventsId; ?>" method="post">
-                <input type="hidden" name="event_id" value="<?php echo $eventsId; ?>">
-                <button class="button" type="submit" name="generate-report"><i class="bi bi-file-earmark-text"></i>
-                    Generate Report</button>
-            </form>
+            <?php if ($usersRole == 'Student-Council-Officer' || $usersRole == 'Admin'): ?>
+                <a class="button" href="add-transaction.php?events_id=<?php echo $eventsId; ?>"><i
+                        class="bi bi-plus-circle"></i> Add Transaction</a>
+                <a class="button" href="invite-user.php?events_id=<?php echo $eventsId; ?>"><i
+                        class="bi bi-person-plus"></i> Invite User</a>
+            <?php endif; ?>
+            <?php if ($usersRole == 'Student-Council-Officer' || $usersRole == 'Admin' || $usersRole == 'Staff' || $usersRole == 'Faculty'): ?>
+                <form action="includes/report-generation.inc.php?events_id=<?php echo $eventsId; ?>" method="post">
+                    <input type="hidden" name="event_id" value="<?php echo $eventsId; ?>">
+                    <button class="button" type="submit" name="generate-report"><i class="bi bi-file-earmark-text"></i>
+                        Generate Report</button>
+                </form>
+            <?php endif; ?>
         </div>
         <h1 class="margin-top-16"><?php echo $row['events_name']; ?></h1>
         <section class="chart-container">
