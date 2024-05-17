@@ -65,18 +65,26 @@ checkSessionTimeout();
                             $eventsStatus = getEventStatus($conn, $event['events_id']);
                         ?>
                         <div class="event-status-container">
-                            <div id="event-status-indicator-<?php echo $event['events_id']; ?>"
+                            <?php if($usersRole == 'Faculty' || $usersRole == 'Staff'): ?>
+                                <div class="event-status-text-container">
+                                    <div id="event-status-indicator-<?php echo $event['events_id']; ?>"
+                                    class="event-status-indicator <?php echo strtolower($eventsStatus); ?>"></div>
+                                    <p class="event-status-text"><?php echo $eventsStatus; ?></p>
+                                </div>
+                            <?php else: ?>
+                                <div id="event-status-indicator-<?php echo $event['events_id']; ?>"
                                 class="event-status-indicator <?php echo strtolower($eventsStatus); ?>"></div>
-                            <select class="event-status-dropdown" name="events_status"
-                                onchange="updateEventStatus(<?php echo $event['events_id']; ?>, this.value)">
-                                <option value="Upcoming" <?php echo $eventsStatus == 'Upcoming' ? 'selected' : ''; ?>>Upcoming
-                                </option>
-                                <option value="Postponed" <?php echo $eventsStatus == 'Postponed' ? 'selected' : ''; ?>>
-                                    Postponed</option>
-                                <option value="Done" <?php echo $eventsStatus == 'Done' ? 'selected' : ''; ?>>Done</option>
-                                <option value="Canceled" <?php echo $eventsStatus == 'Canceled' ? 'selected' : ''; ?>>Canceled
-                                </option>
-                            </select>
+                                <select class="event-status-dropdown" name="events_status"
+                                    onchange="updateEventStatus(<?php echo $event['events_id']; ?>, this.value)">
+                                    <option value="Upcoming" <?php echo $eventsStatus == 'Upcoming' ? 'selected' : ''; ?>>Upcoming
+                                    </option>
+                                    <option value="Postponed" <?php echo $eventsStatus == 'Postponed' ? 'selected' : ''; ?>>
+                                        Postponed</option>
+                                    <option value="Done" <?php echo $eventsStatus == 'Done' ? 'selected' : ''; ?>>Done</option>
+                                    <option value="Canceled" <?php echo $eventsStatus == 'Canceled' ? 'selected' : ''; ?>>Canceled
+                                    </option>
+                                </select>
+                            <?php endif; ?>
                             <?php include 'includes/update-event-status-js-functions.inc.php'; ?>
                         </div>
                         <h2><a

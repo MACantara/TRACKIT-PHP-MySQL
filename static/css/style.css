@@ -585,6 +585,18 @@ tr:hover {
     /* Add your styles for the dropdown here */
 }
 
+.event-status-text {
+    margin-left: 16px;
+}
+
+.event-status-text-container {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 8px 0;
+}
+
 /* Event Card */
 
 .event-description {
