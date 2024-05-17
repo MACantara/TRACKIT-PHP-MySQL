@@ -126,9 +126,10 @@ function getEventRemainingBudget($conn, $eventsId) {
 }
 
 function getEventManagers($conn, $eventsId) {
-    $sql = "SELECT users.users_last_name, users.users_first_name FROM event_users
-            INNER JOIN users ON event_users.users_id = users.users_id
-            WHERE event_users.events_id = ?";
+    $sql = "SELECT users.users_last_name, users.users_first_name FROM department_users
+            INNER JOIN users ON department_users.users_id = users.users_id
+            INNER JOIN department_events ON department_users.departments_id = department_events.departments_id
+            WHERE department_events.events_id = ?";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         return false;
