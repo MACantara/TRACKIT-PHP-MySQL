@@ -5,15 +5,16 @@ function handleCreateEvent($conn) {
     require_once "error-handling-functions.inc.php"; // Include the file containing the sanitizeInput function
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['event_name'], $_POST['event_description'], $_POST['event_date'], $_POST['event_time'], $_POST['event_budget'])) {
+        if (isset($_POST['event_name'], $_POST['event_description'], $_POST['event_date'], $_POST['event_time'], $_POST['event_status'], $_POST['event_budget'])) {
             $usersId = $_SESSION['users_id'];
             $eventName = sanitizeInput($_POST['event_name']);
             $eventDescription = sanitizeInput($_POST['event_description']);
             $eventDate = sanitizeInput($_POST['event_date']);
             $eventTime = sanitizeInput($_POST['event_time']);
+            $eventStatus = sanitizeInput($_POST['event_status']);
             $eventBudget = sanitizeInput($_POST['event_budget']);
 
-            createEvent($conn, $usersId, $eventName, $eventDescription, $eventDate, $eventTime, $eventBudget);
+            createEvent($conn, $usersId, $eventName, $eventStatus, $eventDescription, $eventDate, $eventTime, $eventBudget);
             header("Location: events-overview.php?create-event=success");
         } else {
             header("Location: events-overview.php?create-event=error");
