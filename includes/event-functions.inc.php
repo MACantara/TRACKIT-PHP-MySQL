@@ -268,7 +268,7 @@ function calculateBudget($totalExpenses, $remainingBudget, $transactions, $row, 
 function limit_words($string, $word_limit) {
     $words = explode(" ",$string);
     $limited_string = implode(" ",array_splice($words,0,$word_limit));
-    return (str_word_count($string) > $word_limit) ? $limited_string . '...' : $string;
+    return (str_word_count($string) > $word_limit) ? $limited_string : $string;
 }
 
 function getEventStatus($conn, $eventId) {
