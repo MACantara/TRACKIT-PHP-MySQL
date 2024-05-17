@@ -9,6 +9,14 @@ $events = getUserEvents($conn, $usersId);
 require_once 'includes/user-functions.inc.php';
 requireLogin();
 checkSessionTimeout();
+
+$sql = "SELECT users_role FROM users WHERE users_id = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $usersId);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$row = mysqli_fetch_assoc($result);
+$usersRole = $row['users_role'];
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +35,9 @@ checkSessionTimeout();
         <section class="section-container">
             <h1>Events Overview</h1>
             <div class="button-container">
-                <a class="button margin-top-16" href="create-event.php"><i class="bi bi-plus-circle"></i> Create New
-                    Event</a>
+                <?php if ($usersRole == 'Student-Council-Officer' || $usersRole == 'Admin'): ?>
+                    <a class="button margin-top-16" href="create-event.php"><i class="bi bi-plus-circle"></i> Create New Event</a>
+                <?php endif; ?>
                 <?php
                 if (isset($_GET["create-event"])) {
                     if ($_GET["create-event"] == "success") {
@@ -164,19 +173,23 @@ checkSessionTimeout();
                             <a class="button button-primary margin-top-16"
                                 href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><i
                                     class="bi bi-eye"></i> View</a>
-                            <a class="button secondary-outline-button margin-top-16"
-                                href="update-event.php?events_id=<?php echo $event['events_id']; ?>"><i
-                                    class="bi bi-pencil-square"></i> Update</a>
-                            <a class="button secondary-outline-button margin-top-16"
-                                href="invite-user.php?events_id=<?php echo $event['events_id']; ?>"><i
-                                    class="bi bi-person-plus"></i> Invite</a>
+                            <?php if ($usersRole == 'Student-Council-Officer' || $usersRole == 'Admin'): ?>
+                                <a class="button secondary-outline-button margin-top-16"
+                                    href="update-event.php?events_id=<?php echo $event['events_id']; ?>"><i
+                                        class="bi bi-pencil-square"></i> Update</a>
+                                <a class="button secondary-outline-button margin-top-16"
+                                    href="invite-user.php?events_id=<?php echo $event['events_id']; ?>"><i
+                                        class="bi bi-person-plus"></i> Invite</a>
+                            <?php endif; ?>
                         </div>
-                        <form method="post" action="includes/delete-event.inc.php">
-                            <input type="hidden" name="events_id" value="<?php echo $event['events_id']; ?>">
-                            <button type="submit" class="button button-outline-danger margin-top-16"><i
-                                    class="bi bi-trash"></i>
-                                Delete</button>
-                        </form>
+                        <?php if ($usersRole == 'Student-Council-Officer' || $usersRole == 'Admin'): ?>
+                            <form method="post" action="includes/delete-event.inc.php">
+                                <input type="hidden" name="events_id" value="<?php echo $event['events_id']; ?>">
+                                <button type="submit" class="button button-outline-danger margin-top-16"><i
+                                        class="bi bi-trash"></i>
+                                    Delete</button>
+                            </form>
+                        <?php endif; ?>
                     </div>
                 </section>
             <?php endforeach; ?>
