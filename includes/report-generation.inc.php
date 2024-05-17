@@ -61,22 +61,22 @@ $pdf->SetFont('Helvetica', '', 12);
 
 // Event Header
 $pdf->SetFont('Helvetica', '', 24);
-$pdf->Cell(0, 20, $eventName . " Generated Report", 0, 1, 'C');
+$pdf->MultiCell(0, 20, $eventName . " Generated Report", 0, 'C');
 $pdf->SetFont('Helvetica', '', 12); // Reset font size to 12
 
 // Expenses, Income, and Remaining Budget
 $pdf->Bookmark('Initial Budget', 0, 0, '', 'B', array(0,64,128));
-$pdf->Cell(0, 10, 'Initial Budget: PHP ' . number_format($initialBudget, 2), 0, 1);
+$pdf->MultiCell(0, 10, 'Initial Budget: PHP ' . number_format($initialBudget, 2), 0, 'L');
 $pdf->Bookmark('Total Expenses', 0, 0, '', 'B', array(0,64,128));
-$pdf->Cell(0, 10, 'Total Expenses: PHP ' . number_format($totalExpenses, 2), 0, 1);
+$pdf->MultiCell(0, 10, 'Total Expenses: PHP ' . number_format($totalExpenses, 2), 0, 'L');
 $pdf->Bookmark('Total Income', 0, 0, '', 'B', array(0,64,128));
-$pdf->Cell(0, 10, 'Total Income: PHP ' . number_format($totalIncome, 2), 0, 1);
+$pdf->MultiCell(0, 10, 'Total Income: PHP ' . number_format($totalIncome, 2), 0, 'L');
 $pdf->Bookmark('Remaining Budget', 0, 0, '', 'B', array(0,64,128));
-$pdf->Cell(0, 10, 'Remaining Budget: PHP ' . number_format($remainingBudget, 2), 0, 1);
+$pdf->MultiCell(0, 10, 'Remaining Budget: PHP ' . number_format($remainingBudget, 2), 0, 'L');
 
 // Add managers to PDF
 $pdf->Bookmark('Event Managers', 0, 0, '', 'B', array(0,64,128));
-$pdf->Cell(0, 10, 'Event Managers: ' . implode(', ', $managers), 0, 1);
+$pdf->MultiCell(0, 10, 'Event Managers: ' . implode(', ', $managers), 0, 'L');
 
 // Colors, line width and bold font
 $pdf->SetFillColor(0, 123, 255); // Change to your website's primary color
