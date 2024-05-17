@@ -56,15 +56,29 @@ checkSessionTimeout();
                 ?>
                 <section>
                     <div>
+                        <?php
+                        // Fetch the events_status from the events table
+                        $sql = "SELECT events_status FROM events WHERE events_id = ?";
+                        $stmt = mysqli_prepare($conn, $sql);
+                        mysqli_stmt_bind_param($stmt, "i", $event['events_id']);
+                        mysqli_stmt_execute($stmt);
+                        $result = mysqli_stmt_get_result($stmt);
+                        $row = mysqli_fetch_assoc($result);
+                        $eventsStatus = $row['events_status'];
+                        ?>
+
                         <div class="event-status-container">
                             <div id="event-status-indicator-<?php echo $event['events_id']; ?>"
-                                class="event-status-indicator <?php echo strtolower($event['events_status']); ?>"></div>
+                                class="event-status-indicator <?php echo strtolower($eventsStatus); ?>"></div>
                             <select class="event-status-dropdown" name="events_status"
                                 onchange="updateEventStatus(<?php echo $event['events_id']; ?>, this.value)">
-                                <option value="Upcoming" <?php echo $event['events_status'] == 'Upcoming' ? 'selected' : ''; ?>>Upcoming</option>
-                                <option value="Postponed" <?php echo $event['events_status'] == 'Postponed' ? 'selected' : ''; ?>>Postponed</option>
-                                <option value="Done" <?php echo $event['events_status'] == 'Done' ? 'selected' : ''; ?>>Done</option>
-                                <option value="Canceled" <?php echo $event['events_status'] == 'Canceled' ? 'selected' : ''; ?>>Canceled</option>
+                                <option value="Upcoming" <?php echo $eventsStatus == 'Upcoming' ? 'selected' : ''; ?>>Upcoming
+                                </option>
+                                <option value="Postponed" <?php echo $eventsStatus == 'Postponed' ? 'selected' : ''; ?>>
+                                    Postponed</option>
+                                <option value="Done" <?php echo $eventsStatus == 'Done' ? 'selected' : ''; ?>>Done</option>
+                                <option value="Canceled" <?php echo $eventsStatus == 'Canceled' ? 'selected' : ''; ?>>Canceled
+                                </option>
                             </select>
                             <script>
                                 function updateEventStatus(eventsId, status) {
