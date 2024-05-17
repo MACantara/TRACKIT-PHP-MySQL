@@ -77,6 +77,7 @@ checkSessionTimeout();
                                 <option value="Canceled" <?php echo $eventsStatus == 'Canceled' ? 'selected' : ''; ?>>Canceled
                                 </option>
                             </select>
+                            <?php include 'includes/update-event-status-js-functions.inc.php'; ?>
                         </div>
                         <h2><a
                                 href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><?php echo $event['events_name']; ?></a>
@@ -85,7 +86,22 @@ checkSessionTimeout();
                         <p class="event-description" id="eventDescriptionFull-<?php echo $event['events_id']; ?>" style="display: none;"><?php echo $event['events_description']; ?></p>
                         <button id="showMoreButton-<?php echo $event['events_id']; ?>">Show More</button>
                         <button id="showLessButton-<?php echo $event['events_id']; ?>" style="display: none;">Show Less</button>
-                        <?php include "includes/events-overview-js-functions.inc.php"; ?>
+
+                        <script>
+                        document.getElementById('showMoreButton-<?php echo $event['events_id']; ?>').addEventListener('click', function() {
+                            document.getElementById('eventDescriptionShort-<?php echo $event['events_id']; ?>').style.display = 'none';
+                            document.getElementById('eventDescriptionFull-<?php echo $event['events_id']; ?>').style.display = 'block';
+                            document.getElementById('showMoreButton-<?php echo $event['events_id']; ?>').style.display = 'none';
+                            document.getElementById('showLessButton-<?php echo $event['events_id']; ?>').style.display = 'block';
+                        });
+
+                        document.getElementById('showLessButton-<?php echo $event['events_id']; ?>').addEventListener('click', function() {
+                            document.getElementById('eventDescriptionShort-<?php echo $event['events_id']; ?>').style.display = 'block';
+                            document.getElementById('eventDescriptionFull-<?php echo $event['events_id']; ?>').style.display = 'none';
+                            document.getElementById('showMoreButton-<?php echo $event['events_id']; ?>').style.display = 'block';
+                            document.getElementById('showLessButton-<?php echo $event['events_id']; ?>').style.display = 'none';
+                        });
+                        </script>
                         <p class="margin-top-16">Date: <?php echo date('F j, Y', strtotime($event['events_date'])); ?>
                             <?php echo date('h:i A', strtotime($event['events_date'])); ?>
                         </p>
