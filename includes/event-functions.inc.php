@@ -270,3 +270,13 @@ function limit_words($string, $word_limit) {
     $limited_string = implode(" ",array_splice($words,0,$word_limit));
     return (str_word_count($string) > $word_limit) ? $limited_string . '...' : $string;
 }
+
+function getEventStatus($conn, $eventId) {
+    $sql = "SELECT events_status FROM events WHERE events_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $eventId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    return $row['events_status'];
+}
