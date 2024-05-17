@@ -47,30 +47,23 @@ checkSessionTimeout();
         <div class="events-grid">
             <?php foreach ($events as $event): ?>
                 <?php
-                // Get the data for the current event
-                $eventsId = $event['events_id'];
-                $row = getEvent($conn, $eventsId);
-                $expenses = getTotalEventExpenses($conn, $eventsId);
-                $income = getTotalEventIncome($conn, $eventsId);
-                $remainingBudget = getEventRemainingBudget($conn, $eventsId);
-                $transactions = getTransactions($conn, $eventsId);
-                $totalExpenses = $expenses + $income;
+                    // Get the data for the current event
+                    $eventsId = $event['events_id'];
+                    $row = getEvent($conn, $eventsId);
+                    $expenses = getTotalEventExpenses($conn, $eventsId);
+                    $income = getTotalEventIncome($conn, $eventsId);
+                    $remainingBudget = getEventRemainingBudget($conn, $eventsId);
+                    $transactions = getTransactions($conn, $eventsId);
+                    $totalExpenses = $expenses + $income;
 
-                list($expensesWithinBudget, $expensesOverBudget, $remainingBudget) = calculateBudget($totalExpenses, $remainingBudget, $transactions, $row, $eventsId, $conn);
+                    list($expensesWithinBudget, $expensesOverBudget, $remainingBudget) = calculateBudget($totalExpenses, $remainingBudget, $transactions, $row, $eventsId, $conn);
                 ?>
                 <section>
                     <div>
                         <?php
-                        // Fetch the events_status from the events table
-                        $sql = "SELECT events_status FROM events WHERE events_id = ?";
-                        $stmt = mysqli_prepare($conn, $sql);
-                        mysqli_stmt_bind_param($stmt, "i", $event['events_id']);
-                        mysqli_stmt_execute($stmt);
-                        $result = mysqli_stmt_get_result($stmt);
-                        $row = mysqli_fetch_assoc($result);
-                        $eventsStatus = $row['events_status'];
+                            // Fetch the events_status from the events table
+                            $eventsStatus = getEventStatus($conn, $event['events_id']);
                         ?>
-
                         <div class="event-status-container">
                             <div id="event-status-indicator-<?php echo $event['events_id']; ?>"
                                 class="event-status-indicator <?php echo strtolower($eventsStatus); ?>"></div>
@@ -84,22 +77,6 @@ checkSessionTimeout();
                                 <option value="Canceled" <?php echo $eventsStatus == 'Canceled' ? 'selected' : ''; ?>>Canceled
                                 </option>
                             </select>
-                            <script>
-                                function updateEventStatus(eventsId, status) {
-                                    var xhr = new XMLHttpRequest();
-                                    xhr.open("POST", "includes/update-event-status.inc.php", true);
-                                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                                    xhr.onreadystatechange = function () {
-                                        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                                            console.log(this.responseText);
-                                            // Update the class of the event-status-indicator div
-                                            var indicator = document.getElementById('event-status-indicator-' + eventsId);
-                                            indicator.className = 'event-status-indicator ' + status.toLowerCase();
-                                        }
-                                    }
-                                    xhr.send("events_id=" + eventsId + "&events_status=" + status);
-                                }
-                            </script>
                         </div>
                         <h2><a
                                 href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><?php echo $event['events_name']; ?></a>
@@ -108,22 +85,7 @@ checkSessionTimeout();
                         <p class="event-description" id="eventDescriptionFull-<?php echo $event['events_id']; ?>" style="display: none;"><?php echo $event['events_description']; ?></p>
                         <button id="showMoreButton-<?php echo $event['events_id']; ?>">Show More</button>
                         <button id="showLessButton-<?php echo $event['events_id']; ?>" style="display: none;">Show Less</button>
-
-                        <script>
-                        document.getElementById('showMoreButton-<?php echo $event['events_id']; ?>').addEventListener('click', function() {
-                            document.getElementById('eventDescriptionShort-<?php echo $event['events_id']; ?>').style.display = 'none';
-                            document.getElementById('eventDescriptionFull-<?php echo $event['events_id']; ?>').style.display = 'block';
-                            document.getElementById('showMoreButton-<?php echo $event['events_id']; ?>').style.display = 'none';
-                            document.getElementById('showLessButton-<?php echo $event['events_id']; ?>').style.display = 'block';
-                        });
-
-                        document.getElementById('showLessButton-<?php echo $event['events_id']; ?>').addEventListener('click', function() {
-                            document.getElementById('eventDescriptionShort-<?php echo $event['events_id']; ?>').style.display = 'block';
-                            document.getElementById('eventDescriptionFull-<?php echo $event['events_id']; ?>').style.display = 'none';
-                            document.getElementById('showMoreButton-<?php echo $event['events_id']; ?>').style.display = 'block';
-                            document.getElementById('showLessButton-<?php echo $event['events_id']; ?>').style.display = 'none';
-                        });
-                        </script>
+                        <?php include "includes/events-overview-js-functions.inc.php"; ?>
                         <p class="margin-top-16">Date: <?php echo date('F j, Y', strtotime($event['events_date'])); ?>
                             <?php echo date('h:i A', strtotime($event['events_date'])); ?>
                         </p>
