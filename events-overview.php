@@ -82,10 +82,16 @@ checkSessionTimeout();
                         <h2><a
                                 href="event-dashboard.php?events_id=<?php echo $event['events_id']; ?>"><?php echo $event['events_name']; ?></a>
                         </h2>
-                        <p class="event-description" id="eventDescriptionShort-<?php echo $event['events_id']; ?>"><?php echo limit_words($event['events_description'], 20); ?></p>
-                        <p class="event-description" id="eventDescriptionFull-<?php echo $event['events_id']; ?>" style="display: none;"><?php echo $event['events_description']; ?></p>
-                        <button id="showMoreButton-<?php echo $event['events_id']; ?>">Show More</button>
-                        <button id="showLessButton-<?php echo $event['events_id']; ?>" style="display: none;">Show Less</button>
+                        <div class="event-description" id="eventDescription-<?php echo $event['events_id']; ?>">
+                            <span class="fade-out">
+                                <?php echo limit_words($event['events_description'], 20); ?>
+                            </span>
+                            <span id="more-<?php echo $event['events_id']; ?>" style="display: none;">
+                                <?php echo substr($event['events_description'], strlen(limit_words($event['events_description'], 20))); ?>
+                            </span>
+                            <a href="#" class="showMore" id="showMore-<?php echo $event['events_id']; ?>">...more</a>
+                            <a href="#" class="showLess" id="showLess-<?php echo $event['events_id']; ?>" style="display: none;">Show less</a>
+                        </div>
                         <?php include "includes/display-event-description-js-functions.inc.php"; ?>
                         <p class="margin-top-16">Date: <?php echo date('F j, Y', strtotime($event['events_date'])); ?>
                             <?php echo date('h:i A', strtotime($event['events_date'])); ?>
