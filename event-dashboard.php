@@ -7,11 +7,11 @@ require_once 'includes/user-functions.inc.php';
 requireLogin();
 checkSessionTimeout();
 
-// Get the user's role
-$usersRole = getUserRole($conn, $usersId);
-
 $eventsId = $_GET['events_id'];
 $usersId = $_SESSION["users_id"];
+
+// Get the user's role
+$usersRole = getUserRole($conn, $usersId);
 
 $row = getEvent($conn, $eventsId);
 
