@@ -85,12 +85,7 @@ $pdf->SetDrawColor(0, 123, 255); // Change to your website's primary color
 $pdf->SetLineWidth(0.3);
 $pdf->SetFont('', 'B');
 
-// Column titles
-$header = array('Date', 'Name', 'Amount', 'Price', 'Total', 'Category');
 
-// Header
-$num_headers = count($header);
-$cellWidth = 203 / $num_headers; // Adjust the cell width here
 
 // Color and font restoration
 $pdf->SetFillColor(224, 235, 255); // Change to your website's secondary color
@@ -101,12 +96,16 @@ $pdf->SetFont('');
 $expenseData = loadTransactionData($transactions, 'expense');
 $incomeData = loadTransactionData($transactions, 'income');
 
+// Column titles
+$header = array('Date', 'Name', 'Amount', 'Price', 'Total', 'Category');
+
 // Generate transaction history
 $pdf->Bookmark('Expenses Transaction History', 0, 0, '', 'B', array(0,64,128));
-generateTransactionHistory($pdf, $expenseData, $header, $cellWidth, 'Expenses Transaction History');
+generateTransactionHistory($pdf, $expenseData, $header, 'Expenses Transaction History');
 $pdf->Ln(10); // Add a line break
+
 $pdf->Bookmark('Income Transaction History', 0, 0, '', 'B', array(0,64,128));
-generateTransactionHistory($pdf, $incomeData, $header, $cellWidth, 'Income Transaction History');
+generateTransactionHistory($pdf, $incomeData, $header, 'Income Transaction History');
 
 // Close and output PDF document
 $pdf->Output($eventName . '_report.pdf', 'I');
