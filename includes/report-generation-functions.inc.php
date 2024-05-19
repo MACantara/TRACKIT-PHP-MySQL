@@ -25,7 +25,7 @@ function loadTransactionData($transactions, $transactionType)
     return $data;
 }
 
-function generateTransactionHistory($pdf, $data, $header, $cellWidth, $title, $wordWrap = false)
+function generateTransactionHistory($pdf, $data, $header, $title)
 {
     // Transaction History Header
     $pdf->SetFont('Helvetica', 'B', 16);
@@ -40,29 +40,14 @@ function generateTransactionHistory($pdf, $data, $header, $cellWidth, $title, $w
     $pdf->SetFont('', 'B');
 
     // Header
-    foreach ($header as $i => $col) {
-        $width = $cellWidth;
-        if ($col == 'Date') {
-            $width *= 0.75; // Reduced from 1.1 to 1.0
-        }
-        if ($col == "Name") {
-            $width *= 1.5; // Increased from 1.5 to 1.7 (and changed division to multiplication)
-        }
-        if ($col == 'Amount') {
-            $width /= 1.7; // Increased from 1.7 to 1.8
-        }
-        if ($col == "Price") {
-            $width /= 1.3; // Increased from 1.2 to 1.3
-        }
-        if ($col == "Total") {
-            $width *= 1.0; // Reduced from 1.1 to 1.0
-        }
-        if ($col == "Category") {
-            $width /= 1.4; // Increased from 1.3 to 1.4
-        }
-        $pdf->Cell($width, 7, $col, 1, 0, 'C', 1);
+    $html = '<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">';
+    $html .= '<thead style="background-color: #007BFF; color: #FFF;">';
+    $html .= '<tr>';
+    foreach ($header as $col) {
+        $html .= '<th style="background-color: #007BFF; color: #FFF;">' . $col . '</th>';
     }
-    $pdf->Ln();
+    $html .= '</tr>';
+    $html .= '</thead>';
 
     // Color and font restoration
     $pdf->SetFillColor(224, 235, 255); // Change to your website's secondary color
@@ -70,73 +55,17 @@ function generateTransactionHistory($pdf, $data, $header, $cellWidth, $title, $w
     $pdf->SetFont('');
 
     // Data
-    $fill = 0;
-    $totalWidth = 0;
+    $html .= '<tbody style="background-color: #E0EBFF; color: #000;">';
     foreach ($data as $row) {
-        // Calculate max height of cells in the row
-        $maxHeight = 0;
-        for ($i = 0; $i < count($header); ++$i) {
-            $width = $cellWidth;
-            if ($i == 0) {
-                $width *= 0.75; // Reduced from 1.3 to 1.1
-            }
-            if ($i == 1) {
-                $width *= 1.5; // Increased from 1.5 to 1.7
-            }
-            if ($i == 2) {
-                $width /= 1.7; // Increased from 1.5 to 1.7
-            }
-            if ($i == 3) {
-                $width /= 1.3; // Increased from 1.2 to 1.3
-            }
-            if ($i == 4) {
-                $width *= 1.0; // Reduced from 1.1 to 1.0
-            }
-            if ($i == 5) {
-                $width /= 1.4; // Increased from 1.3 to 1.4
-            }
-            $totalWidth += $width;
-            $nbLines = ceil($pdf->GetStringWidth($row[$i]) / $width);
-            $tempHeight = $nbLines * 6; // 6 is the height of one line
-            if ($tempHeight > $maxHeight) {
-                $maxHeight = $tempHeight;
-            }
+        $html .= '<tr>';
+        foreach ($row as $cell) {
+            $html .= '<td>' . $cell . '</td>';
         }
-        // Print cells of the row
-        for ($i = 0; $i < count($header); ++$i) {
-            $width = $cellWidth;
-            if ($i == 0) {
-                $width *= 0.75; // Reduced from 1.3 to 1.1
-            }
-            if ($i == 1) {
-                $width *= 1.5; // Increased from 1.5 to 1.7
-            }
-            if ($i == 2) {
-                $width /= 1.7; // Increased from 1.5 to 1.7
-            }
-            if ($i == 3) {
-                $width /= 1.3; // Increased from 1.2 to 1.3
-            }
-            if ($i == 4) {
-                $width *= 1.0; // Reduced from 1.1 to 1.0
-            }
-            if ($i == 5) {
-                $width /= 1.4; // Increased from 1.3 to 1.4
-            }
-            $textWidth = $pdf->GetStringWidth($row[$i]);
-            $nbLines = ceil($textWidth / $width);
-            $height = $nbLines * 6; // 6 is the height of one line
-            $x = $pdf->GetX();
-            $y = $pdf->GetY();
-            if ($textWidth > $width) {
-                $pdf->MultiCell($width, $height, $row[$i], 'LR', 0, 'L', $fill);
-                $pdf->SetXY($x + $width, $y);
-            } else {
-                $pdf->Cell($width, $maxHeight, $row[$i], 'LR', 0, 'L', $fill);
-            }
-        }
-        $pdf->Ln();
-        $fill = !$fill;
+        $html .= '</tr>';
     }
-    $pdf->Cell(180, 0, '', 'T');
+    $html .= '</tbody>';
+    $html .= '</table>';
+
+    // Write HTML content to the PDF
+    $pdf->writeHTML($html, true, false, true, false, '');
 }
