@@ -12,6 +12,9 @@
             if (isset($_SESSION['users_id'])) {
                 ?>
                 <li>
+                    <a href="includes/summary-report-generation.inc.php"><i class="bi bi-file-earmark-text"></i> Generate Summary Report</a>
+                </li>
+                <li>
                     <a href="events-overview.php"><i class="bi bi-calendar2-week"></i> Events Overview</a>
                 </li>
                 <li>
