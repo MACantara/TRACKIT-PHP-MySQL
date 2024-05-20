@@ -5,16 +5,18 @@ function handleCreateEvent($conn) {
     require_once "error-handling-functions.inc.php"; // Include the file containing the sanitizeInput function
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['event_name'], $_POST['event_description'], $_POST['event_date'], $_POST['event_time'], $_POST['event_status'], $_POST['event_budget'])) {
+        if (isset($_POST['events_name'], $_POST['events_start_date'], $_POST['events_end_date'], $_POST['events_venue'], $_POST['events_budget'], $_POST['events_status'], $_POST['events_description'])) {
             $usersId = $_SESSION['users_id'];
-            $eventName = sanitizeInput($_POST['event_name']);
-            $eventDescription = sanitizeInput($_POST['event_description']);
-            $eventDate = sanitizeInput($_POST['event_date']);
-            $eventTime = sanitizeInput($_POST['event_time']);
-            $eventStatus = sanitizeInput($_POST['event_status']);
-            $eventBudget = sanitizeInput($_POST['event_budget']);
+            $eventName = sanitizeInput($_POST['events_name']);
+            $eventStartDate = sanitizeInput($_POST['events_start_date']);
+            $eventEndDate = sanitizeInput($_POST['events_end_date']);
+            $eventVenue = sanitizeInput($_POST['events_venue']);
+            $eventBudget = sanitizeInput($_POST['events_budget']);
+            $eventStatus = sanitizeInput($_POST['events_status']);
+            $eventDescription = sanitizeInput($_POST['events_description']);
+            $eventRemarks = sanitizeInput($_POST['events_remarks']);
 
-            createEvent($conn, $usersId, $eventName, $eventStatus, $eventDescription, $eventDate, $eventTime, $eventBudget);
+            createEvent($conn, $usersId, $eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks);
             header("Location: events-overview.php?create-event=success");
         } else {
             header("Location: events-overview.php?create-event=error");
@@ -71,7 +73,7 @@ function getTransactions($conn, $eventsId, $sort = 'DESC', $filterDays = null, $
 }
 
 function getUserEvents($conn, $usersId) {
-    $sql = "SELECT events.events_id, events.events_status, events.events_name, events.events_description, events.events_date, events.events_budget 
+    $sql = "SELECT events.events_id, events.events_status, events.events_name, events.events_description, events.events_start_date, events.events_end_date, events.events_venue, events.events_budget, events.events_remarks 
             FROM events 
             JOIN department_events ON events.events_id = department_events.events_id 
             JOIN department_users ON department_events.departments_id = department_users.departments_id 
