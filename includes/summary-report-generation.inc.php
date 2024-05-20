@@ -55,28 +55,91 @@ $html = '<table border="1" cellpadding="5">
         </tr>
     </thead>
     <tbody>';
-    
-    $totalRows = count($events);
-    $firstRow = true;
-    
-    foreach ($events as $event) {
-        $html .= '<tr>';
-        if ($firstRow) {
-            $html .= '<td width="7%" rowspan="' . $totalRows . '">ORGANIZATION AND ADMINISTRATION</td>';
-            $firstRow = false;
+
+    $sql = "SELECT 
+    events.events_name, 
+    events.events_description, 
+    events.events_start_date, 
+    events.events_status, 
+    GROUP_CONCAT(DISTINCT objectives.objectives_name SEPARATOR ', ') AS objectives_name, 
+    GROUP_CONCAT(DISTINCT problems_encountered.problems_encountered_name SEPARATOR ', ') AS problems_encountered_name, 
+    GROUP_CONCAT(DISTINCT actions_taken.actions_taken_name SEPARATOR ', ') AS actions_taken_name, 
+    GROUP_CONCAT(DISTINCT recommendations.recommendations_name SEPARATOR ', ') AS recommendations_name 
+FROM 
+    events 
+LEFT JOIN 
+    event_objectives ON events.events_id = event_objectives.events_id 
+LEFT JOIN 
+    objectives ON event_objectives.objectives_id = objectives.objectives_id 
+LEFT JOIN 
+    event_problems_encountered ON events.events_id = event_problems_encountered.events_id 
+LEFT JOIN 
+    problems_encountered ON event_problems_encountered.problems_encountered_id = problems_encountered.problems_encountered_id 
+LEFT JOIN 
+    event_actions_taken ON events.events_id = event_actions_taken.events_id 
+LEFT JOIN 
+    actions_taken ON event_actions_taken.actions_taken_id = actions_taken.actions_taken_id 
+LEFT JOIN 
+    event_recommendations ON events.events_id = event_recommendations.events_id 
+LEFT JOIN 
+    recommendations ON event_recommendations.recommendations_id = recommendations.recommendations_id 
+GROUP BY 
+    events.events_id";
+
+$result = mysqli_query($conn, $sql);
+
+while ($event = mysqli_fetch_assoc($result)) {
+    $objectives = explode(', ', $event['objectives_name']);
+    $problems_encountered = explode(', ', $event['problems_encountered_name']);
+    $actions_taken = explode(', ', $event['actions_taken_name']);
+    $recommendations = explode(', ', $event['recommendations_name']);
+
+    $html .= '<tr>
+        <td width="7%">ORGANIZATION AND ADMINISTRATION</td>
+        <td width="10%">' . $event['events_name'] . '</td>
+        <td width="15%">';
+    if (!empty($objectives[0]) && $objectives[0] != 'N/A') {
+        foreach ($objectives as $index => $objective) {
+            $html .= ($index + 1) . '. ' . $objective . '<br>';
         }
-        $html .= '<td width="10%">' . $event['events_name'] . '</td>
-            <td width="15%">' . $event['events_description'] . '</td>
-            <td width="10%">' . date('F j, Y', strtotime($event['events_start_date'])) . '</td>
-            <td width="8%">' . $event['events_status'] . '</td>
-            <td width="15%">' . $event['events_name'] . '</td>
-            <td width="10%">' . $event['events_name'] . '</td>
-            <td width="17%">' . $event['events_name'] . '</td>
-            <td width="8%">Excellent 4.77</td>
-        </tr>';
+    } else {
+        $html .= 'N/A';
     }
-    
-    $html .= '</tbody></table>';
+    $html .= '</td>
+        <td width="10%">' . date('F j, Y', strtotime($event['events_start_date'])) . '</td>
+        <td width="8%">' . $event['events_status'] . '</td>
+        <td width="15%">';
+    if (!empty($problems_encountered[0]) && $problems_encountered[0] != 'N/A') {
+        foreach ($problems_encountered as $index => $problem) {
+            $html .= ($index + 1) . '. ' . $problem . '<br>';
+        }
+    } else {
+        $html .= 'N/A';
+    }
+    $html .= '</td>
+        <td width="10%">';
+    if (!empty($actions_taken[0]) && $actions_taken[0] != 'N/A') {
+        foreach ($actions_taken as $index => $action) {
+            $html .= ($index + 1) . '. ' . $action . '<br>';
+        }
+    } else {
+        $html .= 'N/A';
+    }
+    $html .= '</td>
+        <td width="17%">';
+    if (!empty($recommendations[0]) && $recommendations[0] != 'N/A') {
+        foreach ($recommendations as $index => $recommendation) {
+            $html .= ($index + 1) . '. ' . $recommendation . '<br>';
+        }
+    } else {
+        $html .= 'N/A';
+    }
+    $html .= '</td>
+        <td width="8%">Excellent 4.77</td>
+    </tr>';
+}
+
+$html .= '</tbody></table>';
 
 // Write HTML content to the PDF
 $pdf->writeHTML($html, true, false, true, false, '');
