@@ -56,4 +56,62 @@ function createEvent($conn, $usersId, $eventName, $eventStartDate, $eventEndDate
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $departmentsId, $eventsId);
     mysqli_stmt_execute($stmt);
+
+    return $eventsId;
+}
+
+function createObjective($conn, $eventId, $objective)
+{
+    $sql = "INSERT INTO objectives (objectives_name) VALUES (?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $objective);
+    mysqli_stmt_execute($stmt);
+    $objectivesId = mysqli_insert_id($conn);
+
+    $sql = "INSERT INTO event_objectives (events_id, objectives_id) VALUES (?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $eventId, $objectivesId);
+    mysqli_stmt_execute($stmt);
+}
+
+function createProblem($conn, $eventId, $problem)
+{
+    $sql = "INSERT INTO problems_encountered (problems_encountered_name) VALUES (?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $problem);
+    mysqli_stmt_execute($stmt);
+    $problemsEncounteredId = mysqli_insert_id($conn);
+
+    $sql = "INSERT INTO event_problems_encountered (events_id, problems_encountered_id) VALUES (?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $eventId, $problemsEncounteredId);
+    mysqli_stmt_execute($stmt);
+}
+
+function createAction($conn, $eventId, $action)
+{
+    $sql = "INSERT INTO actions_taken (actions_taken_name) VALUES (?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $action);
+    mysqli_stmt_execute($stmt);
+    $actionsTakenId = mysqli_insert_id($conn);
+
+    $sql = "INSERT INTO event_actions_taken (events_id, actions_taken_id) VALUES (?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $eventId, $actionsTakenId);
+    mysqli_stmt_execute($stmt);
+}
+
+function createRecommendation($conn, $eventId, $recommendation)
+{
+    $sql = "INSERT INTO recommendations (recommendations_name) VALUES (?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $recommendation);
+    mysqli_stmt_execute($stmt);
+    $recommendationsId = mysqli_insert_id($conn);
+
+    $sql = "INSERT INTO event_recommendations (events_id, recommendations_id) VALUES (?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $eventId, $recommendationsId);
+    mysqli_stmt_execute($stmt);
 }
