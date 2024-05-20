@@ -67,7 +67,7 @@ $html = '<table border="1" cellpadding="5">
         }
         $html .= '<td width="10%">' . $event['events_name'] . '</td>
             <td width="15%">' . $event['events_description'] . '</td>
-            <td width="10%">' . date('F j, Y', strtotime($event['events_date'])) . '</td>
+            <td width="10%">' . date('F j, Y', strtotime($event['events_start_date'])) . '</td>
             <td width="8%">' . $event['events_status'] . '</td>
             <td width="15%">' . $event['events_name'] . '</td>
             <td width="10%">' . $event['events_name'] . '</td>
