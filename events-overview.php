@@ -41,6 +41,13 @@ checkSessionTimeout();
                         echo "<p class='error-message'>Something went wrong. Please try again!</p>";
                     }
                 }
+                if (isset($_GET["event-updated"])) {
+                    if ($_GET["event-updated"] == "success") {
+                        echo "<p class='success-message'>Event successfully updated!</p>";
+                    } else if ($_GET["event-updated"] == "error") {
+                        echo "<p class='error-message'>Something went wrong. Please try again!</p>";
+                    }
+                }
                 ?>
             </div>
         </section>
