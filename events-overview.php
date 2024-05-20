@@ -94,17 +94,22 @@ checkSessionTimeout();
                             <span class="fade-out">
                                 <?php echo limit_words($event['events_description'], 20); ?>
                             </span>
-                            <span id="more-<?php echo $event['events_id']; ?>" style="display: none;">
+                            <span id="more-<?php echo $event['events_id']; ?>" style="display: none; opacity: 0;">
                                 <?php echo substr($event['events_description'], strlen(limit_words($event['events_description'], 20))); ?>
                             </span>
-                            <a href="#" class="showMore" id="showMore-<?php echo $event['events_id']; ?>">...more</a>
+                            <a href="#" class="showMore" id="showMore-<?php echo $event['events_id']; ?>" style="display: inline;">...more</a>
                             <a href="#" class="showLess" id="showLess-<?php echo $event['events_id']; ?>" style="display: none;">Show less</a>
                         </div>
                         <?php include "includes/display-event-description-js-functions.inc.php"; ?>
-                        <p class="margin-top-16">Date: <?php echo date('F j, Y', strtotime($event['events_date'])); ?>
-                            <?php echo date('h:i A', strtotime($event['events_date'])); ?>
+                        <p class="margin-top-16">
+                            Date: <?php echo date('F j, Y', strtotime($event['events_start_date'])); ?>
                         </p>
-                        <p>Initial Budget: &#8369; <?php echo number_format($event['events_budget'], 2); ?></p>
+                        <p>
+                            Time: <?php echo date('g:i A', strtotime($event['events_start_date'])); ?> -
+                            <?php echo date('g:i A', strtotime($event['events_end_date'])); ?>
+                        </p>
+                        <p>Venue: <?php echo $event['events_venue']; ?></p>
+                        <p class="margin-top-16">Initial Budget: &#8369; <?php echo number_format($event['events_budget'], 2); ?></p>
                         <canvas class="event-overview-chart" id="myChart<?php echo $eventsId; ?>"></canvas>
                         <script>
                             var ctx = document.getElementById('myChart<?php echo $eventsId; ?>').getContext('2d');
