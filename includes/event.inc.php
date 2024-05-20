@@ -4,12 +4,12 @@ require_once 'error-handling-functions.inc.php';
 require_once "user-functions.inc.php";
 
 
-function createEvent($conn, $usersId, $eventName, $eventStatus, $eventDescription, $eventDate, $eventTime,  $eventBudget)
+function createEvent($conn, $usersId, $eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks)
 {
-    if (eventEmptyInput($eventName, $eventStatus, $eventDescription, $eventDate, $eventTime,  $eventBudget) !== false) {
-        header("location: create-event.php?error=emptyinput");
-        exit();
-    }
+    // if (eventEmptyInput($eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks) !== false) {
+    //     header("location: create-event.php?error=emptyinput");
+    //     exit();
+    // }
 
     if (eventNameExists($conn, $eventName) !== false) {
         header("location: create-event.php?error=eventnametaken");
@@ -21,25 +21,19 @@ function createEvent($conn, $usersId, $eventName, $eventStatus, $eventDescriptio
         exit();
     }
 
-    if (invalidEventDate($eventDate) !== false) {
-        header("location: create-event.php?error=invalideventdate");
-        exit();
-    }
-
-    if (invalidEventTime($eventTime) !== false) {
-        header("location: create-event.php?error=invalideventtime");
-        exit();
-    }
+    // if (invalidEventDate($eventStartDate, $eventEndDate) !== false) {
+    //     header("location: create-event.php?error=invalideventdate");
+    //     exit();
+    // }
 
     if (invalidEventBudget($eventBudget) !== false) {
         header("location: create-event.php?error=invalideventbudget");
         exit();
     }
 
-    $eventDateTime = $eventDate . 'T' . $eventTime . ':00';
-    $sql = "INSERT INTO events (events_name, events_status, events_description, events_date, events_budget) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO events (events_name, events_start_date, events_end_date, events_venue, events_budget, events_status, events_description, events_remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sssss", $eventName, $eventStatus, $eventDescription, $eventDateTime, $eventBudget);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks);
     mysqli_stmt_execute($stmt);
     $eventsId = mysqli_insert_id($conn);
 
