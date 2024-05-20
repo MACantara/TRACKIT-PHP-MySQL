@@ -51,7 +51,38 @@ checkSessionTimeout();
 
                 <label for="events_description">Event Description:</label>
                 <textarea id="events_description" name="events_description" required></textarea>
+                <label for="events_objectives">Event Objectives</label>
+                <div id="events_objectives">
+                    <textarea name="events_objectives[]" placeholder="(Optional)"></textarea>
+                </div>
+                <button type="button" onclick="addInput('events_objectives')">Add another objective</button>
 
+                <label for="events_problems_encountered">Event Problems Encountered</label>
+                <div id="events_problems_encountered">
+                    <textarea name="events_problems_encountered[]" placeholder="(Optional)"></textarea>
+                </div>
+                <button type="button" onclick="addInput('events_problems_encountered')">Add another problem</button>
+
+                <label for="events_actions_taken">Event Actions Taken</label>
+                <div id="events_actions_taken">
+                    <textarea name="events_actions_taken[]" placeholder="(Optional)"></textarea>
+                </div>
+                <button type="button" onclick="addInput('events_actions_taken')">Add another action</button>
+
+                <label for="events_recommendations">Event Recommendations</label>
+                <div id="events_recommendations">
+                    <textarea name="events_recommendations[]" placeholder="(Optional)"></textarea>
+                </div>
+                <button type="button" onclick="addInput('events_recommendations')">Add another recommendation</button>
+
+                <script>
+                function addInput(id) {
+                    var input = document.createElement("textarea");
+                    input.name = id + "[]";
+                    input.placeholder = "(Optional)";
+                    document.getElementById(id).appendChild(input);
+                }
+                </script>
                 <label for="events_remarks">Event Remarks:</label>
                 <input type="text" id="events_remarks" name="events_remarks" placeholder="(Optional)">
 
