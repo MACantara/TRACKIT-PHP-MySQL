@@ -43,24 +43,40 @@ $events = getUserEvents($conn, $usersId);
 $html = '<table border="1" cellpadding="5">
     <thead>
         <tr>
-            <th>Status</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Date</th>
+            <th width="7%">AREAS</th>
+            <th width="10%">ACTIVITY</th>
+            <th width="15%">OBJECTIVE</th>
+            <th width="10%">DATE OF THE ACTIVITY</th>
+            <th width="8%">STATUS</th>
+            <th width="15%">PROBLEM<br>ENCOUNTERED</th>
+            <th width="10%">ACTION TAKEN</th>
+            <th width="17%">RECOMMENDATION</th>
+            <th width="8%">REMARKS</th>
         </tr>
     </thead>
     <tbody>';
-
-foreach ($events as $event) {
-    $html .= '<tr>
-        <td>' . $event['events_status'] . '</td>
-        <td>' . $event['events_name'] . '</td>
-        <td>' . $event['events_description'] . '</td>
-        <td>' . date('F j, Y, h:i A', strtotime($event['events_date'])) . '</td>
-    </tr>';
-}
-
-$html .= '</tbody></table>';
+    
+    $totalRows = count($events);
+    $firstRow = true;
+    
+    foreach ($events as $event) {
+        $html .= '<tr>';
+        if ($firstRow) {
+            $html .= '<td width="7%" rowspan="' . $totalRows . '">ORGANIZATION AND ADMINISTRATION</td>';
+            $firstRow = false;
+        }
+        $html .= '<td width="10%">' . $event['events_name'] . '</td>
+            <td width="15%">' . $event['events_description'] . '</td>
+            <td width="10%">' . date('F j, Y', strtotime($event['events_date'])) . '</td>
+            <td width="8%">' . $event['events_status'] . '</td>
+            <td width="15%">' . $event['events_name'] . '</td>
+            <td width="10%">' . $event['events_name'] . '</td>
+            <td width="17%">' . $event['events_name'] . '</td>
+            <td width="8%">Excellent 4.77</td>
+        </tr>';
+    }
+    
+    $html .= '</tbody></table>';
 
 // Write HTML content to the PDF
 $pdf->writeHTML($html, true, false, true, false, '');
