@@ -13,8 +13,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-event'])) {
     $eventsStatus = sanitizeInput($_POST['events_status']);
     $eventsDescription = sanitizeInput($_POST['events_description']);
     $eventsRemarks = sanitizeInput($_POST['events_remarks']);
-    // For file uploads, you need to handle it separately
-    // $eventsDocumentationPictures = $_FILES['events_documentation_pictures'];
+
+    // Loop through each array of inputs and sanitize them
+    $eventsObjectives = array_map('sanitizeInput', $_POST['events_objectives'] ?? []);
+    $eventsProblemsEncountered = array_map('sanitizeInput', $_POST['events_problems_encountered'] ?? []);
+    $eventsActionsTaken = array_map('sanitizeInput', $_POST['events_actions_taken'] ?? []);
+    $eventsRecommendations = array_map('sanitizeInput', $_POST['events_recommendations'] ?? []);
+
+    $updates = [
+        'objectives' => $eventsObjectives,
+        'problems_encountered' => $eventsProblemsEncountered,
+        'actions_taken' => $eventsActionsTaken,
+        'recommendations' => $eventsRecommendations
+    ];
+
+    foreach($updates as $table => $records) {
+        foreach($records as $id => $value) {
+            // If the value is empty, set it to NULL
+            if (empty($value)) {
+                $value = NULL;
+            }
+            updateOrInsertRecord($conn, $table, $id, $value, $eventsId);
+        }
+    }
 
     updateEvent($conn, $eventsId, $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks);
 
