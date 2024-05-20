@@ -38,7 +38,7 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->AddPage();
 
 // Fetch the events from the database
-$events = getUserEvents($conn, $usersId);
+$events = getUserEvents($conn, $usersId, 'ASC');
 
 $html = '<table border="1" cellpadding="5">
     <thead>
