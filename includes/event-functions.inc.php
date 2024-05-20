@@ -16,7 +16,30 @@ function handleCreateEvent($conn) {
             $eventDescription = sanitizeInput($_POST['events_description']);
             $eventRemarks = sanitizeInput($_POST['events_remarks']);
 
-            createEvent($conn, $usersId, $eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks);
+            // Create the event first to get the event ID
+            $eventId = createEvent($conn, $usersId, $eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks);
+
+            // Loop through each array of inputs and create separate records
+            foreach ($_POST['events_objectives'] as $objective) {
+                $eventObjective = sanitizeInput($objective);
+                createObjective($conn, $eventId, $eventObjective);
+            }
+
+            foreach ($_POST['events_problems_encountered'] as $problem) {
+                $eventProblem = sanitizeInput($problem);
+                createProblem($conn, $eventId, $eventProblem);
+            }
+
+            foreach ($_POST['events_actions_taken'] as $action) {
+                $eventAction = sanitizeInput($action);
+                createAction($conn, $eventId, $eventAction);
+            }
+
+            foreach ($_POST['events_recommendations'] as $recommendation) {
+                $eventRecommendation = sanitizeInput($recommendation);
+                createRecommendation($conn, $eventId, $eventRecommendation);
+            }
+
             header("Location: events-overview.php?create-event=success");
         } else {
             header("Location: events-overview.php?create-event=error");
@@ -208,6 +231,44 @@ function updateEvent($conn, $eventsId, $eventsName, $eventsStartDate, $eventsEnd
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "ssssisssi", $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks, $eventsId);
     mysqli_stmt_execute($stmt);
+}
+
+function updateOrInsertRecord($conn, $table, $id, $value, $eventId) {
+    // If the value is empty, set it to NULL
+    if (empty($value)) {
+        $value = NULL;
+    }
+
+    // Check if the record exists
+    $sql = "SELECT * FROM $table WHERE {$table}_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($result) > 0) {
+        // The record exists, update it
+        $sql = "UPDATE $table SET {$table}_name = ? WHERE {$table}_id = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "si", $value, $id);
+        mysqli_stmt_execute($stmt);
+    } else if ($value !== NULL) {
+        // The record doesn't exist and the value is not NULL, insert it
+        $sql = "INSERT INTO $table ({$table}_name) VALUES (?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $value);
+        mysqli_stmt_execute($stmt);
+
+        // Get the ID of the inserted record
+        $insertedId = mysqli_insert_id($conn);
+
+        // Insert a record into the junction table
+        $junctionTable = "event_$table";
+        $sql = "INSERT INTO $junctionTable (events_id, {$table}_id) VALUES (?, ?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ii", $eventId, $insertedId);
+        mysqli_stmt_execute($stmt);
+    }
 }
 
 // Group transactions by category and calculate total amount
