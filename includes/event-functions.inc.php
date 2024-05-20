@@ -202,11 +202,10 @@ function deleteEvent($conn, $eventsId) {
     return true;
 }
 
-function updateEvent($conn, $eventsId, $eventName, $eventDescription, $eventDate, $eventTime, $eventBudget) {
-    $eventDateTime = $eventDate . ' ' . $eventTime . ':00';
-    $sql = "UPDATE events SET events_name = ?, events_description = ?, events_date = ?, events_budget = ? WHERE events_id = ?";
+function updateEvent($conn, $eventsId, $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks) {
+    $sql = "UPDATE events SET events_name = ?, events_start_date = ?, events_end_date = ?, events_venue = ?, events_budget = ?, events_status = ?, events_description = ?, events_remarks = ? WHERE events_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssi", $eventName, $eventDescription, $eventDateTime, $eventBudget, $eventsId);
+    mysqli_stmt_bind_param($stmt, "ssssisssi", $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks, $eventsId);
     mysqli_stmt_execute($stmt);
 }
 
