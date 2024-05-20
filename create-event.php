@@ -25,23 +25,23 @@ checkSessionTimeout();
         <section class="section-container">
             <h1>Create a New Event</h1>
             <form method="post" action="create-event.php">
-                <label for="event_name">Event Name:</label>
-                <input type="text" id="event_name" name="event_name" required>
+                <label for="events_name">Event Name:</label>
+                <input type="text" id="events_name" name="events_name" required>
 
-                <label for="event_date">Event Start Date and Time:</label>
-                <input type="datetime-local" id="event_date" name="event_date" required>
+                <label for="events_start_date">Event Start Date and Time:</label>
+                <input type="datetime-local" id="events_start_date" name="events_start_date" required>
 
-                <label for="event_date">Event End Date and Time:</label>
-                <input type="datetime-local" id="event_date" name="event_date" required>
+                <label for="events_end_date">Event End Date and Time:</label>
+                <input type="datetime-local" id="events_end_date" name="events_end_date" required>
 
-                <label for="event_venue">Event Venue:</label>
-                <input type="text" id="event_venue" name="event_venue" required>
+                <label for="events_venue">Event Venue:</label>
+                <input type="text" id="events_venue" name="events_venue" required>
 
-                <label for="event_budget">Event Budget:</label>
-                <input type="number" id="event_budget" name="event_budget" required>
+                <label for="events_budget">Event Budget:</label>
+                <input type="number" id="events_budget" name="events_budget" required>
 
-                <label for="event_status">Event Status:</label>
-                <select id="event_status" name="event_status" required>
+                <label for="events_status">Event Status:</label>
+                <select id="events_status" name="events_status" required>
                     <option value="" selected disabled>Select an Event Status</option>
                     <option value="Upcoming">Upcoming</option>
                     <option value="Ongoing">Postponed</option>
@@ -49,14 +49,14 @@ checkSessionTimeout();
                     <option value="Canceled">Canceled</option>
                 </select>
 
-                <label for="event_description">Event Description:</label>
-                <textarea id="event_description" name="event_description" required></textarea>
+                <label for="events_description">Event Description:</label>
+                <textarea id="events_description" name="events_description" required></textarea>
 
-                <label for="event_venue">Event Remarks:</label>
-                <input type="text" id="event_venue" name="event_venue" placeholder="(Optional)">
+                <label for="events_remarks">Event Remarks:</label>
+                <input type="text" id="events_remarks" name="events_remarks" placeholder="(Optional)">
 
-                <label for="event_documentation_pictures">Event Documentation Pictures:</label>
-                <input type="file" id="event_documentation_pictures" name="event_documentation_pictures" multiple>
+                <label for="events_documentation_pictures">Event Documentation Pictures:</label>
+                <input type="file" id="events_documentation_pictures" name="events_documentation_pictures" multiple>
 
                 <div class="two-grid-column-container">
                     <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
