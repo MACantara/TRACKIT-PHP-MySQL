@@ -28,14 +28,14 @@ checkSessionTimeout();
                 <label for="event_name">Event Name:</label>
                 <input type="text" id="event_name" name="event_name" required>
 
-                <label for="event_description">Event Description:</label>
-                <textarea id="event_description" name="event_description" required></textarea>
+                <label for="event_date">Event Start Date and Time:</label>
+                <input type="datetime-local" id="event_date" name="event_date" required>
 
-                <label for="event_date">Event Date:</label>
-                <input type="date" id="event_date" name="event_date" required>
+                <label for="event_date">Event End Date and Time:</label>
+                <input type="datetime-local" id="event_date" name="event_date" required>
 
-                <label for="event_time">Event Time:</label>
-                <input type="time" id="event_time" name="event_time" required>
+                <label for="event_venue">Event Venue:</label>
+                <input type="text" id="event_venue" name="event_venue" required>
 
                 <label for="event_budget">Event Budget:</label>
                 <input type="number" id="event_budget" name="event_budget" required>
@@ -48,6 +48,16 @@ checkSessionTimeout();
                     <option value="Done">Done</option>
                     <option value="Canceled">Canceled</option>
                 </select>
+
+                <label for="event_description">Event Description:</label>
+                <textarea id="event_description" name="event_description" required></textarea>
+
+                <label for="event_venue">Event Remarks:</label>
+                <input type="text" id="event_venue" name="event_venue" placeholder="(Optional)">
+
+                <label for="event_documentation_pictures">Event Documentation Pictures:</label>
+                <input type="file" id="event_documentation_pictures" name="event_documentation_pictures" multiple>
+
                 <div class="two-grid-column-container">
                     <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button margin-top-16" type="submit" name="create-event"><i class="bi bi-calendar-plus"></i> Create Event</button>
