@@ -66,7 +66,7 @@ checkSessionTimeout();
     <main>
         <section class="section-container">
             <h1>Update Event</h1>
-            <form method="post" action="includes/update-event.inc.php">
+            <form method="post" action="includes/update-event.inc.php" enctype="multipart/form-data">
                 <input type="hidden" name="events_id" value="<?php echo $eventsId; ?>">
 
                 <label for="events_name">Event Name:</label>
@@ -149,8 +149,8 @@ checkSessionTimeout();
                 <input type="text" id="events_remarks" name="events_remarks" value="<?php echo $event['events_remarks']; ?>">
 
                 <label for="events_documentation_pictures">Event Documentation Pictures:</label>
-                <input type="file" id="events_documentation_pictures" name="events_documentation_pictures" multiple>
-
+                <input type="file" id="events_documentation_pictures" name="events_documentation_pictures[]" multiple>
+                
                 <div class="two-grid-column-container">
                     <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button margin-top-16" type="submit" name="update-event"><i class="bi bi-save"></i>
