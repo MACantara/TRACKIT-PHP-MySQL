@@ -27,14 +27,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-event'])) {
         'recommendations' => $eventsRecommendations
     ];
 
-    foreach($updates as $table => $records) {
-        foreach($records as $id => $value) {
+    foreach ($updates as $table => $records) {
+        foreach ($records as $id => $value) {
             // If the value is empty, set it to NULL
             if (empty($value)) {
                 $value = NULL;
             }
             updateOrInsertRecord($conn, $table, $id, $value, $eventsId);
         }
+    }
+
+    // Process the uploaded files
+    if (isset($_FILES['events_documentation_pictures'])) {
+        require_once 'event.inc.php';
+
+        $pictures = $_FILES['events_documentation_pictures'];
+
+        // Restructure the $_FILES array
+        $fileCount = count($pictures['name']);
+        $fileKeys = array_keys($pictures);
+
+        $picturesArray = [];
+
+        for ($i = 0; $i < $fileCount; $i++) {
+            foreach ($fileKeys as $key) {
+                $picturesArray[$i][$key] = $pictures[$key][$i];
+            }
+        }
+
+        updateEventDocumentationPictures($conn, $eventsId, $picturesArray);
     }
 
     updateEvent($conn, $eventsId, $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks);
