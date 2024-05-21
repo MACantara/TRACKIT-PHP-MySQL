@@ -115,3 +115,31 @@ function createRecommendation($conn, $eventId, $recommendation)
     mysqli_stmt_bind_param($stmt, "ii", $eventId, $recommendationsId);
     mysqli_stmt_execute($stmt);
 }
+
+function storeEventDocumentationPicture($conn, $eventId, $pictures) {
+    foreach ($pictures as $picture) {
+        // Check for upload errors
+        if ($picture['error'] !== UPLOAD_ERR_OK) {
+            // Handle error
+            return;
+        }
+
+        // Read the file content
+        $pictureContent = file_get_contents($picture['tmp_name']);
+
+        // Insert into the documentation_pictures table
+        $sql = "INSERT INTO documentation_pictures (documentation_pictures_item) VALUES (?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 's', $pictureContent); // Change 'b' to 's'
+        mysqli_stmt_execute($stmt);
+
+        // Get the ID of the inserted picture
+        $pictureId = mysqli_insert_id($conn);
+
+        // Insert into the event_documentation_pictures table
+        $sql = "INSERT INTO event_documentation_pictures (events_id, documentation_pictures_id) VALUES (?, ?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 'ii', $eventId, $pictureId);
+        mysqli_stmt_execute($stmt);
+    }
+}
