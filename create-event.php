@@ -24,7 +24,7 @@ checkSessionTimeout();
     <main>
         <section class="section-container">
             <h1>Create a New Event</h1>
-            <form method="post" action="create-event.php">
+            <form method="post" action="create-event.php" enctype="multipart/form-data">
                 <label for="events_name">Event Name:</label>
                 <input type="text" id="events_name" name="events_name" required>
 
@@ -87,7 +87,7 @@ checkSessionTimeout();
                 <input type="text" id="events_remarks" name="events_remarks" placeholder="(Optional)">
 
                 <label for="events_documentation_pictures">Event Documentation Pictures:</label>
-                <input type="file" id="events_documentation_pictures" name="events_documentation_pictures" multiple>
+                <input type="file" id="events_documentation_pictures" name="events_documentation_pictures[]" multiple>
 
                 <div class="two-grid-column-container">
                     <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
