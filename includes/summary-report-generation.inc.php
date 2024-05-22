@@ -102,13 +102,13 @@ $html = '
     <thead>
         <tr>
             <th width="7%" style="text-align: center; font-weight: bold;">AREAS</th>
-            <th width="10%" style="text-align: center; font-weight: bold;">ACTIVITY</th>
+            <th width="14%" style="text-align: center; font-weight: bold;">ACTIVITY</th>
             <th width="15%" style="text-align: center; font-weight: bold;">OBJECTIVE</th>
             <th width="10%" style="text-align: center; font-weight: bold;">DATE OF THE ACTIVITY</th>
             <th width="8%" style="text-align: center; font-weight: bold;">STATUS</th>
-            <th width="15%" style="text-align: center; font-weight: bold;">PROBLEM<br>ENCOUNTERED</th>
+            <th width="14%" style="text-align: center; font-weight: bold;">PROBLEM<br>ENCOUNTERED</th>
             <th width="10%" style="text-align: center; font-weight: bold;">ACTION TAKEN</th>
-            <th width="17%" style="text-align: center; font-weight: bold;">RECOMMENDATION</th>
+            <th width="14%" style="text-align: center; font-weight: bold;">RECOMMENDATION</th>
             <th width="8%" style="text-align: center; font-weight: bold;">REMARKS</th>
         </tr>
     </thead>
@@ -160,7 +160,7 @@ while ($event = mysqli_fetch_assoc($result)) {
         $html .= '<td width="7%" style="text-align: center;" rowspan="' . $totalRows . '">ORGANIZATION AND ADMINISTRATION</td>';
         $firstRow = false;
     }
-    $html .= '<td width="10%" style="text-align: center;">' . $event['events_name'] . '</td>
+    $html .= '<td width="14%" style="text-align: center;">' . $event['events_name'] . '</td>
             <td width="15%">';
     if (!empty($objectives[0]) && $objectives[0] != 'N/A') {
         foreach ($objectives as $index => $objective) {
@@ -172,7 +172,7 @@ while ($event = mysqli_fetch_assoc($result)) {
     $html .= '</td>
         <td width="10%" style="text-align: center;">' . date('F j, Y', strtotime($event['events_start_date'])) . '</td>
         <td width="8%" style="text-align: center;">' . $event['events_status'] . '</td>
-        <td width="15%" style="text-align: center;">';
+        <td width="14%" style="text-align: center;">';
     if (!empty($problems_encountered[0]) && $problems_encountered[0] != 'N/A') {
         foreach ($problems_encountered as $index => $problem) {
             $html .= ($index + 1) . '. ' . $problem . '<br>';
@@ -190,7 +190,7 @@ while ($event = mysqli_fetch_assoc($result)) {
         $html .= 'N/A';
     }
     $html .= '</td>
-        <td width="17%" style="text-align: center;">';
+        <td width="14%" style="text-align: center;">';
     if (!empty($recommendations[0]) && $recommendations[0] != 'N/A') {
         foreach ($recommendations as $index => $recommendation) {
             $html .= ($index + 1) . '. ' . $recommendation . '<br>';
