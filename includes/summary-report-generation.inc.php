@@ -21,9 +21,9 @@ class MYPDF extends TCPDF {
         $this->Image($iso_logo, 253, 10, 60, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 
         // Text
-        $this->SetFont('helvetica', 'B', 12); // Set font
         $this->SetY(36); // Set position to below the logos
-        $this->SetX(235);
+        $this->SetX(228);
+        $this->SetFont('helvetica', 'BI', 12); // Set font to Helvetica, bold and italic, size 12
         $this->Cell(0, 10, 'COLLEGE OF COMPUTER STUDIES', 0, false, 'C', 0, '', 0, false, 'M', 'M');
 
         // Red line
@@ -31,32 +31,41 @@ class MYPDF extends TCPDF {
         $this->SetLineWidth(0.7); // Set line width to thin
         $line_length = $this->getPageWidth() * .96; // 96% of page width
         $this->Line(13, 41, $line_length, 41); // Draw line
+    }
 
-        // Table Header
+    public function Footer() {
+        // Position at 15 mm from bottom
+        $this->SetY(-15);
 
-            // $html = '
-            // <table border="1" cellpadding="5">
-            //     <thead>
-            //         <tr>
-            //             <th width="7%">AREAS</th>
-            //             <th width="10%">ACTIVITY</th>
-            //             <th width="15%">OBJECTIVE</th>
-            //             <th width="10%">DATE OF THE ACTIVITY</th>
-            //             <th width="8%">STATUS</th>
-            //             <th width="15%">PROBLEM<br>ENCOUNTERED</th>
-            //             <th width="10%">ACTION TAKEN</th>
-            //             <th width="17%">RECOMMENDATION</th>
-            //             <th width="8%">REMARKS</th>
-            //         </tr>
-            //     </thead>
-            // </table>';
-            // $this->writeHTML($html, true, false, true, false, '');
+        // Set draw color to rgb(136,60,12)
+        $this->SetDrawColor(136, 60, 12);
 
+        // Draw the thick line
+        $this->SetLineWidth(1.1);
+        $this->Line(13, $this->GetY(), $this->getPageWidth() - 15, $this->GetY());
+
+        // Draw the thin line
+        $this->SetLineWidth(0.3);
+        $this->Line(13, $this->GetY() + 1.1, $this->getPageWidth() - 15, $this->GetY() + 1.1);
+
+        // Set font
+        $this->SetFont('helvetica', 'I', 8);
+        // Page number
+        $this->SetY(-16); // Move up by 1mm
+        $this->Cell(0, 10, 'UPHMO-CCS-GEN-911/rev0', 0, false, 'L', 0, '', 0, false, 'T', 'M');
+        $this->SetX(20); // Move right by 20mm
+        $this->Cell(0, 10, 'Post Activity Implemented Evaluation / Page '.$this->getAliasNumPage().' of '.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
     }
 }
 
 // create new PDF document
 $pdf = new MYPDF('L', PDF_UNIT, array(216, 330), true, 'UTF-8', false);
+
+// set margins
+$left_margin = 13;
+$top_margin = 43; // adjust this value to increase/decrease the top margin
+$right_margin = 15;
+$pdf->SetMargins($left_margin, $top_margin, $right_margin);
 
 // Set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -70,8 +79,6 @@ $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 // Set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-// Set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
@@ -88,11 +95,23 @@ $pdf->AddPage();
 $events = getUserEvents($conn, $usersId, 'ASC');
 
 $html = '
-    <br><br><br>
     <h1 style="text-align: center;">Implemented Activities Evaluation Report</h1>
     <h2 style="text-align: center;">SEMESTER END REPORT</h2>
-    <p style="text-align: center;">1st Semester AY 2023-2024</p>
-    <table border="1" cellpadding="5">  
+    <p style="text-align: center;">1<sup>st</sup> Semester AY 2023-2024</p>
+    <table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th width="7%" style="text-align: center; font-weight: bold;">AREAS</th>
+            <th width="10%" style="text-align: center; font-weight: bold;">ACTIVITY</th>
+            <th width="15%" style="text-align: center; font-weight: bold;">OBJECTIVE</th>
+            <th width="10%" style="text-align: center; font-weight: bold;">DATE OF THE ACTIVITY</th>
+            <th width="8%" style="text-align: center; font-weight: bold;">STATUS</th>
+            <th width="15%" style="text-align: center; font-weight: bold;">PROBLEM<br>ENCOUNTERED</th>
+            <th width="10%" style="text-align: center; font-weight: bold;">ACTION TAKEN</th>
+            <th width="17%" style="text-align: center; font-weight: bold;">RECOMMENDATION</th>
+            <th width="8%" style="text-align: center; font-weight: bold;">REMARKS</th>
+        </tr>
+    </thead>
     <tbody>';
 
 $sql = "SELECT
@@ -126,6 +145,9 @@ GROUP BY
     events.events_id";
 
 $result = mysqli_query($conn, $sql);
+$totalRows = mysqli_num_rows($result);
+
+$firstRow = true;
 
 while ($event = mysqli_fetch_assoc($result)) {
     $objectives = explode(', ', $event['objectives_name']);
@@ -133,22 +155,24 @@ while ($event = mysqli_fetch_assoc($result)) {
     $actions_taken = explode(', ', $event['actions_taken_name']);
     $recommendations = explode(', ', $event['recommendations_name']);
 
-    $html .= '
-    <tr>
-        <td width="7%">ORGANIZATION AND ADMINISTRATION</td>
-        <td width="10%">' . $event['events_name'] . '</td>
-        <td width="15%">';
+    $html .= '<tr>';
+    if ($firstRow) {
+        $html .= '<td width="7%" style="text-align: center;" rowspan="' . $totalRows . '">ORGANIZATION AND ADMINISTRATION</td>';
+        $firstRow = false;
+    }
+    $html .= '<td width="10%" style="text-align: center;">' . $event['events_name'] . '</td>
+            <td width="15%">';
     if (!empty($objectives[0]) && $objectives[0] != 'N/A') {
         foreach ($objectives as $index => $objective) {
             $html .= ($index + 1) . '. ' . $objective . '<br>';
         }
     } else {
-        $html .= 'N/A';
+        $html .= '<div style="text-align: center;">N/A</div>';
     }
     $html .= '</td>
-        <td width="10%">' . date('F j, Y', strtotime($event['events_start_date'])) . '</td>
-        <td width="8%">' . $event['events_status'] . '</td>
-        <td width="15%">';
+        <td width="10%" style="text-align: center;">' . date('F j, Y', strtotime($event['events_start_date'])) . '</td>
+        <td width="8%" style="text-align: center;">' . $event['events_status'] . '</td>
+        <td width="15%" style="text-align: center;">';
     if (!empty($problems_encountered[0]) && $problems_encountered[0] != 'N/A') {
         foreach ($problems_encountered as $index => $problem) {
             $html .= ($index + 1) . '. ' . $problem . '<br>';
@@ -157,7 +181,7 @@ while ($event = mysqli_fetch_assoc($result)) {
         $html .= 'N/A';
     }
     $html .= '</td>
-        <td width="10%">';
+        <td width="10%" style="text-align: center;">';
     if (!empty($actions_taken[0]) && $actions_taken[0] != 'N/A') {
         foreach ($actions_taken as $index => $action) {
             $html .= ($index + 1) . '. ' . $action . '<br>';
@@ -166,7 +190,7 @@ while ($event = mysqli_fetch_assoc($result)) {
         $html .= 'N/A';
     }
     $html .= '</td>
-        <td width="17%">';
+        <td width="17%" style="text-align: center;">';
     if (!empty($recommendations[0]) && $recommendations[0] != 'N/A') {
         foreach ($recommendations as $index => $recommendation) {
             $html .= ($index + 1) . '. ' . $recommendation . '<br>';
@@ -175,7 +199,7 @@ while ($event = mysqli_fetch_assoc($result)) {
         $html .= 'N/A';
     }
     $html .= '</td>
-        <td width="8%">Excellent 4.77</td>
+        <td width="8%" style="text-align: center;">Excellent 4.77</td>
     </tr>';
 }
 
@@ -217,8 +241,7 @@ while ($event = mysqli_fetch_assoc($result)) {
     }
 
     $html .= '
-    <br><br><br>
-    <h2 style="text-align: center;">' . $eventName . '</h2>
+    <p style="text-align: center; font-weight: bold;">' . $eventName . '</p>
     ';
     $html .= '<p style="text-align: center;">' . $startDate . ' - ' . $endDate . ' | ' . $startTime . ' - ' . $endTime . ' | ' . $venue . '</p>';
 
@@ -241,8 +264,8 @@ while ($event = mysqli_fetch_assoc($result)) {
         $isPortrait = $height > $width;
 
         // Set the image dimensions
-        $imgWidth = $isPortrait ? 'auto' : '320px';
-        $imgHeight = $isPortrait ? '400px' : '195px';
+        $imgWidth = $isPortrait ? 'auto' : '332px';
+        $imgHeight = $isPortrait ? '400px' : '212px';
 
         // Add the image to the HTML string
         $html .= '<td style="text-align: center;"><img src="' . $imagePath . '" style="margin: 0; padding: 0; width: ' . $imgWidth . '; height: ' . $imgHeight . '; object-fit: cover; object-position: center;"></td>';
@@ -270,21 +293,21 @@ while ($event = mysqli_fetch_assoc($result)) {
     $html = '';
 }
 
-$html .= '
-<br><br><br><br><br><br><br><br><br>
+$html .= '  
+<br><br><br><br><br><br>
 <table border="1" cellpadding="5">
     <thead>
         <tr>
             <th></th>
-            <th style="text-align: center;">NAME</th>
-            <th style="text-align: center;">SIGNATURE</th>
-            <th style="text-align: center;">DESIGNATED</th>
-            <th style="text-align: center;">DATE</th>
+            <th style="text-align: center; font-weight: bold;">NAME</th>
+            <th style="text-align: center; font-weight: bold;">SIGNATURE</th>
+            <th style="text-align: center; font-weight: bold;">DESIGNATED</th>
+            <th style="text-align: center; font-weight: bold;">DATE</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td style="text-align: center; vertical-align: middle;" rowspan="2">Prepared By:</td>
+            <td style="text-align: center; vertical-align: middle; font-weight: bold;" rowspan="2">Prepared By:</td>
             <td style="text-align: center;">Marienella Reggiette M. Odvina</td>
             <td style="text-align: center;"></td>
             <td style="text-align: center;">Secretary, College of Computer Studies Council</td>
@@ -297,14 +320,14 @@ $html .= '
             <td style="text-align: center;"></td>
         </tr>
         <tr>
-            <td style="text-align: center;">Noted By:</td>
+            <td style="text-align: center; font-weight: bold;">Noted By:</td>
             <td style="text-align: center;">Dr. Pastor Arguelles Jr.</td>
             <td style="text-align: center;"></td>
             <td style="text-align: center;">Dean, College of Computer Studies</td>
             <td style="text-align: center;"></td>
         </tr>
         <tr>
-            <td style="text-align: center;">Reviewed & Endorsed by:</td>
+            <td style="text-align: center; font-weight: bold;">Reviewed & Endorsed by:</td>
             <td style="text-align: center;">Engr. Mariciel Teogangco</td>
             <td style="text-align: center;"></td>
             <td style="text-align: center;">Cluster Dean / Dean College of Engineering</td>
@@ -318,7 +341,7 @@ $html .= '
             <td style="text-align: center;"></td>
         </tr>
         <tr>
-            <td style="text-align: center;">Approved by:</td>
+            <td style="text-align: center; font-weight: bold;">Approved by:</td>
             <td style="text-align: center;">Reno R. Rayel</td>
             <td style="text-align: center;"></td>
             <td style="text-align: center;">School Director</td>
