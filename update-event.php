@@ -73,6 +73,51 @@ checkSessionTimeout();
                 <input type="text" id="events_name" name="events_name" value="<?php echo $event['events_name']; ?>"
                     required>
 
+                <label for="events_semester">Event Semester:</label>
+                <select name="events_semester" id="events_semester">
+                    <option value="" disabled <?php echo ($event['events_semester'] != '1st-Semester' && $event['events_semester'] != '2nd-Semester') ? 'selected' : ''; ?>>Select a Semester</option>
+                    <option value="1st-Semester" <?php echo $event['events_semester'] == '1st-Semester' ? 'selected' : ''; ?>>1st Semester</option>
+                    <option value="2nd-Semester" <?php echo $event['events_semester'] == '2nd-Semester' ? 'selected' : ''; ?>>2nd Semester</option>
+                </select>
+                
+                <?php
+                    $sql = "SELECT DISTINCT events_academic_year FROM events ORDER BY events_academic_year DESC";
+                    $result = mysqli_query($conn, $sql);
+                    $years = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                    $selectedYear = null;
+                ?>
+                <label for="events_academic_year">Event Academic Year:</label>
+                <select id="events_academic_year" name="events_academic_year" onchange="checkOther(this)">
+                    <option value="" disabled <?php echo is_null($selectedYear) ? 'selected' : ''; ?>>Select an Academic Year</option>
+                    <?php foreach ($years as $year): ?>
+                        <?php if (!empty($year['events_academic_year'])): ?>
+                            <option value="<?php echo $year['events_academic_year']; ?>" <?php echo $year['events_academic_year'] == $event['events_academic_year'] ? 'selected' : ''; ?>><?php echo $year['events_academic_year']; ?></option>
+                            <?php
+                                if ($year['events_academic_year'] == $event['events_academic_year']) {
+                                    $selectedYear = $year['events_academic_year'];
+                                }
+                            ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    <option value="other">Other</option>
+                </select>
+                
+                <div id="otherInput" style="display: none;">
+                    <label for="other_academic_year">Enter New Academic Year:</label>
+                    <input type="text" id="other_academic_year" name="other_academic_year">
+                </div>
+                
+                <script>
+                    function checkOther(select) {
+                        var otherInput = document.getElementById('otherInput');
+                        if (select.value == 'other') {
+                            otherInput.style.display = 'block';
+                        } else {
+                            otherInput.style.display = 'none';
+                        }
+                    }
+                </script>
+
                 <label for="events_start_date">Event Start Date and Time:</label>
                 <input type="datetime-local" id="events_start_date" name="events_start_date"
                     value="<?php echo date('Y-m-d\TH:i', strtotime($event['events_start_date'])); ?>" required>
@@ -107,50 +152,55 @@ checkSessionTimeout();
 
                 <label for="events_objectives">Event Objectives</label>
                 <div id="events_objectives">
-                    <?php foreach($objectives as $objective): ?>
-                        <textarea name="events_objectives[<?php echo $objective['objectives_id']; ?>]"><?php echo $objective['objectives_name']; ?></textarea>
+                    <?php foreach ($objectives as $objective): ?>
+                        <textarea
+                            name="events_objectives[<?php echo $objective['objectives_id']; ?>]"><?php echo $objective['objectives_name']; ?></textarea>
                     <?php endforeach; ?>
                 </div>
                 <button type="button" onclick="addInput('events_objectives')">Add another objective</button>
-                
+
                 <label for="events_problems_encountered">Event Problems Encountered</label>
                 <div id="events_problems_encountered">
-                    <?php foreach($problemsEncountered as $problem): ?>
-                        <textarea name="events_problems_encountered[<?php echo $problem['problems_encountered_id']; ?>]"><?php echo $problem['problems_encountered_name']; ?></textarea>
+                    <?php foreach ($problemsEncountered as $problem): ?>
+                        <textarea
+                            name="events_problems_encountered[<?php echo $problem['problems_encountered_id']; ?>]"><?php echo $problem['problems_encountered_name']; ?></textarea>
                     <?php endforeach; ?>
                 </div>
                 <button type="button" onclick="addInput('events_problems_encountered')">Add another problem</button>
-                
+
                 <label for="events_actions_taken">Event Actions Taken</label>
                 <div id="events_actions_taken">
-                    <?php foreach($actionsTaken as $action): ?>
-                        <textarea name="events_actions_taken[<?php echo $action['actions_taken_id']; ?>]"><?php echo $action['actions_taken_name']; ?></textarea>
+                    <?php foreach ($actionsTaken as $action): ?>
+                        <textarea
+                            name="events_actions_taken[<?php echo $action['actions_taken_id']; ?>]"><?php echo $action['actions_taken_name']; ?></textarea>
                     <?php endforeach; ?>
                 </div>
                 <button type="button" onclick="addInput('events_actions_taken')">Add another action</button>
-                
+
                 <label for="events_recommendations">Event Recommendations</label>
                 <div id="events_recommendations">
-                    <?php foreach($recommendations as $recommendation): ?>
-                        <textarea name="events_recommendations[<?php echo $recommendation['recommendations_id']; ?>]"><?php echo $recommendation['recommendations_name']; ?></textarea>
+                    <?php foreach ($recommendations as $recommendation): ?>
+                        <textarea
+                            name="events_recommendations[<?php echo $recommendation['recommendations_id']; ?>]"><?php echo $recommendation['recommendations_name']; ?></textarea>
                     <?php endforeach; ?>
                 </div>
                 <button type="button" onclick="addInput('events_recommendations')">Add another recommendation</button>
-                
+
                 <script>
-                function addInput(id) {
-                    var input = document.createElement("textarea");
-                    input.name = id + "[]";
-                    document.getElementById(id).appendChild(input);
-                }
+                    function addInput(id) {
+                        var input = document.createElement("textarea");
+                        input.name = id + "[]";
+                        document.getElementById(id).appendChild(input);
+                    }
                 </script>
-                
+
                 <label for="events_remarks">Event Remarks:</label>
-                <input type="text" id="events_remarks" name="events_remarks" value="<?php echo $event['events_remarks']; ?>">
+                <input type="text" id="events_remarks" name="events_remarks"
+                    value="<?php echo $event['events_remarks']; ?>">
 
                 <label for="events_documentation_pictures">Event Documentation Pictures:</label>
                 <input type="file" id="events_documentation_pictures" name="events_documentation_pictures[]" multiple>
-                
+
                 <div class="two-grid-column-container">
                     <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button margin-top-16" type="submit" name="update-event"><i class="bi bi-save"></i>
