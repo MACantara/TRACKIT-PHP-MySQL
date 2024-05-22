@@ -57,8 +57,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-event'])) {
             }
         }
 
-        // Define the upload directory
-        $uploadDir = 'C:/xampp/htdocs/TRACKIT-PHP-MySQL/static/img/';
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            // Local server
+            $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/TRACKIT-PHP-MySQL/static/img/';
+        } else {
+            // Live server
+            $uploadDir = 'https://trackit.alwaysdata.net/static/img/';
+        }
 
         // Check if the upload directory exists, if not, create it
         if (!is_dir($uploadDir)) {
