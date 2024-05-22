@@ -54,11 +54,6 @@ checkSessionTimeout();
             </div>
         </section>
         <?php
-        // Fetch the events, ordered by events_academic_year, events_semester, and events_start_date
-        $sql = "SELECT * FROM events ORDER BY events_academic_year DESC, events_semester DESC, events_start_date DESC";
-        $result = mysqli_query($conn, $sql);
-        $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
         $currentGroup = null;
 
         // Group the events by academic year and semester
