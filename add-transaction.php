@@ -25,6 +25,7 @@ checkSessionTimeout();
 
 <body>
     <?php include 'templates/header.tpl.php'; ?>
+    <?php include 'templates/generate-summary-report-modal.tpl.php'; ?>
     <main>
         <section class="section-container">
             <h1>Add Transaction</h1>

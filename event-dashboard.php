@@ -51,6 +51,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
 
 <body>
     <?php include "templates/header.tpl.php"; ?>
+    <?php include 'templates/generate-summary-report-modal.tpl.php'; ?>
 
     <main>
         <div class="event-dashboard-buttons-container">

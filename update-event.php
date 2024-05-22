@@ -63,6 +63,7 @@ checkSessionTimeout();
 
 <body>
     <?php include 'templates/header.tpl.php'; ?>
+    <?php include 'templates/generate-summary-report-modal.tpl.php'; ?>
     <main>
         <section class="section-container">
             <h1>Update Event</h1>
@@ -75,9 +76,9 @@ checkSessionTimeout();
 
                 <label for="events_semester">Event Semester:</label>
                 <select name="events_semester" id="events_semester">
-                    <option value="" disabled <?php echo ($event['events_semester'] != '1st-Semester' && $event['events_semester'] != '2nd-Semester') ? 'selected' : ''; ?>>Select a Semester</option>
-                    <option value="1st-Semester" <?php echo $event['events_semester'] == '1st-Semester' ? 'selected' : ''; ?>>1st Semester</option>
-                    <option value="2nd-Semester" <?php echo $event['events_semester'] == '2nd-Semester' ? 'selected' : ''; ?>>2nd Semester</option>
+                    <option value="" disabled <?php echo ($event['events_semester'] != '1st Semester' && $event['events_semester'] != '2nd Semester') ? 'selected' : ''; ?>>Select a Semester</option>
+                    <option value="1st Semester" <?php echo $event['events_semester'] == '1st Semester' ? 'selected' : ''; ?>>1st Semester</option>
+                    <option value="2nd Semester" <?php echo $event['events_semester'] == '2nd Semester' ? 'selected' : ''; ?>>2nd Semester</option>
                 </select>
                 
                 <?php
@@ -198,8 +199,26 @@ checkSessionTimeout();
                 <input type="text" id="events_remarks" name="events_remarks"
                     value="<?php echo $event['events_remarks']; ?>">
 
+                <?php
+                // Fetch the documentation pictures for the event
+                $sql = "SELECT documentation_pictures.documentation_pictures_item
+                        FROM documentation_pictures
+                        INNER JOIN event_documentation_pictures ON documentation_pictures.documentation_pictures_id = event_documentation_pictures.documentation_pictures_id
+                        WHERE event_documentation_pictures.events_id = '$eventsId'";
+                $result = mysqli_query($conn, $sql);
+                $pictures = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                ?>
+                
                 <label for="events_documentation_pictures">Event Documentation Pictures:</label>
                 <input type="file" id="events_documentation_pictures" name="events_documentation_pictures[]" multiple>
+                
+                <!-- Display the existing pictures -->
+                <div id="existing_pictures">
+                    <?php foreach ($pictures as $picture): ?>
+                        <?php $src = strstr($picture['documentation_pictures_item'], 'static/img/'); ?>
+                        <img src="<?php echo $src; ?>" alt="Event Picture" width="277" height="227">
+                    <?php endforeach; ?>
+                </div>
 
                 <div class="two-grid-column-container">
                     <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>

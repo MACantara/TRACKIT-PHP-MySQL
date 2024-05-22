@@ -21,6 +21,7 @@ checkSessionTimeout();
 
 <body>
     <?php include 'templates/header.tpl.php'; ?>
+    <?php include 'templates/generate-summary-report-modal.tpl.php'; ?>
     <main>
         <section class="section-container">
             <h1>Create a New Event</h1>
@@ -31,8 +32,8 @@ checkSessionTimeout();
                 <label for="events_semester">Event Semester:</label>
                 <select name="events_semester" id="events_semester">
                     <option value="" selected disabled>Select a Semester</option>
-                    <option value="1st-Semester">1st Semester</option> 
-                    <option value="2nd-Semester">2nd Semester</option>
+                    <option value="1st Semester">1st Semester</option> 
+                    <option value="2nd Semester">2nd Semester</option>
                 </select>
 
                 <?php
