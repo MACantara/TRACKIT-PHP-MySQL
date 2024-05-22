@@ -94,10 +94,30 @@ $pdf->AddPage();
 // Fetch the events from the database
 $events = getUserEvents($conn, $usersId, 'ASC');
 
+$chosenSemester = $_POST['events_semester'];
+$chosenAcademicYear = $_POST['events_academic_year'];
+
+// Split the semester into words
+$words = explode(' ', $chosenSemester);
+
+// Split the first word into characters
+$chars = str_split($words[0]);
+
+// Apply the <sup> tag to the 2nd and 3rd characters
+$chars[1] = '<sup>' . $chars[1] . '</sup>';
+$chars[2] = '<sup>' . $chars[2] . '</sup>';
+
+// Join the characters back into a word
+$words[0] = implode('', $chars);
+
+// Join the words back into a semester
+$chosenSemester = implode(' ', $words);
+
+// Now you can use $chosenSemester in your HTML
 $html = '
     <h1 style="text-align: center;">Implemented Activities Evaluation Report</h1>
     <h2 style="text-align: center;">SEMESTER END REPORT</h2>
-    <p style="text-align: center;">1<sup>st</sup> Semester AY 2023-2024</p>
+    <p style="text-align: center;">' . $chosenSemester . ' AY ' . $chosenAcademicYear . '</p>
     <table border="1" cellpadding="5">
     <thead>
         <tr>
@@ -114,8 +134,13 @@ $html = '
     </thead>
     <tbody>';
 
+$chosenSemester = $_POST['events_semester'];
+$chosenAcademicYear = $_POST['events_academic_year'];
+
 $sql = "SELECT
     events.events_name,
+    events.events_semester,
+    events.events_academic_year,
     events.events_description,
     events.events_start_date,
     events.events_status,
@@ -142,8 +167,13 @@ LEFT JOIN
     event_recommendations ON events.events_id = event_recommendations.events_id
 LEFT JOIN
     recommendations ON event_recommendations.recommendations_id = recommendations.recommendations_id
+WHERE
+    events.events_semester = '$chosenSemester' AND
+    events.events_academic_year = '$chosenAcademicYear'
 GROUP BY
-    events.events_id";
+    events.events_id
+ORDER BY
+    events.events_start_date ASC";
 
 $result = mysqli_query($conn, $sql);
 $totalRows = mysqli_num_rows($result);
@@ -217,7 +247,10 @@ $pdf->AddPage();
 $html = '';
 
 // Fetch the event details for the documentation pictures
-$sql = "SELECT events_name, events_start_date, events_end_date, events_venue, events_id FROM events ORDER BY events_start_date ASC";
+$sql = "SELECT events_name, events_start_date, events_end_date, events_venue, events_id 
+    FROM events 
+    WHERE events_semester = '$chosenSemester' AND events_academic_year = '$chosenAcademicYear'
+    ORDER BY events_start_date ASC";
 $result = mysqli_query($conn, $sql);
 
 while ($event = mysqli_fetch_assoc($result)) {
