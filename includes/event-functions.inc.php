@@ -320,46 +320,35 @@ function updateOrInsertRecord($conn, $table, $id, $value, $eventsId)
 }
 
 
-function updateEventDocumentationPictures($conn, $eventsId, $pictures) {
-    foreach ($pictures as $picture) {
-        // Check for upload errors
-        if ($picture['error'] !== UPLOAD_ERR_OK) {
-            // Handle error
-            continue;
-        }
+function updateEventDocumentationPictures($conn, $eventsId, $picturePath) {
+    // Check if the picture already exists
+    $sql = "SELECT * FROM documentation_pictures WHERE documentation_pictures_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $eventsId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-        // Read the file content
-        $pictureContent = file_get_contents($picture['tmp_name']);
-
-        // Check if the picture already exists
-        $sql = "SELECT * FROM documentation_pictures WHERE documentation_pictures_id = ?";
+    if (mysqli_num_rows($result) > 0) {
+        // The picture exists, update it
+        $sql = "UPDATE documentation_pictures SET documentation_pictures_item = ? WHERE documentation_pictures_id = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "i", $eventsId);
+        mysqli_stmt_bind_param($stmt, "si", $picturePath, $eventsId);
         mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+    } else {
+        // The picture doesn't exist, insert it
+        $sql = "INSERT INTO documentation_pictures (documentation_pictures_item) VALUES (?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $picturePath);
+        mysqli_stmt_execute($stmt);
 
-        if (mysqli_num_rows($result) > 0) {
-            // The picture exists, update it
-            $sql = "UPDATE documentation_pictures SET documentation_pictures_item = ? WHERE documentation_pictures_id = ?";
-            $stmt = mysqli_prepare($conn, $sql);
-            mysqli_stmt_bind_param($stmt, "si", $pictureContent, $eventsId);
-            mysqli_stmt_execute($stmt);
-        } else {
-            // The picture doesn't exist, insert it
-            $sql = "INSERT INTO documentation_pictures (documentation_pictures_item) VALUES (?)";
-            $stmt = mysqli_prepare($conn, $sql);
-            mysqli_stmt_bind_param($stmt, "s", $pictureContent);
-            mysqli_stmt_execute($stmt);
+        // Get the ID of the inserted picture
+        $pictureId = mysqli_insert_id($conn);
 
-            // Get the ID of the inserted picture
-            $pictureId = mysqli_insert_id($conn);
-
-            // Insert a record into the event_documentation_pictures table
-            $sql = "INSERT INTO event_documentation_pictures (events_id, documentation_pictures_id) VALUES (?, ?)";
-            $stmt = mysqli_prepare($conn, $sql);
-            mysqli_stmt_bind_param($stmt, "ii", $eventsId, $pictureId);
-            mysqli_stmt_execute($stmt);
-        }
+        // Insert a record into the event_documentation_pictures table
+        $sql = "INSERT INTO event_documentation_pictures (events_id, documentation_pictures_id) VALUES (?, ?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ii", $eventsId, $pictureId);
+        mysqli_stmt_execute($stmt);
     }
 }
 
