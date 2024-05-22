@@ -6,9 +6,11 @@ function handleCreateEvent($conn)
     require_once "error-handling-functions.inc.php"; // Include the file containing the sanitizeInput function
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['events_name'], $_POST['events_start_date'], $_POST['events_end_date'], $_POST['events_venue'], $_POST['events_budget'], $_POST['events_status'], $_POST['events_description'])) {
+        if (isset($_POST['events_name'], $_POST['events_semester'], $_POST['events_academic_year'], $_POST['events_start_date'], $_POST['events_end_date'], $_POST['events_venue'], $_POST['events_budget'], $_POST['events_status'], $_POST['events_description'])) {
             $usersId = $_SESSION['users_id'];
             $eventName = sanitizeInput($_POST['events_name']);
+            $eventSemester = sanitizeInput($_POST['events_semester']);
+            $eventAcademicYear = sanitizeInput($_POST['events_academic_year'] == 'other' ? $_POST['other_academic_year'] : $_POST['events_academic_year']);
             $eventStartDate = sanitizeInput($_POST['events_start_date']);
             $eventEndDate = sanitizeInput($_POST['events_end_date']);
             $eventVenue = sanitizeInput($_POST['events_venue']);
@@ -18,7 +20,7 @@ function handleCreateEvent($conn)
             $eventRemarks = sanitizeInput($_POST['events_remarks']);
 
             // Create the event first to get the event ID
-            $eventsId = createEvent($conn, $usersId, $eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks);
+            $eventsId = createEvent($conn, $usersId, $eventName, $eventSemester, $eventAcademicYear, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks);
 
             // Loop through each array of inputs and create separate records
             foreach ($_POST['events_objectives'] as $objective) {
@@ -135,7 +137,7 @@ function getTransactions($conn, $eventsId, $sort = 'DESC', $filterDays = null, $
 
 function getUserEvents($conn, $usersId, $sortOrder = 'DESC')
 {
-    $sql = "SELECT events.events_id, events.events_status, events.events_name, events.events_description, events.events_start_date, events.events_end_date, events.events_venue, events.events_budget, events.events_remarks 
+    $sql = "SELECT events.events_id, events.events_semester, events.events_academic_year, events.events_status, events.events_name, events.events_description, events.events_start_date, events.events_end_date, events.events_venue, events.events_budget, events.events_remarks 
             FROM events 
             JOIN department_events ON events.events_id = department_events.events_id 
             JOIN department_users ON department_events.departments_id = department_users.departments_id 
@@ -272,11 +274,11 @@ function deleteEvent($conn, $eventsId)
     return true;
 }
 
-function updateEvent($conn, $eventsId, $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks)
+function updateEvent($conn, $eventsId, $eventsSemester, $eventsAcademicYear, $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks)
 {
-    $sql = "UPDATE events SET events_name = ?, events_start_date = ?, events_end_date = ?, events_venue = ?, events_budget = ?, events_status = ?, events_description = ?, events_remarks = ? WHERE events_id = ?";
+    $sql = "UPDATE events SET events_name = ?, events_semester = ?, events_academic_year = ?, events_start_date = ?, events_end_date = ?, events_venue = ?, events_budget = ?, events_status = ?, events_description = ?, events_remarks = ? WHERE events_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssisssi", $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks, $eventsId);
+    mysqli_stmt_bind_param($stmt, "ssssssisssi", $eventsName, $eventsSemester, $eventsAcademicYear, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks, $eventsId);
     mysqli_stmt_execute($stmt);
 }
 
