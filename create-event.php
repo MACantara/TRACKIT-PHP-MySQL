@@ -28,6 +28,45 @@ checkSessionTimeout();
                 <label for="events_name">Event Name:</label>
                 <input type="text" id="events_name" name="events_name" required>
 
+                <label for="events_semester">Event Semester:</label>
+                <select name="events_semester" id="events_semester">
+                    <option value="" selected disabled>Select a Semester</option>
+                    <option value="1st-Semester">1st Semester</option> 
+                    <option value="2nd-Semester">2nd Semester</option>
+                </select>
+
+                <?php
+                    $sql = "SELECT DISTINCT events_academic_year FROM events ORDER BY events_academic_year DESC";
+                    $result = mysqli_query($conn, $sql);
+                    $years = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                ?>
+                <label for="events_academic_year">Event Academic Year:</label>
+                <select id="events_academic_year" name="events_academic_year" onchange="checkOther(this)">
+                    <option value="" disabled selected>Select an Academic Year</option>
+                    <?php foreach ($years as $year): ?>
+                        <?php if (!empty($year['events_academic_year'])): ?>
+                            <option value="<?php echo $year['events_academic_year']; ?>"><?php echo $year['events_academic_year']; ?></option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    <option value="other">Other</option>
+                </select>
+                
+                <div id="otherInput" style="display: none;">
+                    <label for="other_academic_year">Enter New Academic Year:</label>
+                    <input type="text" id="other_academic_year" name="other_academic_year">
+                </div>
+                
+                <script>
+                    function checkOther(select) {
+                        var otherInput = document.getElementById('otherInput');
+                        if (select.value == 'other') {
+                            otherInput.style.display = 'block';
+                        } else {
+                            otherInput.style.display = 'none';
+                        }
+                    }
+                </script>
+
                 <label for="events_start_date">Event Start Date and Time:</label>
                 <input type="datetime-local" id="events_start_date" name="events_start_date" required>
 
