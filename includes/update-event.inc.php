@@ -55,7 +55,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-event'])) {
             }
         }
 
-        updateEventDocumentationPictures($conn, $eventsId, $picturesArray);
+        // Define the upload directory
+        $uploadDir = 'C:/xampp/htdocs/TRACKIT-PHP-MySQL/static/img/';
+
+        // Check if the upload directory exists, if not, create it
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        foreach ($picturesArray as $picture) {
+            // Check for upload errors
+            if ($picture['error'] !== UPLOAD_ERR_OK) {
+                // Handle error
+                continue;
+            }
+
+            // Generate a unique name for the file
+            $pictureName = uniqid() . '-' . basename($picture['name']);
+            $picturePath = $uploadDir . $pictureName;
+
+            // Move the file to the upload directory
+            if (!move_uploaded_file($picture['tmp_name'], $picturePath)) {
+                // Handle error
+                continue;
+            }
+
+            // Update the database with the file path
+            updateEventDocumentationPictures($conn, $eventsId, $picturePath);
+        }
     }
 
     updateEvent($conn, $eventsId, $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks);
