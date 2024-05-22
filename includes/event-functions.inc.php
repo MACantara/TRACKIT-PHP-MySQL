@@ -72,9 +72,16 @@ function handleCreateEvent($conn)
                     foreach ($fileKeys as $key) {
                         $picturesArray[$i][$key] = $pictures[$key][$i];
                     }
-                }
 
-                storeEventDocumentationPicture($conn, $eventsId, $picturesArray);
+                    // Check if the file is an image
+                    if (getimagesize($picturesArray[$i]['tmp_name']) === false) {
+                        header("Location: create-event.php?error=fileuploadednotimage");
+                        exit;
+                    }
+
+                    // The file is an image, you can proceed with your upload logic here
+                    storeEventDocumentationPicture($conn, $eventsId, $picturesArray[$i]);
+                }
             }
 
             header("Location: events-overview.php?create-event=success");
