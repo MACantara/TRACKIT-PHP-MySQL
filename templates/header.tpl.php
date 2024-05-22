@@ -12,13 +12,15 @@
             if (isset($_SESSION['users_id'])) {
                 ?>
                 <li>
-                    <a href="includes/summary-report-generation.inc.php"><i class="bi bi-file-earmark-text"></i> Generate Summary Report</a>
+                    <button type="button" id="openModalButton"><i class="bi bi-file-earmark-text"></i> Generate Summary
+                        Report</button>
                 </li>
                 <li>
                     <a href="events-overview.php"><i class="bi bi-calendar2-week"></i> Events Overview</a>
                 </li>
                 <li>
-                    <a href="profile-information.php"><i class="bi bi-person"></i> <?php echo $_SESSION["users_username"]; ?></a>
+                    <a href="profile-information.php"><i class="bi bi-person"></i>
+                        <?php echo $_SESSION["users_username"]; ?></a>
                 </li>
                 <li>
                     <a href="includes/log-out.inc.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
