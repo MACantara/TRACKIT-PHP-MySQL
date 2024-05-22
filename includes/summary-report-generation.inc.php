@@ -119,6 +119,7 @@ $sql = "SELECT
     events.events_description,
     events.events_start_date,
     events.events_status,
+    events.events_remarks,
     GROUP_CONCAT(DISTINCT objectives.objectives_name SEPARATOR ', ') AS objectives_name,
     GROUP_CONCAT(DISTINCT problems_encountered.problems_encountered_name SEPARATOR ', ') AS problems_encountered_name,
     GROUP_CONCAT(DISTINCT actions_taken.actions_taken_name SEPARATOR ', ') AS actions_taken_name,
@@ -199,8 +200,8 @@ while ($event = mysqli_fetch_assoc($result)) {
         $html .= 'N/A';
     }
     $html .= '</td>
-        <td width="8%" style="text-align: center;">Excellent 4.77</td>
-    </tr>';
+            <td width="8%" style="text-align: center;">' . (!empty($event['events_remarks']) ? $event['events_remarks'] : 'N/A') . '</td>
+        </tr>';
 }
 
 // End of the first table
