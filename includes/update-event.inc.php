@@ -6,6 +6,8 @@ require_once 'error-handling-functions.inc.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-event'])) {
     $eventsId = sanitizeInput($_POST['events_id']);
     $eventsName = sanitizeInput($_POST['events_name']);
+    $eventsSemester = sanitizeInput($_POST['events_semester']);
+    $eventsAcademicYear = sanitizeInput($_POST['events_academic_year'] == 'other' ? $_POST['other_academic_year'] : $_POST['events_academic_year']);
     $eventsStartDate = sanitizeInput($_POST['events_start_date']);
     $eventsEndDate = sanitizeInput($_POST['events_end_date']);
     $eventsVenue = sanitizeInput($_POST['events_venue']);
@@ -85,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-event'])) {
         }
     }
 
-    updateEvent($conn, $eventsId, $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks);
+    updateEvent($conn, $eventsId, $eventsSemester, $eventsAcademicYear, $eventsName, $eventsStartDate, $eventsEndDate, $eventsVenue, $eventsBudget, $eventsStatus, $eventsDescription, $eventsRemarks);
 
     header("Location: ../events-overview.php?event-updated=success");
 }
