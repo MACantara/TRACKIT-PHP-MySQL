@@ -117,6 +117,9 @@ function createRecommendation($conn, $eventId, $recommendation)
 }
 
 function storeEventDocumentationPicture($conn, $eventId, $pictures) {
+    // Define the upload directory
+    $uploadDir = 'C:/xampp/htdocs/TRACKIT-PHP-MySQL/static/img/';
+
     foreach ($pictures as $picture) {
         // Check for upload errors
         if ($picture['error'] !== UPLOAD_ERR_OK) {
@@ -124,13 +127,20 @@ function storeEventDocumentationPicture($conn, $eventId, $pictures) {
             return;
         }
 
-        // Read the file content
-        $pictureContent = file_get_contents($picture['tmp_name']);
+        // Generate a unique name for the file
+        $pictureName = uniqid() . '-' . basename($picture['name']);
+        $picturePath = $uploadDir . $pictureName;
+
+        // Move the file to the upload directory
+        if (!move_uploaded_file($picture['tmp_name'], $picturePath)) {
+            // Handle error
+            return;
+        }
 
         // Insert into the documentation_pictures table
         $sql = "INSERT INTO documentation_pictures (documentation_pictures_item) VALUES (?)";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 's', $pictureContent); // Change 'b' to 's'
+        mysqli_stmt_bind_param($stmt, 's', $picturePath);
         mysqli_stmt_execute($stmt);
 
         // Get the ID of the inserted picture
