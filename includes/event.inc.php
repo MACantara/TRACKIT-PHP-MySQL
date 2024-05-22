@@ -4,7 +4,7 @@ require_once 'error-handling-functions.inc.php';
 require_once "user-functions.inc.php";
 
 
-function createEvent($conn, $usersId, $eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks)
+function createEvent($conn, $usersId, $eventName, $eventSemester, $eventAcademicYear, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks)
 {
     // if (eventEmptyInput($eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks) !== false) {
     //     header("location: create-event.php?error=emptyinput");
@@ -31,9 +31,9 @@ function createEvent($conn, $usersId, $eventName, $eventStartDate, $eventEndDate
         exit();
     }
 
-    $sql = "INSERT INTO events (events_name, events_start_date, events_end_date, events_venue, events_budget, events_status, events_description, events_remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO events (events_name, events_semester, events_academic_year, events_start_date, events_end_date, events_venue, events_budget, events_status, events_description, events_remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssssss", $eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks);
+    mysqli_stmt_bind_param($stmt, "ssssssssss", $eventName, $eventSemester, $eventAcademicYear, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks);
     mysqli_stmt_execute($stmt);
     $eventsId = mysqli_insert_id($conn);
 
