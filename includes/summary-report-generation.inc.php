@@ -1,24 +1,71 @@
 <?php
-require_once('../vendor/autoload.php');
-require_once('../includes/event-functions.inc.php');
+require_once ('../vendor/autoload.php');
+require_once ('../includes/event-functions.inc.php');
 
 session_start();
 $usersId = $_SESSION['users_id'];
 
 // Create new PDF document
-$pdf = new TCPDF('L', PDF_UNIT, array(216, 330), true, 'UTF-8', false);
+class MYPDF extends TCPDF {
+    public function Header() {
+        // Perps Logo
+        $image_file = '../static/img/logos/Perps-Logo.png';
+        $this->Image($image_file, 7, 5, 120, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+
+        // CCS Logo
+        $ccs_logo = '../static/img/logos/CCS-LOGO.png';
+        $this->Image($ccs_logo, 230, 6, 18, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+
+        // ISO Logo
+        $iso_logo = '../static/img/logos/ISO.png';
+        $this->Image($iso_logo, 253, 10, 60, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+
+        // Text
+        $this->SetFont('helvetica', 'B', 12); // Set font
+        $this->SetY(36); // Set position to below the logos
+        $this->SetX(235);
+        $this->Cell(0, 10, 'COLLEGE OF COMPUTER STUDIES', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+
+        // Red line
+        $this->SetDrawColor(196, 91, 17); // Set color to red
+        $this->SetLineWidth(0.7); // Set line width to thin
+        $line_length = $this->getPageWidth() * .96; // 96% of page width
+        $this->Line(13, 41, $line_length, 41); // Draw line
+
+        // Table Header
+
+            // $html = '
+            // <table border="1" cellpadding="5">
+            //     <thead>
+            //         <tr>
+            //             <th width="7%">AREAS</th>
+            //             <th width="10%">ACTIVITY</th>
+            //             <th width="15%">OBJECTIVE</th>
+            //             <th width="10%">DATE OF THE ACTIVITY</th>
+            //             <th width="8%">STATUS</th>
+            //             <th width="15%">PROBLEM<br>ENCOUNTERED</th>
+            //             <th width="10%">ACTION TAKEN</th>
+            //             <th width="17%">RECOMMENDATION</th>
+            //             <th width="8%">REMARKS</th>
+            //         </tr>
+            //     </thead>
+            // </table>';
+            // $this->writeHTML($html, true, false, true, false, '');
+
+    }
+}
+
+// create new PDF document
+$pdf = new MYPDF('L', PDF_UNIT, array(216, 330), true, 'UTF-8', false);
 
 // Set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Your Name');
 $pdf->SetTitle('Events Overview');
 
-// Set default header data
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
-
 // Set header and footer fonts
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 // Set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -40,50 +87,42 @@ $pdf->AddPage();
 // Fetch the events from the database
 $events = getUserEvents($conn, $usersId, 'ASC');
 
-$html = '<table border="1" cellpadding="5">
-    <thead>
-        <tr>
-            <th width="7%">AREAS</th>
-            <th width="10%">ACTIVITY</th>
-            <th width="15%">OBJECTIVE</th>
-            <th width="10%">DATE OF THE ACTIVITY</th>
-            <th width="8%">STATUS</th>
-            <th width="15%">PROBLEM<br>ENCOUNTERED</th>
-            <th width="10%">ACTION TAKEN</th>
-            <th width="17%">RECOMMENDATION</th>
-            <th width="8%">REMARKS</th>
-        </tr>
-    </thead>
+$html = '
+    <br><br><br>
+    <h1 style="text-align: center;">Implemented Activities Evaluation Report</h1>
+    <h2 style="text-align: center;">SEMESTER END REPORT</h2>
+    <p style="text-align: center;">1st Semester AY 2023-2024</p>
+    <table border="1" cellpadding="5">  
     <tbody>';
 
-    $sql = "SELECT 
-    events.events_name, 
-    events.events_description, 
-    events.events_start_date, 
-    events.events_status, 
-    GROUP_CONCAT(DISTINCT objectives.objectives_name SEPARATOR ', ') AS objectives_name, 
-    GROUP_CONCAT(DISTINCT problems_encountered.problems_encountered_name SEPARATOR ', ') AS problems_encountered_name, 
-    GROUP_CONCAT(DISTINCT actions_taken.actions_taken_name SEPARATOR ', ') AS actions_taken_name, 
-    GROUP_CONCAT(DISTINCT recommendations.recommendations_name SEPARATOR ', ') AS recommendations_name 
-FROM 
-    events 
-LEFT JOIN 
-    event_objectives ON events.events_id = event_objectives.events_id 
-LEFT JOIN 
-    objectives ON event_objectives.objectives_id = objectives.objectives_id 
-LEFT JOIN 
-    event_problems_encountered ON events.events_id = event_problems_encountered.events_id 
-LEFT JOIN 
-    problems_encountered ON event_problems_encountered.problems_encountered_id = problems_encountered.problems_encountered_id 
-LEFT JOIN 
-    event_actions_taken ON events.events_id = event_actions_taken.events_id 
-LEFT JOIN 
-    actions_taken ON event_actions_taken.actions_taken_id = actions_taken.actions_taken_id 
-LEFT JOIN 
-    event_recommendations ON events.events_id = event_recommendations.events_id 
-LEFT JOIN 
-    recommendations ON event_recommendations.recommendations_id = recommendations.recommendations_id 
-GROUP BY 
+$sql = "SELECT
+    events.events_name,
+    events.events_description,
+    events.events_start_date,
+    events.events_status,
+    GROUP_CONCAT(DISTINCT objectives.objectives_name SEPARATOR ', ') AS objectives_name,
+    GROUP_CONCAT(DISTINCT problems_encountered.problems_encountered_name SEPARATOR ', ') AS problems_encountered_name,
+    GROUP_CONCAT(DISTINCT actions_taken.actions_taken_name SEPARATOR ', ') AS actions_taken_name,
+    GROUP_CONCAT(DISTINCT recommendations.recommendations_name SEPARATOR ', ') AS recommendations_name
+FROM
+    events
+LEFT JOIN
+    event_objectives ON events.events_id = event_objectives.events_id
+LEFT JOIN
+    objectives ON event_objectives.objectives_id = objectives.objectives_id
+LEFT JOIN
+    event_problems_encountered ON events.events_id = event_problems_encountered.events_id
+LEFT JOIN
+    problems_encountered ON event_problems_encountered.problems_encountered_id = problems_encountered.problems_encountered_id
+LEFT JOIN
+    event_actions_taken ON events.events_id = event_actions_taken.events_id
+LEFT JOIN
+    actions_taken ON event_actions_taken.actions_taken_id = actions_taken.actions_taken_id
+LEFT JOIN
+    event_recommendations ON events.events_id = event_recommendations.events_id
+LEFT JOIN
+    recommendations ON event_recommendations.recommendations_id = recommendations.recommendations_id
+GROUP BY
     events.events_id";
 
 $result = mysqli_query($conn, $sql);
@@ -94,7 +133,8 @@ while ($event = mysqli_fetch_assoc($result)) {
     $actions_taken = explode(', ', $event['actions_taken_name']);
     $recommendations = explode(', ', $event['recommendations_name']);
 
-    $html .= '<tr>
+    $html .= '
+    <tr>
         <td width="7%">ORGANIZATION AND ADMINISTRATION</td>
         <td width="10%">' . $event['events_name'] . '</td>
         <td width="15%">';
@@ -139,11 +179,157 @@ while ($event = mysqli_fetch_assoc($result)) {
     </tr>';
 }
 
+// End of the first table
 $html .= '</tbody></table>';
+
+// Write HTML content to the PDF for the first table
+$pdf->writeHTML($html, true, false, true, false, '');
+
+// Start a new page
+$pdf->AddPage();
+
+// Reset the $html variable for the new page
+$html = '';
+
+// Fetch the event details for the documentation pictures
+$sql = "SELECT events_name, events_start_date, events_end_date, events_venue, events_id FROM events ORDER BY events_start_date ASC";
+$result = mysqli_query($conn, $sql);
+
+while ($event = mysqli_fetch_assoc($result)) {
+    $eventsId = $event['events_id'];
+    $eventName = $event['events_name'];
+    $startDate = date('F j, Y', strtotime($event['events_start_date']));
+    $endDate = date('F j, Y', strtotime($event['events_end_date']));
+    $startTime = date('h:i A', strtotime($event['events_start_date']));
+    $endTime = date('h:i A', strtotime($event['events_end_date']));
+    $venue = $event['events_venue'];
+
+    error_reporting(E_ALL & ~E_WARNING);
+    // Fetch 4 images related to the current event from the documentation_pictures table
+    $sqlImages = "SELECT documentation_pictures_item FROM documentation_pictures 
+                  JOIN event_documentation_pictures ON documentation_pictures.documentation_pictures_id = event_documentation_pictures.documentation_pictures_id 
+                  WHERE event_documentation_pictures.events_id = " . $eventsId . " LIMIT 4";
+    $resultImages = mysqli_query($conn, $sqlImages);
+
+    // If there are no images, skip this event
+    if (mysqli_num_rows($resultImages) == 0) {
+        continue;
+    }
+
+    $html .= '
+    <br><br><br>
+    <h2 style="text-align: center;">' . $eventName . '</h2>
+    ';
+    $html .= '<p style="text-align: center;">' . $startDate . ' - ' . $endDate . ' | ' . $startTime . ' - ' . $endTime . ' | ' . $venue . '</p>';
+
+
+    $html .= '<table style="width: 1000px;">';
+    $imageCount = 0;
+    $rowCount = 0;
+
+    $numImages = mysqli_num_rows($resultImages);
+
+    $html .= '<tr>'; // Start a new row
+
+    while ($image = mysqli_fetch_assoc($resultImages)) {
+        $imagePath = $image['documentation_pictures_item'];
+        if (file_exists($imagePath)) {
+        // Get the image dimensions
+        list($width, $height) = getimagesize($imagePath);
+
+        // Determine if the image is a portrait
+        $isPortrait = $height > $width;
+
+        // Set the image dimensions
+        $imgWidth = $isPortrait ? 'auto' : '320px';
+        $imgHeight = $isPortrait ? '400px' : '195px';
+
+        // Add the image to the HTML string
+        $html .= '<td style="text-align: center;"><img src="' . $imagePath . '" style="margin: 0; padding: 0; width: ' . $imgWidth . '; height: ' . $imgHeight . '; object-fit: cover; object-position: center;"></td>';
+
+        $imageCount++;
+
+        if ($numImages >= 4 && $imageCount % 2 == 0 && $imageCount < $numImages) {
+            $html .= '</tr><tr>'; // Close the current row and start a new one
+        }
+        }
+    }
+
+    $html .= '</tr>'; // Close the last row
+
+    $html .= '</table>';
+    $html .= "\n";
+
+    // Write HTML content to the PDF for the first table
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    // Start a new page
+    $pdf->AddPage();
+
+    // Reset the $html variable for the new page
+    $html = '';
+}
+
+$html .= '
+<br><br><br><br><br><br><br><br><br>
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th></th>
+            <th style="text-align: center;">NAME</th>
+            <th style="text-align: center;">SIGNATURE</th>
+            <th style="text-align: center;">DESIGNATED</th>
+            <th style="text-align: center;">DATE</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="text-align: center; vertical-align: middle;" rowspan="2">Prepared By:</td>
+            <td style="text-align: center;">Marienella Reggiette M. Odvina</td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;">Secretary, College of Computer Studies Council</td>
+            <td style="text-align: center;" rowspan="2">January 25, 2024</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">Mhartin Joshua B. Derez</td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;">President, College of Computer Studies Council</td>
+            <td style="text-align: center;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">Noted By:</td>
+            <td style="text-align: center;">Dr. Pastor Arguelles Jr.</td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;">Dean, College of Computer Studies</td>
+            <td style="text-align: center;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">Reviewed & Endorsed by:</td>
+            <td style="text-align: center;">Engr. Mariciel Teogangco</td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;">Cluster Dean / Dean College of Engineering</td>
+            <td style="text-align: center;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;">Ms. Kristina Rose G. Carlos, RGC, RPm</td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;">Head, SAS/Dean of Students Affairs</td>
+            <td style="text-align: center;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">Approved by:</td>
+            <td style="text-align: center;">Reno R. Rayel</td>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;">School Director</td>
+            <td style="text-align: center;"></td>
+        </tr>
+    </tbody>
+</table>
+';
 
 // Write HTML content to the PDF
 $pdf->writeHTML($html, true, false, true, false, '');
 
 // Close and output PDF document
 $pdf->Output('events_overview.pdf', 'I');
-?>
