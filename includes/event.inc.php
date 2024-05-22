@@ -6,11 +6,6 @@ require_once "user-functions.inc.php";
 
 function createEvent($conn, $usersId, $eventName, $eventSemester, $eventAcademicYear, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks)
 {
-    // if (eventEmptyInput($eventName, $eventStartDate, $eventEndDate, $eventVenue, $eventBudget, $eventStatus, $eventDescription, $eventRemarks) !== false) {
-    //     header("location: create-event.php?error=emptyinput");
-    //     exit();
-    // }
-
     if (eventNameExists($conn, $eventName) !== false) {
         header("location: create-event.php?error=eventnametaken");
         exit();
@@ -20,11 +15,6 @@ function createEvent($conn, $usersId, $eventName, $eventSemester, $eventAcademic
         header("location: create-event.php?error=toolongeventname");
         exit();
     }
-
-    // if (invalidEventDate($eventStartDate, $eventEndDate) !== false) {
-    //     header("location: create-event.php?error=invalideventdate");
-    //     exit();
-    // }
 
     if (invalidEventBudget($eventBudget) !== false) {
         header("location: create-event.php?error=invalideventbudget");
