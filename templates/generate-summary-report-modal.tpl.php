@@ -25,7 +25,9 @@
                     </option>
                 <?php endforeach; ?>
             </select>
-            <input class="button" type="submit" value="Generate Report">
+            <button class="button" type="submit">
+            <i class='bi bi-file-earmark-text'></i> Generate Report
+            </button>
         </form>
     </div>
 </div>
