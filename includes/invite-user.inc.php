@@ -14,8 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get email from form
     $email = sanitizeInput($_POST['email']);
 
-    // Get user ID connected to the email
-    $sql = "SELECT users_id FROM users WHERE users_email = ?";
+    // Get user ID connected to the email and department
+    $sql = "SELECT users.users_id FROM users 
+            JOIN department_users ON users.users_id = department_users.users_id 
+            WHERE users.users_email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -23,15 +25,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $result->fetch_assoc();
     $usersId = $user['users_id'];
 
-    // Check if user ID exists in the database
-    $sql = "SELECT users_email FROM users WHERE users_id = ?";
+    // Check if user ID exists in the department_users table of the database
+    $sql = "SELECT users.users_email FROM users 
+            JOIN department_users ON users.users_id = department_users.users_id 
+            WHERE department_users.users_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $usersId);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows == 0) {
-        // User ID does not exist in the database
+        // User ID does not exist in the department_users table of the database
         // Redirect to the invite-user page with an error message
         header("location: ../invite-user.php?events_id=" . $eventsId . "&error=usernotfound");
         exit();
@@ -45,15 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $url = BASE_URL . "accept-invitation.php?token=$token";
 
-    // Check if user ID and event ID already exist as a pair in the event_users table of the database
-    $sql = "SELECT * FROM event_users WHERE events_id = ? AND users_id = ?";
+    // Check if user ID and event ID already exist as a pair in the department_events table of the database
+    $sql = "SELECT * FROM department_events WHERE events_id = ? AND departments_id IN (SELECT departments_id FROM department_users WHERE users_id = ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $eventsId, $usersId);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // User ID and event ID already exist as a pair in the event_users table of the database
+        // User ID and event ID already exist as a pair in the department_events table of the database
         // Redirect to the invite-user page with an error message
         header("location: ../invite-user.php?events_id=" . $eventsId . "&error=userexistasmanager");
         exit();
