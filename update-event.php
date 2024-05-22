@@ -105,9 +105,12 @@ checkSessionTimeout();
                 
                 <div id="otherInput" style="display: none;">
                     <label for="other_academic_year">Enter New Academic Year:</label>
-                    <input type="text" id="other_academic_year" name="other_academic_year">
+                    <input type="text" id="other_academic_year" name="other_academic_year"
+                        oninput="validateYearFormat(this)" onkeyup="formatYear(this)">
+                    <p id="error-message" style="color: red; display: none;">Invalid format. Please use the format:
+                        YYYY-YYYY</p>
                 </div>
-                
+
                 <script>
                     function checkOther(select) {
                         var otherInput = document.getElementById('otherInput');
@@ -116,6 +119,28 @@ checkSessionTimeout();
                         } else {
                             otherInput.style.display = 'none';
                         }
+                    }
+
+                    function validateYearFormat(input) {
+                        var format = /^\d{4}-\d{4}$/;
+                        var errorMessage = document.getElementById('error-message');
+                        if (!format.test(input.value)) {
+                            errorMessage.style.display = 'block';
+                        } else {
+                            errorMessage.style.display = 'none';
+                        }
+                    }
+
+                    function formatYear(input) {
+                        var value = input.value;
+                        value = value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+                        if (value.length > 4) {
+                            value = value.slice(0, 4) + '-' + value.slice(4);
+                        }
+                        if (value.length > 9) {
+                            value = value.slice(0, 9);
+                        }
+                        input.value = value;
                     }
                 </script>
 
@@ -158,7 +183,9 @@ checkSessionTimeout();
                             name="events_objectives[<?php echo $objective['objectives_id']; ?>]"><?php echo $objective['objectives_name']; ?></textarea>
                     <?php endforeach; ?>
                 </div>
-                <button type="button" onclick="addInput('events_objectives')">Add another objective</button>
+                <button class="secondary-outline-button" type="button" onclick="addInput('events_objectives')">
+                    <i class="bi bi-plus-circle"></i> Add another objective
+                </button>
 
                 <label for="events_problems_encountered">Event Problems Encountered</label>
                 <div id="events_problems_encountered">
@@ -167,7 +194,9 @@ checkSessionTimeout();
                             name="events_problems_encountered[<?php echo $problem['problems_encountered_id']; ?>]"><?php echo $problem['problems_encountered_name']; ?></textarea>
                     <?php endforeach; ?>
                 </div>
-                <button type="button" onclick="addInput('events_problems_encountered')">Add another problem</button>
+                <button class="secondary-outline-button" type="button" onclick="addInput('events_problems_encountered')">
+                    <i class="bi bi-plus-circle"></i> Add another problem
+                </button>
 
                 <label for="events_actions_taken">Event Actions Taken</label>
                 <div id="events_actions_taken">
@@ -176,7 +205,9 @@ checkSessionTimeout();
                             name="events_actions_taken[<?php echo $action['actions_taken_id']; ?>]"><?php echo $action['actions_taken_name']; ?></textarea>
                     <?php endforeach; ?>
                 </div>
-                <button type="button" onclick="addInput('events_actions_taken')">Add another action</button>
+                <button class="secondary-outline-button" type="button" onclick="addInput('events_actions_taken')">
+                    <i class="bi bi-plus-circle"></i> Add another action
+                </button>
 
                 <label for="events_recommendations">Event Recommendations</label>
                 <div id="events_recommendations">
@@ -185,7 +216,9 @@ checkSessionTimeout();
                             name="events_recommendations[<?php echo $recommendation['recommendations_id']; ?>]"><?php echo $recommendation['recommendations_name']; ?></textarea>
                     <?php endforeach; ?>
                 </div>
-                <button type="button" onclick="addInput('events_recommendations')">Add another recommendation</button>
+                <button class="secondary-outline-button" type="button" onclick="addInput('events_recommendations')">
+                    <i class="bi bi-plus-circle"></i> Add another recommendation
+                </button>
 
                 <script>
                     function addInput(id) {
@@ -221,7 +254,7 @@ checkSessionTimeout();
                 </div>
 
                 <div class="two-grid-column-container">
-                    <a class="button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
+                    <a class="secondary-outline-button margin-top-16" href="events-overview.php"><i class="bi bi-arrow-left"></i> Back</a>
                     <button class="button margin-top-16" type="submit" name="update-event"><i class="bi bi-save"></i>
                         Update Event</button>
                 </div>
