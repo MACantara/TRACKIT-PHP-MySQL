@@ -216,7 +216,7 @@ checkSessionTimeout();
                 <div id="existing_pictures">
                     <?php foreach ($pictures as $picture): ?>
                         <?php $src = strstr($picture['documentation_pictures_item'], 'static/img/'); ?>
-                        <img src="<?php echo $src; ?>" alt="Event Picture" width="277" height="227">
+                        <img src="<?php echo $src; ?>" alt="Event Picture" width="277" height="227" style="border-radius: 8px;">
                     <?php endforeach; ?>
                 </div>
 
