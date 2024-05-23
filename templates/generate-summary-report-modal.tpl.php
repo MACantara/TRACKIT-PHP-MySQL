@@ -4,7 +4,7 @@
         <span class="close">&times;</span>
         <form action="includes/summary-report-generation.inc.php" method="post">
             <label for="events_semester">Semester:</label>
-            <select id="events_semester" name="events_semester">
+            <select id="events_semester" name="events_semester" required>
                 <option value="" disabled selected>Select a Semester</option>
                 <option value="1st Semester">1st Semester</option>
                 <option value="2nd Semester">2nd Semester</option>
@@ -17,7 +17,7 @@
             ?>
 
             <label for="events_academic_year">Academic Year:</label>
-            <select id="events_academic_year" name="events_academic_year">
+            <select id="events_academic_year" name="events_academic_year" required>
                 <option value="" disabled selected>Select an Academic Year</option>
                 <?php foreach ($years as $year): ?>
                     <option value="<?php echo $year['events_academic_year']; ?>">
