@@ -1,21 +1,20 @@
 <?php
-    $colors = [
-        '#B71C1C', // Red
-        '#880E4F', // Pink
-        '#4A148C', // Purple
-        '#311B92', // Deep Purple
-        '#1A237E', // Indigo
-        '#0D47A1', // Blue
-        '#01579B', // Light Blue
-        '#006064', // Cyan
-        '#004D40', // Teal
-        '#1B5E20', // Green
-        '#33691E', // Light Green
-        '#827717', // Lime
-        '#F57F17', // Yellow
-        '#FF6F00', // Amber
-        '#E65100', // Orange
-        '#BF360C'  // Deep Orange
+    $expenseColors = [
+        '#EF5350', // Red 400
+        '#F44336', // Red 500
+        '#E53935', // Red 600
+        '#D32F2F', // Red 700
+        '#C62828', // Red 800
+        '#B71C1C'  // Red 900
+    ];
+
+    $incomeColors = [
+        '#66BB6A', // Green 400
+        '#4CAF50', // Green 500
+        '#43A047', // Green 600
+        '#388E3C', // Green 700
+        '#2E7D32', // Green 800
+        '#1B5E20'  // Green 900
     ];
 
     $groupedExpenseTransactions = groupTransactionsByCategory($expenses);
@@ -43,7 +42,7 @@
             datasets: [
                 {
                     data: <?php echo json_encode(array_values($topExpenseCategories)); ?>,
-                    backgroundColor: <?php echo json_encode($colors); ?>,
+                    backgroundColor: <?php echo json_encode($expenseColors); ?>,
                 },
             ],
         },
@@ -60,7 +59,7 @@
             datasets: [
                 {
                     data: <?php echo json_encode(array_values($topIncomeCategories)); ?>,
-                    backgroundColor: <?php echo json_encode($colors); ?>,
+                    backgroundColor: <?php echo json_encode($incomeColors); ?>,
                 },
             ],
         },
