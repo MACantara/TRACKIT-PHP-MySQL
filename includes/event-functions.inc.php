@@ -44,7 +44,7 @@ function handleCreateEvent($conn)
             }
 
             // Process the uploaded files
-            if (isset($_FILES['events_documentation_pictures'])) {
+            if (isset($_FILES['events_documentation_pictures']) && $_FILES['events_documentation_pictures']['size'][0] != 0) {
                 require_once 'event.inc.php';
 
                 $pictures = $_FILES['events_documentation_pictures'];
@@ -329,7 +329,8 @@ function updateOrInsertRecord($conn, $table, $id, $value, $eventsId)
 }
 
 
-function updateEventDocumentationPictures($conn, $eventsId, $picturePath) {
+function updateEventDocumentationPictures($conn, $eventsId, $picturePath)
+{
     // Check if the picture already exists
     $sql = "SELECT * FROM documentation_pictures WHERE documentation_pictures_id = ?";
     $stmt = mysqli_prepare($conn, $sql);
